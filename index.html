@@ -600,7 +600,9 @@ async function fetchScoreboardForDate(dateStr) {
 
 function etToCt(timeStr) {
   if (!timeStr || typeof timeStr !== 'string') return timeStr;
-  const m = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)\s*ET$/i);
+  if (/CT$/i.test(timeStr)) return timeStr; // Already converted
+  // Match "H:MM AM/PM" with optional ET/EDT/EST suffix (API may omit the suffix)
+  const m = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)(?:\s*E[SD]?T)?$/i);
   if (!m) return timeStr;
   let hours = parseInt(m[1], 10);
   const minutes = m[2];
