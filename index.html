@@ -1130,13 +1130,33 @@ function renderResults() {
 
   container.innerHTML = html;
 
-  // Restore expanded/collapsed states from localStorage, then wire up toggles
+  // Restore expanded/collapsed states from localStorage, then wire up toggles.
+  // Live sections (rounds with in-progress games) are auto-expanded on first encounter.
   const sectionStates = (() => {
     try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
   })();
+  const seenLiveRounds = (() => {
+    try { return JSON.parse(localStorage.getItem('mm_results_live_rounds')) || {}; } catch { return {}; }
+  })();
+
   container.querySelectorAll('.results-section').forEach(section => {
     const round = section.dataset.round;
-    if (sectionStates[round] === true) section.classList.remove('collapsed');
+    const roundData = tournamentData && tournamentData.rounds.find(r => String(r.round) === round);
+    const hasLive = roundData && roundData.games.some(g =>
+      g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd'
+    );
+
+    if (hasLive && !seenLiveRounds[round]) {
+      // Newly live round — auto-expand and record so user's future collapses are respected
+      section.classList.remove('collapsed');
+      seenLiveRounds[round] = true;
+      localStorage.setItem('mm_results_live_rounds', JSON.stringify(seenLiveRounds));
+      sectionStates[round] = true;
+      localStorage.setItem('mm_results_sections', JSON.stringify(sectionStates));
+    } else if (sectionStates[round] === true) {
+      section.classList.remove('collapsed');
+    }
+
     section.querySelector('.round-header').addEventListener('click', () => {
       section.classList.toggle('collapsed');
       const states = (() => {
