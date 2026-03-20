@@ -88,11 +88,15 @@ If CORS proves to be a persistent issue, a **GitHub Actions cron job** can be se
 
 A 10×10 grid displaying the pool configuration:
 
-1. **Edit axis numbers** — Set the randomly drawn number (0–9) for each position on both the X-axis (higher seed) and Y-axis (lower seed).
-2. **Enter participant names** — Click any square to enter/edit the name.
-3. **Save** — Writes current state to localStorage.
-4. **Export JSON** — Downloads the grid as `grid-config.json` for committing to the repo.
-5. **Clear All** — Removes localStorage; on next reload, falls back to embedded default or JSON file.
+1. **Locked by default** — Grid is read-only on load. Axis inputs are disabled, cells are not clickable, and action buttons are visually greyed out (opacity + no hover highlight). This makes it clear they are disabled, not just non-functional.
+2. **Enable Editing checkbox** — Unlocks the grid, axis inputs, and action buttons for admin changes. Buttons restore their full color and hover effects when enabled.
+3. **Edit axis numbers** — Set the randomly drawn number (0–9) for each position on both the X-axis (higher seed) and Y-axis (lower seed).
+4. **Enter participant names** — Click any square to enter/edit the name.
+5. **Save** — Writes current state to localStorage.
+6. **Export JSON** — Downloads the grid as `grid-config.json` for committing to the repo.
+7. **Clear All** — Removes localStorage; on next reload, falls back to embedded default or JSON file.
+
+Axis labels: "Better Seed (Home)" centered below the grid, "Worse Seed (Away)" running vertically along the left side of the grid.
 
 Grid was initially populated by reading `squares config.png` (the pool organizer's image of the physical grid).
 
@@ -101,10 +105,12 @@ Grid was initially populated by reading `squares config.png` (the pool organizer
 Displays game results and maps each completed game to a winning square/participant:
 
 1. **Fetch scores** — Attempts live NCAA API fetch for each tournament date. Falls back to static JSON, then to embedded data.
-2. **Determine winning square** — For each completed game (Round 1 onwards), compares seeds and takes last digit of each score to produce Y/X coordinate.
-3. **Show winners** — Displays participant name from the grid, along with payout amount.
-4. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time and network.
-5. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
+2. **All 6 rounds displayed** — Every round (Round of 64 through Championship) is always shown, even if matchups are not yet determined. First Four is excluded (no payout).
+3. **Determine winning square** — For each completed game (Round 1 onwards), compares seeds and takes last digit of each score to produce Y/X coordinate.
+4. **Show winners** — Displays participant name from the grid, along with payout amount.
+5. **TBD placeholders** — Future rounds with unknown matchups show "X games — Matchups TBD". These are replaced automatically with real matchups when the API returns them.
+6. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time and network.
+7. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
 
 ### Tab 3: Leaderboard
 
