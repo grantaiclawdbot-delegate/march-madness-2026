@@ -216,11 +216,34 @@ Each game object includes:
 
 ---
 
+## A/B Testing
+
+Two versions of the UI are deployed for A/B testing:
+
+| Version | File | URL | Differences |
+|---|---|---|---|
+| A (original) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Red title (`#ef5350`) |
+| B (mobile-optimized) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Blue title (`#1976d2`), mobile-responsive layout |
+
+### Version B mobile changes
+
+- Blue title color instead of red
+- Tighter tab buttons that stretch to fill width on small screens
+- Grid cells reduced from 80px to 56px wide on mobile, with a "← Scroll →" hint
+- `overflow-x: auto` scroll wrappers on all results tables
+- Reduced table cell padding and font sizes on mobile
+- Reduced tab content padding (12px vs 24px) on mobile
+- Leaderboard uses full width on mobile
+- All changes are gated behind a `@media (max-width: 600px)` query
+
+Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic).
+
 ## Project Structure
 
 ```
 March Madness Bracket/
-├── index.html                      # Single-file web app (HTML + CSS + JS, all inline)
+├── index.html                      # Version A — original UI (red title)
+├── index-b.html                    # Version B — mobile-optimized UI (blue title)
 ├── SPEC.md                         # This file — full project specification
 ├── .gitignore                      # Excludes .claude/ directory
 ├── squares config.png              # Original pool grid image (source for names)
