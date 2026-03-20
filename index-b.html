@@ -77,7 +77,27 @@
     .tab-content.active { display: block; }
 
     /* Tab 1: Grid Setup */
-    .grid-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .grid-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .grid-scroll-outer { position: relative; }
+
+    .grid-scroll-outer::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 28px;
+      background: linear-gradient(to left, rgba(15, 25, 35, 0.85), transparent);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.2s;
+      display: none;
+    }
+
+    .grid-scroll-outer.at-end::after { opacity: 0; }
 
     .scroll-hint {
       display: none;
@@ -165,6 +185,14 @@
       background: var(--surface2);
       color: var(--accent2);
       font-weight: 700;
+    }
+
+    /* Sticky first column — row labels stay visible while scrolling */
+    table.pool-grid th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: var(--surface2);
     }
 
     table.pool-grid .corner {
@@ -409,10 +437,15 @@
         padding: 1px;
       }
 
-      .y-axis-label { font-size: 0.72rem; padding-right: 4px; }
+      .y-axis-label { display: none; }
       .x-axis-label { font-size: 0.72rem; }
 
+      .grid-with-labels { justify-content: flex-start; }
+
       .scroll-hint { display: block; }
+
+      /* Right-edge fade shadow hints that the table is scrollable */
+      .grid-scroll-outer::after { display: block; }
 
       .grid-header { margin-bottom: 8px; }
       .grid-header h2 { font-size: 1rem; }
@@ -474,12 +507,14 @@
     </div>
   </div>
   <div class="scroll-hint">← Scroll to see full grid →</div>
-  <div class="grid-container">
-    <div class="grid-with-labels">
-      <div class="y-axis-label">Worse Seed (Away)</div>
-      <div class="grid-and-x-label">
-        <table class="pool-grid" id="poolGrid"></table>
-        <div class="x-axis-label">Better Seed (Home)</div>
+  <div class="grid-scroll-outer">
+    <div class="grid-container">
+      <div class="grid-with-labels">
+        <div class="y-axis-label">Worse Seed (Away)</div>
+        <div class="grid-and-x-label">
+          <table class="pool-grid" id="poolGrid"></table>
+          <div class="x-axis-label">Better Seed (Home)</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1138,6 +1173,14 @@ async function init() {
   // Load grid (from localStorage or grid-config.json)
   gridData = await loadGrid();
   renderGrid();
+
+  // Hide right-edge shadow when scrolled fully right
+  const gridContainer = document.querySelector('.grid-container');
+  const scrollOuter = document.querySelector('.grid-scroll-outer');
+  gridContainer.addEventListener('scroll', () => {
+    const atEnd = gridContainer.scrollLeft + gridContainer.clientWidth >= gridContainer.scrollWidth - 4;
+    scrollOuter.classList.toggle('at-end', atEnd);
+  });
 
   // Load results (live API first, then static fallback)
   await loadResults();
