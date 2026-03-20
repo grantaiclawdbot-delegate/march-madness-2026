@@ -267,6 +267,7 @@ March Madness Bracket/
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
+- **Tab persistence** — `mm_active_tab` stores the last active tab index (0 = Grid Setup, 1 = Results Tracker, 2 = Leaderboard). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: {...}, teams: [...] }] }`. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
 - **Round detection** — Games are assigned to rounds by matching their date against `ROUND_SCHEDULE` (a hardcoded date-to-round mapping in the JS).
 
