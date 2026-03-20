@@ -56,26 +56,29 @@ Each game awards a fixed dollar amount based on the round:
 
 The tool is hosted on **GitHub Pages** for free, accessible from any device (desktop, phone, tablet) via a browser.
 
-- **Repository:** Hosted under the `grantaiclawdbot-delegate` GitHub account
-- **URL:** Served via GitHub Pages (e.g., `https://grantaiclawdbot-delegate.github.io/march-madness-2026/`)
+- **Repository:** `grantaiclawdbot-delegate/march-madness-2026` (public)
+- **URL:** `https://grantaiclawdbot-delegate.github.io/march-madness-2026/`
+- **Local use:** Also works opened directly as a `file://` in a browser (no server needed)
 
 ### Grid Configuration Storage
 
-The grid config (axis numbers + participant names) is stored in a **static JSON file** (`data/grid-config.json`) committed to the repository. This ensures:
+The grid config (axis numbers + participant names) is stored in **three tiers** with cascading priority:
 
-- The same grid data is available on all devices (phone, PC, any browser)
-- No backend or database required
-- The grid is set up once at the start of the tournament and rarely changes
+1. **localStorage** — Used for local editing sessions (highest priority)
+2. **`data/grid-config.json`** — Committed to the repo; shared source of truth across devices (loaded when localStorage is empty, requires HTTP serving)
+3. **Embedded `DEFAULT_GRID` in HTML** — Hardcoded JS object inside `index.html`; works on `file://` protocol when `fetch()` is blocked (lowest priority fallback)
 
-The admin edits the grid using the Tab 1 UI locally, then exports/commits the config to the repo. All other users see the same read-only grid.
+The admin edits the grid using the Tab 1 UI, then uses **Export JSON** to download the config. That file replaces `data/grid-config.json` in the repo. The embedded `DEFAULT_GRID` in the HTML should also be updated to match.
 
 ### Tournament Results Data Strategy
 
-Results are fetched using a **two-tier approach**:
+Results are fetched using a **three-tier approach**:
 
-1. **Primary: Live API calls from the browser.** On page load, the webpage fetches scores directly from `https://ncaa-api.henrygd.me` (the free NCAA JSON API). This provides real-time data with no server infrastructure needed. The browser calls the scoreboard endpoint for each tournament date and assembles the results client-side.
+1. **Primary: Live API calls from the browser.** On page load, the webpage fetches scores directly from `https://ncaa-api.henrygd.me` for each tournament date (up to today, in parallel). This provides real-time data with no server infrastructure.
 
-2. **Fallback: Static JSON file.** If the live API is unavailable (CORS blocked, API down, rate limited), the page falls back to `data/tournament-results.json` — a pre-fetched snapshot of results committed to the repo. This file can be updated manually or via GitHub Actions.
+2. **Fallback: `data/tournament-results.json`** — A pre-fetched snapshot committed to the repo. Loaded if the live API is unreachable (requires HTTP serving).
+
+3. **Embedded `FALLBACK_RESULTS` in HTML** — Hardcoded JS object inside `index.html`; works on `file://` protocol. Must be manually updated with new results.
 
 If CORS proves to be a persistent issue, a **GitHub Actions cron job** can be set up to auto-fetch results every 15–30 minutes on game days and commit the updated JSON.
 
@@ -85,25 +88,31 @@ If CORS proves to be a persistent issue, a **GitHub Actions cron job** can be se
 
 A 10×10 grid displaying the pool configuration:
 
-1. **Edit axis numbers** — Set the randomly drawn number (0–9) for each position on both the X-axis (higher seed) and Y-axis (lower seed). These are editable and saveable.
-2. **Enter participant names** — Click any square in the grid to enter/edit the name of the person who purchased that square.
-3. **Persist data** — Grid configuration is saved to localStorage for local editing sessions. Once finalized, the grid is exported to `data/grid-config.json` and committed to the repo for cross-device access.
+1. **Edit axis numbers** — Set the randomly drawn number (0–9) for each position on both the X-axis (higher seed) and Y-axis (lower seed).
+2. **Enter participant names** — Click any square to enter/edit the name.
+3. **Save** — Writes current state to localStorage.
+4. **Export JSON** — Downloads the grid as `grid-config.json` for committing to the repo.
+5. **Clear All** — Removes localStorage; on next reload, falls back to embedded default or JSON file.
+
+Grid was initially populated by reading `squares config.png` (the pool organizer's image of the physical grid).
 
 ### Tab 2: Results Tracker
 
-Displays live-updated game results and maps each completed game to a winning square/participant:
+Displays game results and maps each completed game to a winning square/participant:
 
-1. **Fetch scores** — On page load, attempt to fetch live scores from the NCAA API. Fall back to the static JSON if the API is unreachable.
-2. **Determine winning square** — For each completed game (Round 1 onwards), compare seeds to identify the worse/better-ranked team, then take the last digit of each score to produce the Y/X coordinate.
-3. **Show winners** — Display which participant owns the winning square for each game, along with the payout amount for that round.
+1. **Fetch scores** — Attempts live NCAA API fetch for each tournament date. Falls back to static JSON, then to embedded data.
+2. **Determine winning square** — For each completed game (Round 1 onwards), compares seeds and takes last digit of each score to produce Y/X coordinate.
+3. **Show winners** — Displays participant name from the grid, along with payout amount.
+4. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time and network.
+5. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
 
 ### Tab 3: Leaderboard
 
 A running tally of each participant's total winnings:
 
-1. **Aggregate by person** — Sum up all payouts won by each participant across all completed games.
-2. **Update after each game** — As new results come in, the leaderboard reflects current totals.
-3. **Show breakdown** — Each person's total winnings, number of wins, and per-game detail.
+1. **Aggregate by person** — Sums all payouts won by each participant across all completed games.
+2. **Sorted by total** — Ranked from highest to lowest earnings.
+3. **Win count** — Shows number of games won alongside dollar total.
 
 ---
 
