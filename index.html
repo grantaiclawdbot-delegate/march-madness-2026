@@ -283,6 +283,7 @@
     }
     .results-section:not(.collapsed) .round-chevron { transform: rotate(90deg); }
     .results-section.collapsed .round-body { display: none; }
+    .results-section:not(.collapsed) .round-body { display: block; }
 
     .table-scroll-wrap {
       overflow-x: auto;
@@ -1157,14 +1158,22 @@ function renderResults() {
       section.classList.remove('collapsed');
     }
 
-    section.querySelector('.round-header').addEventListener('click', () => {
-      section.classList.toggle('collapsed');
-      const states = (() => {
-        try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
-      })();
-      states[round] = !section.classList.contains('collapsed');
-      localStorage.setItem('mm_results_sections', JSON.stringify(states));
-    });
+  });
+
+  // Single delegated click handler — more reliable across all desktop browsers
+  // than attaching individual listeners to h3 elements with display:flex.
+  container.addEventListener('click', (e) => {
+    const header = e.target.closest('.round-header');
+    if (!header) return;
+    const section = header.closest('.results-section');
+    if (!section) return;
+    const round = section.dataset.round;
+    section.classList.toggle('collapsed');
+    const states = (() => {
+      try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
+    })();
+    states[round] = !section.classList.contains('collapsed');
+    localStorage.setItem('mm_results_sections', JSON.stringify(states));
   });
 }
 
