@@ -127,7 +127,7 @@ Displays game results and maps each completed game to a winning square/participa
 3. **Determine winning square** — For each completed game (Round 1 onwards), compares seeds and takes last digit of each score to produce Y/X coordinate.
 4. **Show winners** — Displays participant name from the grid, along with payout amount.
 5. **TBD placeholders** — Future rounds with unknown matchups show "X games — Matchups TBD". These are replaced automatically with real matchups when the API returns them.
-6. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time and network.
+6. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time (CT) and network.
 7. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
 
 ### Tab 3: Leaderboard
@@ -171,7 +171,7 @@ Each game object includes:
 
 - `gameID` — unique identifier (use for `/game/{id}` detail calls)
 - `away` / `home` — team short name, seed, score, winner flag, conference
-- `startTime` — tip-off time (ET)
+- `startTime` — tip-off time (ET from API; converted to CT before storage/display)
 - `network` — broadcast network (CBS, TBS, TNT, truTV)
 - `gameState` — e.g. `final`, `live`, `pre`
 
