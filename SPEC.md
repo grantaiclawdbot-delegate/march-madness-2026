@@ -189,3 +189,53 @@ Each game object includes:
 - **Auth:** None
 - **Best for:** Authoritative source of truth for bracket/seedings
 - **Limitation:** Not structured data; the henrygd/ncaa-api already proxies this data as JSON
+
+---
+
+## Project Structure
+
+```
+March Madness Bracket/
+├── index.html                      # Single-file web app (HTML + CSS + JS, all inline)
+├── SPEC.md                         # This file — full project specification
+├── .gitignore                      # Excludes .claude/ directory
+├── squares config.png              # Original pool grid image (source for names)
+└── data/
+    ├── grid-config.json            # Grid axis numbers + participant names (JSON)
+    └── tournament-results.json     # Pre-fetched game results snapshot (JSON)
+```
+
+### Key Implementation Details
+
+- **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
+- **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
+- **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
+- **Live API parsing** — The NCAA API response format is `{ games: [{ game: {...}, teams: [...] }] }`. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
+- **Round detection** — Games are assigned to rounds by matching their date against `ROUND_SCHEDULE` (a hardcoded date-to-round mapping in the JS).
+
+## How to Recreate This Project
+
+1. **Create a public GitHub repo** under any account.
+2. **Copy `index.html`** — it's fully self-contained with embedded grid config and fallback results data.
+3. **Copy `data/grid-config.json`** and **`data/tournament-results.json`** — these are fetched when served over HTTP (GitHub Pages) but not required since data is also embedded.
+4. **Enable GitHub Pages** — Settings → Pages → Deploy from branch (main/master, root).
+5. **Update grid names** — Edit via Tab 1 UI, click Export JSON, replace `data/grid-config.json`, and update the `DEFAULT_GRID` object in `index.html` to match.
+6. **Update fallback results** — Fetch new data from `https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1/YYYY/MM/DD`, update `data/tournament-results.json`, and update `FALLBACK_RESULTS` in `index.html`.
+7. **Push to GitHub** — `git add -A && git commit -m "update" && git push`.
+
+## GitHub Setup
+
+- **Repo:** `grantaiclawdbot-delegate/march-madness-2026` (public)
+- **Live URL:** `https://grantaiclawdbot-delegate.github.io/march-madness-2026/`
+- **Pages source:** Deploy from `master` branch, root folder
+- **Collaborator:** `puresoto` added as collaborator (git credentials on local machine authenticate as this user)
+- **No `gh` CLI installed** — repo was created manually via GitHub web UI; pushes via `git push`
+
+## Status (as of 2026-03-20)
+
+- Grid fully populated with all 100 participant names from pool image
+- Round of 64 Day 1 (Mar 19): 16 games complete, results showing with winning squares
+- Round of 64 Day 2 (Mar 20): 16 games upcoming, showing times/networks
+- Live NCAA API confirmed working when served over HTTP (GitHub Pages)
+- Site accessible on desktop and iPhone via GitHub Pages URL
+- Embedded fallback data covers through Mar 20 pre-game state
