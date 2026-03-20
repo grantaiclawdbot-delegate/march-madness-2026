@@ -236,6 +236,15 @@ Two versions of the UI are deployed for A/B testing:
 - Leaderboard uses full width on mobile
 - All changes are gated behind a `@media (max-width: 600px)` query
 
+### Version B — Grid Setup table (Tab 1) mobile improvements
+
+The Grid Setup table on the B version has additional mobile-specific enhancements:
+
+- **Horizontal scrolling with sticky Y-axis column** — The table scrolls horizontally while the first column (Y-axis row labels) stays frozen/sticky so it remains visible while the user swipes right.
+- **Scroll shadow hint** — A subtle right-edge gradient shadow overlays the table container to signal that the table is scrollable. The shadow fades out automatically when the user reaches the right end of the table (implemented via a scroll event listener that toggles a CSS class).
+- **Reduced cell size** — Cell padding and font sizes are smaller on mobile to fit more content on screen.
+- **Vertical axis label hidden** — The vertical "Worse Seed (Away)" label on the left side of the grid is hidden on mobile (`display: none`) to give the sticky first column enough room without overlap.
+
 Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic).
 
 ## Project Structure
