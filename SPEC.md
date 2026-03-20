@@ -263,7 +263,7 @@ March Madness Bracket/
 
 ### Key Implementation Details
 
-- **Header title color** — In `index.html` (B/mobile version), the "March Madness 2026" title is styled in **blue** (`var(--blue)`, `#1976d2`). In `index-b.html` (A/desktop version), it is **red** (`var(--red)`, `#ef5350`). The subtitle span ("— Squares Pool") uses the default text color in both.
+- **Header title color** — In both `index.html` and `index-b.html`, the "March Madness 2026" title is styled in **yellow** (`#FFD700`). The subtitle span ("— Squares Pool") uses the default text color in both.
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
