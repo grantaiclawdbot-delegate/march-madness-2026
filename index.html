@@ -258,13 +258,31 @@
     .data-source-note.fallback { background: #e65100; color: #ffcc80; }
 
     .results-section { margin-bottom: 32px; }
-    .results-section h3 {
+    .results-section .round-header {
       font-size: 1rem;
       color: var(--accent2);
       margin-bottom: 12px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      gap: 8px;
+      font-weight: inherit;
     }
+    .results-section .round-header:hover { opacity: 0.8; }
+    .round-chevron {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .results-section:not(.collapsed) .round-chevron { transform: rotate(90deg); }
+    .results-section.collapsed .round-body { display: none; }
 
     .table-scroll-wrap {
       overflow-x: auto;
@@ -453,7 +471,7 @@
 
       /* Results: tighter */
       .results-section { margin-bottom: 20px; }
-      .results-section h3 { font-size: 0.9rem; margin-bottom: 8px; }
+      .results-section .round-header { font-size: 0.9rem; margin-bottom: 8px; padding: 10px 0 8px; }
 
       .results-table th {
         padding: 8px 8px;
@@ -1030,8 +1048,9 @@ function renderResults() {
   let html = '';
 
   tournamentData.rounds.forEach(round => {
-    html += `<div class="results-section">`;
-    html += `<h3>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</h3>`;
+    html += `<div class="results-section collapsed" data-round="${round.round}">`;
+    html += `<h3 class="round-header"><span>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</span><span class="round-chevron">&#9658;</span></h3>`;
+    html += `<div class="round-body">`;
 
     const finalGames = round.games.filter(g => g.gameState === 'final');
     const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd');
@@ -1105,10 +1124,28 @@ function renderResults() {
       html += `</table></div>`;
     }
 
-    html += `</div>`;
+    html += `</div>`; // close round-body
+    html += `</div>`; // close results-section
   });
 
   container.innerHTML = html;
+
+  // Restore expanded/collapsed states from localStorage, then wire up toggles
+  const sectionStates = (() => {
+    try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
+  })();
+  container.querySelectorAll('.results-section').forEach(section => {
+    const round = section.dataset.round;
+    if (sectionStates[round] === true) section.classList.remove('collapsed');
+    section.querySelector('.round-header').addEventListener('click', () => {
+      section.classList.toggle('collapsed');
+      const states = (() => {
+        try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
+      })();
+      states[round] = !section.classList.contains('collapsed');
+      localStorage.setItem('mm_results_sections', JSON.stringify(states));
+    });
+  });
 }
 
 // ============================================================

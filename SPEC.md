@@ -129,6 +129,7 @@ Displays game results and maps each completed game to a winning square/participa
 5. **TBD placeholders** — Future rounds with unknown matchups show "X games — Matchups TBD". These are replaced automatically with real matchups when the API returns them.
 6. **Live/pre indicators** — In-progress games show "LIVE"; upcoming games show time (CT) and network.
 7. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
+8. **Collapsible round sections** — Each round section (Round of 64, Round of 32, etc.) is independently collapsible. Default state on first visit is collapsed. A right-pointing chevron (▶) in the section header rotates 90° when expanded. Tap/click the header to toggle. Expanded/collapsed state for each round is persisted in `localStorage` under key `mm_results_sections` (object keyed by round number: `{ "1": true, "2": false, ... }` where `true` = expanded). State is restored on every page load and after every `renderResults()` call.
 
 ### Tab 3: Leaderboard
 
@@ -268,6 +269,7 @@ March Madness Bracket/
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
 - **Tab persistence** — `mm_active_tab` stores the last active tab index (0 = Grid Setup, 1 = Results Tracker, 2 = Leaderboard). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
+- **Results section states** — `mm_results_sections` stores an object of `{ roundNumber: boolean }` pairs where `true` = expanded. Written on every toggle. Read on every `renderResults()` call to restore state. Default (no key) = all collapsed.
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: {...}, teams: [...] }] }`. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
 - **Round detection** — Games are assigned to rounds by matching their date against `ROUND_SCHEDULE` (a hardcoded date-to-round mapping in the JS).
 
