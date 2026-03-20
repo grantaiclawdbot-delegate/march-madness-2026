@@ -759,6 +759,28 @@ async function fetchFallbackResults() {
   return data;
 }
 
+// Normalize any data source: remove non-payout rounds, ensure all 6 rounds exist, pad TBD
+function normalizeResults(data) {
+  // Remove any rounds not in ROUND_SCHEDULE (e.g. First Four)
+  const validRounds = new Set(ROUND_SCHEDULE.map(r => r.round));
+  data.rounds = data.rounds.filter(r => validRounds.has(r.round));
+
+  // Ensure all 6 rounds exist and pad with TBD games
+  for (const roundInfo of ROUND_SCHEDULE) {
+    let round = data.rounds.find(r => r.round === roundInfo.round);
+    if (!round) {
+      round = { round: roundInfo.round, name: roundInfo.name, payout: roundInfo.payout, games: [] };
+      data.rounds.push(round);
+    }
+    if (round.games.length < roundInfo.expectedGames) {
+      round.games.push(...makeTbdGames(roundInfo.expectedGames - round.games.length, roundInfo));
+    }
+  }
+
+  data.rounds.sort((a, b) => a.round - b.round);
+  return data;
+}
+
 async function loadResults() {
   // Try live API first, fall back to static JSON
   try {
@@ -775,6 +797,11 @@ async function loadResults() {
       console.error('All data sources failed:', e2);
       dataSource = 'none';
     }
+  }
+
+  // Always normalize regardless of source
+  if (tournamentData) {
+    tournamentData = normalizeResults(tournamentData);
   }
 }
 
