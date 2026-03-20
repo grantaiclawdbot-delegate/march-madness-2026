@@ -231,6 +231,7 @@ March Madness Bracket/
 
 ### Key Implementation Details
 
+- **Header title color** — The "March Madness 2026" title in the page header is styled in **green** (`var(--green)`, `#4caf50`). The subtitle span ("— Squares Pool") uses the default text color.
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
