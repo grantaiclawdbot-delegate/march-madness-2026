@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>March Madness 2026 — Squares Pool Tracker</title>
+  <style>
+    :root {
+      --bg: #0f1923;
+      --surface: #1a2733;
+      --surface2: #243447;
+      --accent: #ff6b35;
+      --accent2: #ffd700;
+      --text: #e8e8e8;
+      --text-muted: #8899aa;
+      --green: #4caf50;
+      --red: #ef5350;
+      --border: #2d4050;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a2733 0%, #0d3b66 100%);
+      padding: 20px 30px;
+      border-bottom: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+
+    header h1 span { color: var(--text); font-weight: 400; }
+
+    .prize-pool {
+      font-size: 0.9rem;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 14px 28px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover { color: var(--text); background: var(--surface2); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tab-content { display: none; padding: 24px; }
+    .tab-content.active { display: block; }
+
+    /* Tab 1: Grid Setup */
+    .grid-container { overflow-x: auto; }
+
+    .grid-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .grid-header h2 { font-size: 1.2rem; }
+
+    .grid-actions button {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface2);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-left: 8px;
+      transition: all 0.2s;
+    }
+
+    .grid-actions button:hover { border-color: var(--accent); color: var(--accent); }
+    .grid-actions button.save-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .grid-actions button.save-btn:hover { background: #e55a28; }
+    .grid-actions button.export-btn { background: #2e7d32; color: #fff; border-color: #2e7d32; }
+    .grid-actions button.export-btn:hover { background: #1b5e20; }
+
+    .grid-label {
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent2);
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    table.pool-grid {
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+
+    table.pool-grid th,
+    table.pool-grid td {
+      width: 80px;
+      height: 44px;
+      text-align: center;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+
+    table.pool-grid th {
+      background: var(--surface2);
+      color: var(--accent2);
+      font-weight: 700;
+    }
+
+    table.pool-grid .corner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    table.pool-grid .axis-input {
+      width: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px;
+    }
+
+    table.pool-grid td.cell {
+      background: var(--surface);
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    table.pool-grid td.cell:hover { background: var(--surface2); }
+
+    table.pool-grid td.cell.highlighted {
+      background: rgba(255, 107, 53, 0.2);
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    .cell-name {
+      font-size: 0.72rem;
+      line-height: 1.2;
+      padding: 2px;
+      word-break: break-word;
+    }
+
+    .cell-input {
+      width: 100%;
+      height: 100%;
+      background: var(--surface2);
+      border: 2px solid var(--accent);
+      color: var(--text);
+      text-align: center;
+      font-size: 0.75rem;
+      padding: 2px;
+    }
+
+    /* Tab 2: Results */
+    .data-source-note {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+    .data-source-note.live { background: #1b5e20; color: #a5d6a7; }
+    .data-source-note.fallback { background: #e65100; color: #ffcc80; }
+
+    .results-section { margin-bottom: 32px; }
+    .results-section h3 {
+      font-size: 1rem;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 8px;
+    }
+
+    .results-table th {
+      background: var(--surface2);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .results-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .results-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+    .seed-badge {
+      display: inline-block;
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-right: 4px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .winner-team { color: var(--green); font-weight: 600; }
+    .loser-team { color: var(--text-muted); }
+
+    .coord-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .payout-badge { color: var(--accent2); font-weight: 700; }
+    .status-pre { color: var(--text-muted); font-style: italic; }
+
+    /* Tab 3: Leaderboard */
+    .leaderboard-table {
+      width: 100%;
+      max-width: 700px;
+      border-collapse: collapse;
+    }
+
+    .leaderboard-table th {
+      background: var(--surface2);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .leaderboard-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .leaderboard-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+    .rank-cell { color: var(--accent2); font-weight: 700; width: 50px; }
+    .name-cell { font-weight: 600; }
+    .wins-cell { color: var(--text-muted); text-align: center; }
+    .total-cell { color: var(--green); font-weight: 700; font-size: 1.05rem; text-align: right; }
+
+    .no-data {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .updated-note {
+      text-align: right;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 16px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>March Madness 2026 <span>— Squares Pool</span></h1>
+  <div class="prize-pool">Prize Pool: $10,000</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="grid">Grid Setup</button>
+  <button class="tab-btn" data-tab="results">Results</button>
+  <button class="tab-btn" data-tab="leaderboard">Leaderboard</button>
+</nav>
+
+<!-- TAB 1: Grid Setup -->
+<div id="tab-grid" class="tab-content active">
+  <div class="grid-header">
+    <h2>Pool Grid</h2>
+    <div class="grid-actions">
+      <button onclick="clearGrid()">Clear All</button>
+      <button onclick="exportGrid()" class="export-btn">Export JSON</button>
+      <button class="save-btn" onclick="saveGrid()">Save</button>
+    </div>
+  </div>
+  <div class="grid-label">X-Axis: Better Seed (lower seed number)</div>
+  <div class="grid-container">
+    <table class="pool-grid" id="poolGrid"></table>
+  </div>
+  <div class="grid-label" style="margin-top: 8px;">Y-Axis: Worse Seed (higher seed number)</div>
+</div>
+
+<!-- TAB 2: Results -->
+<div id="tab-results" class="tab-content">
+  <div class="updated-note" id="updatedNote"></div>
+  <div id="resultsContainer"><div class="loading">Loading results</div></div>
+</div>
+
+<!-- TAB 3: Leaderboard -->
+<div id="tab-leaderboard" class="tab-content">
+  <h2 style="margin-bottom: 16px;">Leaderboard</h2>
+  <div id="leaderboardContainer"><div class="loading">Loading</div></div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const STORAGE_KEY = 'mm2026_grid';
+const NCAA_API = 'https://ncaa-api.henrygd.me';
+
+// Embedded grid config — source of truth when localStorage and fetch are unavailable
+const DEFAULT_GRID = {
+  "xAxis": ["8", "4", "2", "3", "0", "9", "6", "1", "7", "5"],
+  "yAxis": ["5", "7", "2", "4", "0", "6", "1", "3", "8", "9"],
+  "names": [
+    ["Brient", "Doug C", "JMC", "Buck", "Kirk", "Tuck", "Bryce J", "Ben M", "Nick Harris", "Matt F"],
+    ["Kirk", "Ben M", "Doug C", "Shinn & Co", "A. Davis", "Buck", "Shinn & Co", "Moreland", "Matt F", "Nick Harris Jr"],
+    ["Buck", "Monte", "Dr B", "Youngs", "Grant", "Baron", "Sean Q", "Matt F", "Gabe", "Ben M"],
+    ["PXG", "Buck", "The Cooks", "Ben M", "Skittles", "Sean Q", "Matt F", "Doug C", "Jeff Mason", "BCM"],
+    ["Woody", "Ben M", "Brock", "McGraw", "Tad", "Matt F", "Shinn & Co", "T$", "Buck", "Greyson Brown"],
+    ["Ben M", "Shinn & Co", "Nate & Jacob", "Soto", "Sligh", "Shinn & Co", "Sean Q", "Buck", "Camela & Kelly", "Grant P"],
+    ["Chip", "Sam Cook", "Jeff Mason", "T$", "Shinn & Co", "Kitchen", "Grant P", "Youngs", "Skittles", "Buck"],
+    ["Ben M", "Bryce J", "Grant P", "Brient", "Doug C", "Bald", "Buck", "Shinn & Co", "Alea", "Ben M"],
+    ["Barrett", "Katie", "Shinn & Co", "Waddell", "Buck", "Davidson", "Dyer", "the Cooks", "Monte", "Doyle"],
+    ["Skittles", "Barrett", "Buck", "Doug C", "Ben M", "Greyson Brown", "Ronk", "Jeff Mason", "Harper", "Dr B"]
+  ]
+};
+
+const ROUND_SCHEDULE = [
+  { round: 0, name: 'First Four',    payout: 0,    dates: ['2026-03-17', '2026-03-18'] },
+  { round: 1, name: 'Round of 64',   payout: 50,   dates: ['2026-03-19', '2026-03-20'] },
+  { round: 2, name: 'Round of 32',   payout: 100,  dates: ['2026-03-21', '2026-03-22'] },
+  { round: 3, name: 'Sweet 16',      payout: 200,  dates: ['2026-03-27', '2026-03-28'] },
+  { round: 4, name: 'Elite Eight',   payout: 400,  dates: ['2026-03-29', '2026-03-30'] },
+  { round: 5, name: 'Final Four',    payout: 800,  dates: ['2026-04-04'] },
+  { round: 6, name: 'Championship',  payout: 2000, dates: ['2026-04-06'] },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let gridData = null;
+let tournamentData = null;
+let dataSource = 'none';
+
+// ============================================================
+// TAB NAVIGATION
+// ============================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================================================
+// TAB 1: GRID
+// ============================================================
+function emptyGrid() {
+  return {
+    xAxis: ['', '', '', '', '', '', '', '', '', ''],
+    yAxis: ['', '', '', '', '', '', '', '', '', ''],
+    names: Array.from({ length: 10 }, () => Array(10).fill(''))
+  };
+}
+
+async function loadGrid() {
+  // Priority: localStorage > fetched grid-config.json > embedded DEFAULT_GRID
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try { return JSON.parse(saved); } catch (e) { /* fall through */ }
+  }
+
+  try {
+    const resp = await fetch('data/grid-config.json');
+    if (resp.ok) {
+      const config = await resp.json();
+      return config;
+    }
+  } catch (e) { /* fall through — expected on file:// protocol */ }
+
+  // Use embedded default (works on file:// and when JSON fetch fails)
+  return JSON.parse(JSON.stringify(DEFAULT_GRID));
+}
+
+function saveGrid() {
+  for (let i = 0; i < 10; i++) {
+    gridData.xAxis[i] = document.getElementById('x-' + i).value;
+    gridData.yAxis[i] = document.getElementById('y-' + i).value;
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(gridData));
+  renderResults();
+  renderLeaderboard();
+  alert('Grid saved!');
+}
+
+function exportGrid() {
+  // Capture current axis values before exporting
+  for (let i = 0; i < 10; i++) {
+    gridData.xAxis[i] = document.getElementById('x-' + i).value;
+    gridData.yAxis[i] = document.getElementById('y-' + i).value;
+  }
+  const json = JSON.stringify(gridData, null, 2);
+  const blob = new Blob([json + '\n'], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'grid-config.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearGrid() {
+  if (!confirm('Clear all names and axis numbers?')) return;
+  gridData = emptyGrid();
+  localStorage.removeItem(STORAGE_KEY);
+  renderGrid();
+  renderResults();
+  renderLeaderboard();
+}
+
+function renderGrid() {
+  const table = document.getElementById('poolGrid');
+  let html = '';
+
+  // Header row: corner + X-axis inputs
+  html += '<tr>';
+  html += '<th class="corner" style="width:90px;">Y \\ X</th>';
+  for (let x = 0; x < 10; x++) {
+    html += `<th><input type="text" class="axis-input" id="x-${x}" maxlength="1" value="${escAttr(gridData.xAxis[x])}" placeholder="${x}"></th>`;
+  }
+  html += '</tr>';
+
+  // Data rows
+  for (let y = 0; y < 10; y++) {
+    html += '<tr>';
+    html += `<th><input type="text" class="axis-input" id="y-${y}" maxlength="1" value="${escAttr(gridData.yAxis[y])}" placeholder="${y}"></th>`;
+    for (let x = 0; x < 10; x++) {
+      const name = gridData.names[y][x];
+      html += `<td class="cell" data-y="${y}" data-x="${x}"><div class="cell-name">${escHtml(name)}</div></td>`;
+    }
+    html += '</tr>';
+  }
+
+  table.innerHTML = html;
+
+  // Click to edit cells
+  table.querySelectorAll('td.cell').forEach(td => {
+    td.addEventListener('click', () => {
+      if (td.querySelector('input')) return; // Already editing
+      const y = parseInt(td.dataset.y);
+      const x = parseInt(td.dataset.x);
+      const current = gridData.names[y][x];
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'cell-input';
+      input.value = current;
+      td.innerHTML = '';
+      td.appendChild(input);
+      input.focus();
+
+      function commit() {
+        gridData.names[y][x] = input.value.trim();
+        td.innerHTML = `<div class="cell-name">${escHtml(gridData.names[y][x])}</div>`;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(gridData));
+      }
+
+      input.addEventListener('blur', commit);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { input.blur(); }
+        if (e.key === 'Escape') { td.innerHTML = `<div class="cell-name">${escHtml(current)}</div>`; }
+      });
+    });
+  });
+}
+
+// ============================================================
+// LIVE API FETCH
+// ============================================================
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
+
+async function fetchScoreboardForDate(dateStr) {
+  const [y, m, d] = dateStr.split('-');
+  const url = `${NCAA_API}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+function parseApiGames(apiData, dateStr) {
+  // The NCAA API returns a games array. Each entry may be structured as:
+  //   { game: { ... }, teams: [ ... ] }
+  // or as a flat object. We handle both.
+  const raw = apiData.games || [];
+  const games = [];
+
+  for (const entry of raw) {
+    try {
+      let gameObj, teamsArr;
+
+      if (entry.game && entry.teams) {
+        gameObj = entry.game;
+        teamsArr = entry.teams;
+      } else {
+        continue;
+      }
+
+      // Only include tournament games (both teams have seeds)
+      if (!teamsArr || teamsArr.length < 2) continue;
+
+      const team0seed = teamsArr[0].seed;
+      const team1seed = teamsArr[1].seed;
+      if (!team0seed && !team1seed) continue;
+
+      const awayTeam = teamsArr.find(t => t.isHome === false) || teamsArr[0];
+      const homeTeam = teamsArr.find(t => t.isHome === true) || teamsArr[1];
+
+      const getName = (t) => t.nameShort || t.names?.short || t.teamName || t.name || '??';
+      const getScore = (t) => {
+        const s = t.score;
+        if (s === undefined || s === null || s === '') return null;
+        return parseInt(s, 10);
+      };
+
+      const state = (gameObj.gameState || 'pre').toLowerCase().trim();
+      // Normalize game states: "final" variants
+      const isFinal = state.includes('final');
+
+      games.push({
+        gameID: String(gameObj.gameID || ''),
+        date: dateStr,
+        startTime: gameObj.startTime || gameObj.startTimeEpoch || '',
+        network: gameObj.network || '',
+        gameState: isFinal ? 'final' : state,
+        away: {
+          team: getName(awayTeam),
+          seed: parseInt(awayTeam.seed, 10) || 0,
+          score: getScore(awayTeam)
+        },
+        home: {
+          team: getName(homeTeam),
+          seed: parseInt(homeTeam.seed, 10) || 0,
+          score: getScore(homeTeam)
+        }
+      });
+    } catch (e) {
+      console.warn('Skipping unparsable game entry:', e);
+    }
+  }
+
+  return games;
+}
+
+async function fetchLiveResults() {
+  const today = todayStr();
+  const rounds = [];
+
+  // Fetch all dates in parallel, grouped by round
+  for (const roundInfo of ROUND_SCHEDULE) {
+    const datesToFetch = roundInfo.dates.filter(d => d <= today);
+    if (datesToFetch.length === 0) continue;
+
+    const dateResults = await Promise.allSettled(
+      datesToFetch.map(d => fetchScoreboardForDate(d).then(data => ({ data, date: d })))
+    );
+
+    const games = [];
+    for (const result of dateResults) {
+      if (result.status === 'fulfilled') {
+        const parsed = parseApiGames(result.value.data, result.value.date);
+        games.push(...parsed);
+      }
+    }
+
+    if (games.length > 0) {
+      rounds.push({
+        round: roundInfo.round,
+        name: roundInfo.name,
+        payout: roundInfo.payout,
+        games
+      });
+    }
+  }
+
+  if (rounds.length === 0) throw new Error('No data returned from API');
+
+  return {
+    lastUpdated: new Date().toLocaleString(),
+    source: 'live',
+    rounds
+  };
+}
+
+// Embedded fallback results — works on file:// protocol
+const FALLBACK_RESULTS = {"lastUpdated":"2026-03-20T11:00:00Z","rounds":[{"round":0,"name":"First Four","payout":0,"games":[{"gameID":"6534592","date":"2026-03-17","startTime":"6:40 PM ET","network":"truTV","gameState":"final","away":{"team":"UMBC","seed":16,"score":83},"home":{"team":"Howard","seed":16,"score":86}},{"gameID":"6534593","date":"2026-03-17","startTime":"9:29 PM ET","network":"truTV","gameState":"final","away":{"team":"Texas","seed":11,"score":68},"home":{"team":"NC State","seed":11,"score":66}},{"gameID":"6534594","date":"2026-03-18","startTime":"6:40 PM ET","network":"truTV","gameState":"final","away":{"team":"Prairie View","seed":16,"score":67},"home":{"team":"Lehigh","seed":16,"score":55}},{"gameID":"6534595","date":"2026-03-18","startTime":"9:15 PM ET","network":"truTV","gameState":"final","away":{"team":"Miami (OH)","seed":11,"score":89},"home":{"team":"SMU","seed":11,"score":79}}]},{"round":1,"name":"Round of 64","payout":50,"games":[{"gameID":"6534597","date":"2026-03-19","startTime":"12:15 PM ET","network":"CBS","gameState":"final","away":{"team":"TCU","seed":9,"score":66},"home":{"team":"Ohio St.","seed":8,"score":64}},{"gameID":"6534607","date":"2026-03-19","startTime":"12:40 PM ET","network":"truTV","gameState":"final","away":{"team":"Troy","seed":13,"score":47},"home":{"team":"Nebraska","seed":4,"score":76}},{"gameID":"6534600","date":"2026-03-19","startTime":"1:30 PM ET","network":"TNT","gameState":"final","away":{"team":"South Fla.","seed":11,"score":79},"home":{"team":"Louisville","seed":6,"score":83}},{"gameID":"6534614","date":"2026-03-19","startTime":"1:50 PM ET","network":"TBS","gameState":"final","away":{"team":"High Point","seed":12,"score":83},"home":{"team":"Wisconsin","seed":5,"score":82}},{"gameID":"6534596","date":"2026-03-19","startTime":"3:00 PM ET","network":"CBS","gameState":"final","away":{"team":"Siena","seed":16,"score":65},"home":{"team":"Duke","seed":1,"score":71}},{"gameID":"6534606","date":"2026-03-19","startTime":"3:15 PM ET","network":"truTV","gameState":"final","away":{"team":"McNeese","seed":12,"score":68},"home":{"team":"Vanderbilt","seed":5,"score":78}},{"gameID":"6534601","date":"2026-03-19","startTime":"4:27 PM ET","network":"TNT","gameState":"final","away":{"team":"North Dakota St.","seed":14,"score":67},"home":{"team":"Michigan St.","seed":3,"score":92}},{"gameID":"6534615","date":"2026-03-19","startTime":"4:27 PM ET","network":"TBS","gameState":"final","away":{"team":"Hawaii","seed":13,"score":78},"home":{"team":"Arkansas","seed":4,"score":97}},{"gameID":"6534608","date":"2026-03-19","startTime":"6:50 PM ET","network":"TNT","gameState":"final","away":{"team":"VCU","seed":11,"score":82},"home":{"team":"North Carolina","seed":6,"score":78}},{"gameID":"6534620","date":"2026-03-19","startTime":"7:30 PM ET","network":"CBS","gameState":"final","away":{"team":"Howard","seed":16,"score":80},"home":{"team":"Michigan","seed":1,"score":101}},{"gameID":"6534610","date":"2026-03-19","startTime":"7:35 PM ET","network":"truTV","gameState":"final","away":{"team":"Texas A&M","seed":10,"score":63},"home":{"team":"Saint Mary's (CA)","seed":7,"score":50}},{"gameID":"6534616","date":"2026-03-19","startTime":"7:35 PM ET","network":"TBS","gameState":"final","away":{"team":"Texas","seed":11,"score":79},"home":{"team":"BYU","seed":6,"score":71}},{"gameID":"6534609","date":"2026-03-19","startTime":"9:55 PM ET","network":"TNT","gameState":"final","away":{"team":"Penn","seed":14,"score":70},"home":{"team":"Illinois","seed":3,"score":105}},{"gameID":"6534621","date":"2026-03-19","startTime":"10:10 PM ET","network":"CBS","gameState":"final","away":{"team":"Saint Louis","seed":9,"score":102},"home":{"team":"Georgia","seed":8,"score":77}},{"gameID":"6534611","date":"2026-03-19","startTime":"10:15 PM ET","network":"truTV","gameState":"final","away":{"team":"Idaho","seed":15,"score":47},"home":{"team":"Houston","seed":2,"score":78}},{"gameID":"6534617","date":"2026-03-19","startTime":"10:24 PM ET","network":"TBS","gameState":"final","away":{"team":"Kennesaw St.","seed":14,"score":64},"home":{"team":"Gonzaga","seed":3,"score":73}},{"gameID":"6534626","date":"2026-03-20","startTime":"12:15 PM ET","network":"CBS","gameState":"pre","away":{"team":"Santa Clara","seed":10,"score":null},"home":{"team":"Kentucky","seed":7,"score":null}},{"gameID":"6534622","date":"2026-03-20","startTime":"12:40 PM ET","network":"truTV","gameState":"pre","away":{"team":"Akron","seed":12,"score":null},"home":{"team":"Texas Tech","seed":5,"score":null}},{"gameID":"6534612","date":"2026-03-20","startTime":"1:35 PM ET","network":"TNT","gameState":"pre","away":{"team":"LIU","seed":16,"score":null},"home":{"team":"Arizona","seed":1,"score":null}},{"gameID":"6534625","date":"2026-03-20","startTime":"1:50 PM ET","network":"TBS","gameState":"pre","away":{"team":"Wright St.","seed":14,"score":null},"home":{"team":"Virginia","seed":3,"score":null}},{"gameID":"6534627","date":"2026-03-20","startTime":"2:50 PM ET","network":"CBS","gameState":"pre","away":{"team":"Tennessee St.","seed":15,"score":null},"home":{"team":"Iowa St.","seed":2,"score":null}},{"gameID":"6534623","date":"2026-03-20","startTime":"3:15 PM ET","network":"truTV","gameState":"pre","away":{"team":"Hofstra","seed":13,"score":null},"home":{"team":"Alabama","seed":4,"score":null}},{"gameID":"6534613","date":"2026-03-20","startTime":"4:10 PM ET","network":"TNT","gameState":"pre","away":{"team":"Utah St.","seed":9,"score":null},"home":{"team":"Villanova","seed":8,"score":null}},{"gameID":"6534624","date":"2026-03-20","startTime":"4:25 PM ET","network":"TBS","gameState":"pre","away":{"team":"Miami (OH)","seed":11,"score":null},"home":{"team":"Tennessee","seed":6,"score":null}},{"gameID":"6534605","date":"2026-03-20","startTime":"6:50 PM ET","network":"TNT","gameState":"pre","away":{"team":"Iowa","seed":9,"score":null},"home":{"team":"Clemson","seed":8,"score":null}},{"gameID":"6534598","date":"2026-03-20","startTime":"7:10 PM ET","network":"CBS","gameState":"pre","away":{"team":"UNI","seed":12,"score":null},"home":{"team":"St. John's (NY)","seed":5,"score":null}},{"gameID":"6534602","date":"2026-03-20","startTime":"7:25 PM ET","network":"TBS","gameState":"pre","away":{"team":"UCF","seed":10,"score":null},"home":{"team":"UCLA","seed":7,"score":null}},{"gameID":"6534619","date":"2026-03-20","startTime":"7:35 PM ET","network":"truTV","gameState":"pre","away":{"team":"Queens (NC)","seed":15,"score":null},"home":{"team":"Purdue","seed":2,"score":null}},{"gameID":"6534604","date":"2026-03-20","startTime":"9:25 PM ET","network":"TNT","gameState":"pre","away":{"team":"Prairie View","seed":16,"score":null},"home":{"team":"Florida","seed":1,"score":null}},{"gameID":"6534599","date":"2026-03-20","startTime":"9:45 PM ET","network":"CBS","gameState":"pre","away":{"team":"California Baptist","seed":13,"score":null},"home":{"team":"Kansas","seed":4,"score":null}},{"gameID":"6534603","date":"2026-03-20","startTime":"10:00 PM ET","network":"TBS","gameState":"pre","away":{"team":"Furman","seed":15,"score":null},"home":{"team":"UConn","seed":2,"score":null}},{"gameID":"6534618","date":"2026-03-20","startTime":"10:10 PM ET","network":"truTV","gameState":"pre","away":{"team":"Missouri","seed":10,"score":null},"home":{"team":"Miami (FL)","seed":7,"score":null}}]}]};
+
+async function fetchFallbackResults() {
+  // Try fetching the JSON file first (works on HTTP), fall back to embedded data
+  try {
+    const resp = await fetch('data/tournament-results.json');
+    if (resp.ok) {
+      const data = await resp.json();
+      data.source = 'fallback';
+      return data;
+    }
+  } catch (e) { /* fall through */ }
+
+  // Use embedded data (works on file:// protocol)
+  const data = JSON.parse(JSON.stringify(FALLBACK_RESULTS));
+  data.source = 'embedded';
+  return data;
+}
+
+async function loadResults() {
+  // Try live API first, fall back to static JSON
+  try {
+    tournamentData = await fetchLiveResults();
+    dataSource = 'live';
+    console.log('Loaded live data from NCAA API');
+  } catch (e) {
+    console.warn('Live API failed, using fallback:', e.message);
+    try {
+      tournamentData = await fetchFallbackResults();
+      dataSource = 'fallback';
+      console.log('Loaded fallback data from static JSON');
+    } catch (e2) {
+      console.error('All data sources failed:', e2);
+      dataSource = 'none';
+    }
+  }
+}
+
+// ============================================================
+// TAB 2: RESULTS
+// ============================================================
+function getWinningCoord(game) {
+  if (game.gameState !== 'final') return null;
+  if (game.away.score === null || game.home.score === null) return null;
+
+  const awaySeed = game.away.seed;
+  const homeSeed = game.home.seed;
+
+  if (awaySeed === homeSeed) return null; // Same seed (First Four)
+  if (!awaySeed || !homeSeed) return null;
+
+  let worseSeedScore, betterSeedScore;
+  if (awaySeed > homeSeed) {
+    worseSeedScore = game.away.score;
+    betterSeedScore = game.home.score;
+  } else {
+    worseSeedScore = game.home.score;
+    betterSeedScore = game.away.score;
+  }
+
+  return {
+    y: worseSeedScore % 10,
+    x: betterSeedScore % 10
+  };
+}
+
+function lookupGridSquare(yDigit, xDigit) {
+  let gridY = -1, gridX = -1;
+  for (let i = 0; i < 10; i++) {
+    if (gridData.yAxis[i] === String(yDigit)) gridY = i;
+    if (gridData.xAxis[i] === String(xDigit)) gridX = i;
+  }
+  if (gridY === -1 || gridX === -1) return { name: '(axis not set)', gridY, gridX };
+  return { name: gridData.names[gridY][gridX] || '(empty)', gridY, gridX };
+}
+
+function renderResults() {
+  if (!tournamentData) {
+    document.getElementById('resultsContainer').innerHTML =
+      '<div class="no-data">Could not load tournament data.</div>';
+    return;
+  }
+
+  const container = document.getElementById('resultsContainer');
+  const note = document.getElementById('updatedNote');
+
+  const sourceLabel = dataSource === 'live'
+    ? '<span class="data-source-note live">LIVE from NCAA API</span>'
+    : '<span class="data-source-note fallback">Static fallback data</span>';
+  note.innerHTML = 'Updated: ' + tournamentData.lastUpdated + ' ' + sourceLabel;
+
+  let html = '';
+
+  tournamentData.rounds.forEach(round => {
+    html += `<div class="results-section">`;
+    html += `<h3>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</h3>`;
+
+    const finalGames = round.games.filter(g => g.gameState === 'final');
+    const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre');
+    const preGames = round.games.filter(g => g.gameState === 'pre');
+
+    if (finalGames.length > 0) {
+      html += `<table class="results-table">`;
+      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
+
+      finalGames.forEach(game => {
+        const coord = getWinningCoord(game);
+        const away = game.away;
+        const home = game.home;
+        const awayWon = away.score > home.score;
+
+        html += `<tr>`;
+        html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}<br>${escHtml(game.startTime)}</td>`;
+        html += `<td>`;
+        html += `<span class="seed-badge">${away.seed}</span><span class="${awayWon ? 'winner-team' : 'loser-team'}">${escHtml(away.team)}</span>`;
+        html += ` vs `;
+        html += `<span class="seed-badge">${home.seed}</span><span class="${!awayWon ? 'winner-team' : 'loser-team'}">${escHtml(home.team)}</span>`;
+        html += `</td>`;
+        html += `<td><span class="${awayWon ? 'winner-team' : 'loser-team'}">${away.score}</span> – <span class="${!awayWon ? 'winner-team' : 'loser-team'}">${home.score}</span></td>`;
+
+        if (coord && round.payout > 0) {
+          const sq = lookupGridSquare(coord.y, coord.x);
+          html += `<td><span class="coord-badge">${coord.y} / ${coord.x}</span></td>`;
+          html += `<td class="name-cell">${escHtml(sq.name)}</td>`;
+          html += `<td class="payout-badge">$${round.payout}</td>`;
+        } else {
+          html += `<td>—</td><td>—</td>`;
+          if (round.payout) html += `<td>—</td>`;
+        }
+        html += `</tr>`;
+      });
+      html += `</table>`;
+    }
+
+    if (liveGames.length > 0) {
+      html += `<table class="results-table">`;
+      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
+      liveGames.forEach(game => {
+        html += `<tr>`;
+        html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
+        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
+        html += `<td>${game.away.score ?? '-'} – ${game.home.score ?? '-'}</td>`;
+        html += `<td style="color:var(--red); font-weight:600;">LIVE</td>`;
+        html += `</tr>`;
+      });
+      html += `</table>`;
+    }
+
+    if (preGames.length > 0) {
+      html += `<table class="results-table">`;
+      html += `<tr><th>Game</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
+      preGames.forEach(game => {
+        html += `<tr>`;
+        html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
+        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
+        html += `<td class="status-pre">${escHtml(game.startTime)}</td>`;
+        html += `<td>${escHtml(game.network)}</td>`;
+        html += `</tr>`;
+      });
+      html += `</table>`;
+    }
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// ============================================================
+// TAB 3: LEADERBOARD
+// ============================================================
+function renderLeaderboard() {
+  if (!tournamentData) {
+    document.getElementById('leaderboardContainer').innerHTML =
+      '<div class="no-data">No data loaded.</div>';
+    return;
+  }
+
+  const container = document.getElementById('leaderboardContainer');
+  const totals = {};
+
+  tournamentData.rounds.forEach(round => {
+    if (round.payout === 0) return;
+    round.games.forEach(game => {
+      const coord = getWinningCoord(game);
+      if (!coord) return;
+      const sq = lookupGridSquare(coord.y, coord.x);
+      if (!sq.name || sq.name === '(axis not set)' || sq.name === '(empty)') return;
+
+      if (!totals[sq.name]) totals[sq.name] = { wins: 0, total: 0, games: [] };
+      totals[sq.name].wins++;
+      totals[sq.name].total += round.payout;
+      totals[sq.name].games.push({
+        matchup: `${game.away.team} vs ${game.home.team}`,
+        round: round.name,
+        payout: round.payout,
+        coord: `${coord.y}/${coord.x}`
+      });
+    });
+  });
+
+  const sorted = Object.entries(totals).sort((a, b) => b[1].total - a[1].total);
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<div class="no-data">No winners yet. Set up your grid in the Grid Setup tab and results will appear here.</div>';
+    return;
+  }
+
+  let html = `<table class="leaderboard-table">`;
+  html += `<tr><th>#</th><th>Name</th><th>Wins</th><th style="text-align:right">Total</th></tr>`;
+
+  sorted.forEach(([name, data], i) => {
+    html += `<tr>`;
+    html += `<td class="rank-cell">${i + 1}</td>`;
+    html += `<td class="name-cell">${escHtml(name)}</td>`;
+    html += `<td class="wins-cell">${data.wins}</td>`;
+    html += `<td class="total-cell">$${data.total.toLocaleString()}</td>`;
+    html += `</tr>`;
+  });
+
+  html += `</table>`;
+  container.innerHTML = html;
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function escAttr(str) {
+  return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  // Load grid (from localStorage or grid-config.json)
+  gridData = await loadGrid();
+  renderGrid();
+
+  // Load results (live API first, then static fallback)
+  await loadResults();
+  renderResults();
+  renderLeaderboard();
+}
+
+init();
+</script>
+
+</body>
+</html>
