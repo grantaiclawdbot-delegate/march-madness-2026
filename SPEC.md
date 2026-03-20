@@ -82,6 +82,24 @@ Results are fetched using a **three-tier approach**:
 
 If CORS proves to be a persistent issue, a **GitHub Actions cron job** can be set up to auto-fetch results every 15–30 minutes on game days and commit the updated JSON.
 
+### Data Normalization
+
+All data — regardless of source (live API, static JSON, or embedded fallback) — passes through `normalizeResults()` before rendering. This function:
+
+1. **Strips invalid rounds** — Removes any round not in `ROUND_SCHEDULE` (e.g. First Four with round 0). This is critical because external data sources may include rounds we don't want to display.
+2. **Ensures all 6 rounds exist** — Adds missing rounds with empty game arrays.
+3. **Pads TBD games** — If a round has fewer games than `expectedGames`, fills the remainder with TBD placeholders.
+
+This was added because the three data tiers (live API, static JSON, embedded JS) can get out of sync. Rather than relying on each source being perfectly formatted, the normalizer is the single point of enforcement. **Any changes to which rounds are displayed or how games are structured should be made in `normalizeResults()` and `ROUND_SCHEDULE`.**
+
+### Caching & Deployment Notes
+
+GitHub Pages uses CDN caching that can persist after a new deploy, even with a green checkmark in Actions. Key lessons:
+
+- **Always keep all data files (`data/*.json`) and embedded JS constants in sync** when making structural changes (e.g. removing a round). If the static JSON still has old data, GitHub Pages will serve it via `fetch()` even though the embedded fallback is correct.
+- **Defensive normalization** (`normalizeResults()`) is the safety net — it makes rendering correct regardless of stale cached data.
+- **Testing:** After pushing, use `?v=N` query string or incognito to bypass browser cache. For CDN cache, an empty commit can force a redeploy, but edge caching may still delay propagation.
+
 ## Web Tool
 
 ### Tab 1: Grid Setup
