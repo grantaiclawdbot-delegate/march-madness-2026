@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-20T11:00:00Z",
+  "lastUpdated": "2026-03-20T13:46:51Z",
   "rounds": [
     {
       "round": 1,
@@ -40,7 +40,21 @@
         {"gameID":"6534618","date":"2026-03-20","startTime":"10:10 PM ET","network":"truTV","gameState":"pre","away":{"team":"Missouri","seed":10,"score":null},"home":{"team":"Miami (FL)","seed":7,"score":null}}
       ]
     },
-    {"round":2,"name":"Round of 32","payout":100,"games":[]},
+    {
+      "round": 2,
+      "name": "Round of 32",
+      "payout": 100,
+      "games": [
+        {"gameID":"6534640","date":"2026-03-21","startTime":"12:10 PM ET","network":"CBS","gameState":"pre","away":{"team":"Saint Louis","seed":9,"score":null},"home":{"team":"Michigan","seed":1,"score":null}},
+        {"gameID":"6534630","date":"2026-03-21","startTime":"2:45 PM ET","network":"CBS","gameState":"pre","away":{"team":"Louisville","seed":6,"score":null},"home":{"team":"Michigan St.","seed":3,"score":null}},
+        {"gameID":"6534628","date":"2026-03-21","startTime":"5:15 PM ET","network":"CBS","gameState":"pre","away":{"team":"TCU","seed":9,"score":null},"home":{"team":"Duke","seed":1,"score":null}},
+        {"gameID":"6534635","date":"2026-03-21","startTime":"6:10 PM ET","network":"TNT","gameState":"pre","away":{"team":"Houston","seed":2,"score":null},"home":{"team":"Texas A&M","seed":10,"score":null}},
+        {"gameID":"6534638","date":"2026-03-21","startTime":"7:10 PM ET","network":"TBS","gameState":"pre","away":{"team":"Gonzaga","seed":3,"score":null},"home":{"team":"Texas","seed":11,"score":null}},
+        {"gameID":"6534634","date":"2026-03-21","startTime":"7:50 PM ET","network":"CBS","gameState":"pre","away":{"team":"VCU","seed":11,"score":null},"home":{"team":"Illinois","seed":3,"score":null}},
+        {"gameID":"6534633","date":"2026-03-21","startTime":"8:45 PM ET","network":"TNT","gameState":"pre","away":{"team":"Vanderbilt","seed":5,"score":null},"home":{"team":"Nebraska","seed":4,"score":null}},
+        {"gameID":"6534637","date":"2026-03-21","startTime":"9:45 PM ET","network":"TBS","gameState":"pre","away":{"team":"High Point","seed":12,"score":null},"home":{"team":"Arkansas","seed":4,"score":null}}
+      ]
+    },
     {"round":3,"name":"Sweet 16","payout":200,"games":[]},
     {"round":4,"name":"Elite Eight","payout":400,"games":[]},
     {"round":5,"name":"Final Four","payout":800,"games":[]},
