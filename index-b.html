@@ -15,7 +15,6 @@
       --text-muted: #8899aa;
       --green: #4caf50;
       --red: #ef5350;
-      --blue: #1976d2;
       --border: #2d4050;
     }
 
@@ -40,7 +39,7 @@
     header h1 {
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--blue);
+      color: var(--red);
     }
 
     header h1 span { color: var(--text); font-weight: 400; }
@@ -49,7 +48,6 @@
       font-size: 0.9rem;
       color: var(--accent2);
       font-weight: 600;
-      white-space: nowrap;
     }
 
     .tabs {
@@ -77,35 +75,7 @@
     .tab-content.active { display: block; }
 
     /* Tab 1: Grid Setup */
-    .grid-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-x: contain;
-    }
-
-    .grid-scroll-outer { position: relative; }
-
-    .grid-scroll-outer::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0;
-      width: 28px;
-      background: linear-gradient(to left, rgba(15, 25, 35, 0.85), transparent);
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.2s;
-      display: none;
-    }
-
-    .grid-scroll-outer.at-end::after { opacity: 0; }
-
-    .scroll-hint {
-      display: none;
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      padding: 4px 0 8px;
-    }
+    .grid-container { overflow-x: auto; }
 
     .grid-header {
       display: flex;
@@ -187,14 +157,6 @@
       font-weight: 700;
     }
 
-    /* Sticky first column — row labels stay visible while scrolling */
-    table.pool-grid th:first-child {
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      background: var(--surface2);
-    }
-
     table.pool-grid .corner {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -266,11 +228,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .table-scroll-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
     .results-table {
       width: 100%;
       border-collapse: collapse;
@@ -285,7 +242,6 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      white-space: nowrap;
     }
 
     .results-table td {
@@ -388,99 +344,6 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ============================================================
-       MOBILE STYLES — optimized for ~375px screens
-       ============================================================ */
-    @media (max-width: 600px) {
-      header {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-        gap: 4px;
-      }
-
-      header h1 { font-size: 1.15rem; }
-      .prize-pool { font-size: 0.8rem; }
-
-      .tabs { overflow-x: auto; }
-
-      .tab-btn {
-        padding: 12px 16px;
-        font-size: 0.85rem;
-        flex: 1;
-        min-width: 80px;
-        white-space: nowrap;
-      }
-
-      .tab-content { padding: 12px; }
-
-      /* Grid: tighter cells so less scrolling needed */
-      table.pool-grid th,
-      table.pool-grid td {
-        width: 56px;
-        height: 40px;
-        font-size: 0.72rem;
-      }
-
-      table.pool-grid th:first-child,
-      table.pool-grid td:first-child {
-        width: 50px;
-      }
-
-      table.pool-grid .axis-input {
-        width: 34px;
-        font-size: 0.78rem;
-      }
-
-      .cell-name {
-        font-size: 0.62rem;
-        padding: 1px;
-      }
-
-      .y-axis-label { display: none; }
-      .x-axis-label { font-size: 0.72rem; }
-
-      .grid-with-labels { justify-content: flex-start; }
-
-      .scroll-hint { display: block; }
-
-      /* Right-edge fade shadow hints that the table is scrollable */
-      .grid-scroll-outer::after { display: block; }
-
-      .grid-header { margin-bottom: 8px; }
-      .grid-header h2 { font-size: 1rem; }
-      .grid-actions button { padding: 8px 12px; font-size: 0.8rem; margin-left: 4px; }
-
-      /* Results: tighter */
-      .results-section { margin-bottom: 20px; }
-      .results-section h3 { font-size: 0.9rem; margin-bottom: 8px; }
-
-      .results-table th {
-        padding: 8px 8px;
-        font-size: 0.72rem;
-      }
-
-      .results-table td {
-        padding: 8px 8px;
-        font-size: 0.78rem;
-      }
-
-      .seed-badge {
-        font-size: 0.62rem;
-        padding: 1px 4px;
-        min-width: 16px;
-      }
-
-      .coord-badge { font-size: 0.72rem; padding: 2px 6px; }
-
-      .updated-note { font-size: 0.7rem; }
-
-      /* Leaderboard: full width */
-      .leaderboard-table { max-width: 100%; }
-      .leaderboard-table th { padding: 10px 12px; font-size: 0.75rem; }
-      .leaderboard-table td { padding: 10px 12px; font-size: 0.88rem; }
-      .total-cell { font-size: 0.95rem; }
-    }
   </style>
 </head>
 <body>
@@ -506,15 +369,12 @@
       <button id="btnSave" class="save-btn" onclick="saveGrid()" disabled>Save</button>
     </div>
   </div>
-  <div class="scroll-hint">← Scroll to see full grid →</div>
-  <div class="grid-scroll-outer">
-    <div class="grid-container">
-      <div class="grid-with-labels">
-        <div class="y-axis-label">Worse Seed (Away)</div>
-        <div class="grid-and-x-label">
-          <table class="pool-grid" id="poolGrid"></table>
-          <div class="x-axis-label">Better Seed (Home)</div>
-        </div>
+  <div class="grid-container">
+    <div class="grid-with-labels">
+      <div class="y-axis-label">Worse Seed (Away)</div>
+      <div class="grid-and-x-label">
+        <table class="pool-grid" id="poolGrid"></table>
+        <div class="x-axis-label">Better Seed (Home)</div>
       </div>
     </div>
   </div>
@@ -1025,7 +885,7 @@ function renderResults() {
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
     if (finalGames.length > 0) {
-      html += `<div class="table-scroll-wrap"><table class="results-table">`;
+      html += `<table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
 
       finalGames.forEach(game => {
@@ -1054,11 +914,11 @@ function renderResults() {
         }
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
     }
 
     if (liveGames.length > 0) {
-      html += `<div class="table-scroll-wrap"><table class="results-table">`;
+      html += `<table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
       liveGames.forEach(game => {
         html += `<tr>`;
@@ -1068,11 +928,11 @@ function renderResults() {
         html += `<td style="color:var(--red); font-weight:600;">LIVE</td>`;
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
     }
 
     if (preGames.length > 0) {
-      html += `<div class="table-scroll-wrap"><table class="results-table">`;
+      html += `<table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
       preGames.forEach(game => {
         html += `<tr>`;
@@ -1082,13 +942,13 @@ function renderResults() {
         html += `<td>${escHtml(game.network)}</td>`;
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
     }
 
     if (tbdGames.length > 0) {
-      html += `<div class="table-scroll-wrap"><table class="results-table">`;
+      html += `<table class="results-table">`;
       html += `<tr><th colspan="3" style="text-align:center; color:var(--text-muted);">${tbdGames.length} game${tbdGames.length > 1 ? 's' : ''} — Matchups TBD</th></tr>`;
-      html += `</table></div>`;
+      html += `</table>`;
     }
 
     html += `</div>`;
@@ -1173,14 +1033,6 @@ async function init() {
   // Load grid (from localStorage or grid-config.json)
   gridData = await loadGrid();
   renderGrid();
-
-  // Hide right-edge shadow when scrolled fully right
-  const gridContainer = document.querySelector('.grid-container');
-  const scrollOuter = document.querySelector('.grid-scroll-outer');
-  gridContainer.addEventListener('scroll', () => {
-    const atEnd = gridContainer.scrollLeft + gridContainer.clientWidth >= gridContainer.scrollWidth - 4;
-    scrollOuter.classList.toggle('at-end', atEnd);
-  });
 
   // Load results (live API first, then static fallback)
   await loadResults();

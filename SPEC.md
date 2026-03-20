@@ -222,8 +222,8 @@ Two versions of the UI are deployed for A/B testing:
 
 | Version | File | URL | Differences |
 |---|---|---|---|
-| A (original) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Red title (`#ef5350`) |
-| B (mobile-optimized) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Blue title (`#1976d2`), mobile-responsive layout |
+| B (mobile-optimized) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
+| A (original) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Red title (`#ef5350`), desktop-first |
 
 ### Version B mobile changes
 
@@ -251,8 +251,8 @@ Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `RO
 
 ```
 March Madness Bracket/
-├── index.html                      # Version A — original UI (red title)
-├── index-b.html                    # Version B — mobile-optimized UI (blue title)
+├── index.html                      # Version B — mobile-optimized UI (blue title) — main URL
+├── index-b.html                    # Version A — original UI (red title), desktop-first
 ├── SPEC.md                         # This file — full project specification
 ├── .gitignore                      # Excludes .claude/ directory
 ├── squares config.png              # Original pool grid image (source for names)
@@ -263,7 +263,7 @@ March Madness Bracket/
 
 ### Key Implementation Details
 
-- **Header title color** — The "March Madness 2026" title in the page header is styled in **red** (`var(--red)`, `#ef5350`). The subtitle span ("— Squares Pool") uses the default text color.
+- **Header title color** — In `index.html` (B/mobile version), the "March Madness 2026" title is styled in **blue** (`var(--blue)`, `#1976d2`). In `index-b.html` (A/desktop version), it is **red** (`var(--red)`, `#ef5350`). The subtitle span ("— Squares Pool") uses the default text color in both.
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
