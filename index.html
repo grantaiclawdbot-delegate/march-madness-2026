@@ -364,9 +364,6 @@
   <div class="grid-header">
     <h2>Pool Grid</h2>
     <div class="grid-actions">
-      <label style="font-size:0.8rem; color:var(--text-muted); cursor:pointer; margin-right:8px;">
-        <input type="checkbox" id="enableEditing" onchange="toggleEditing()"> Enable Editing
-      </label>
       <button id="btnClear" onclick="clearGrid()" disabled>Clear All</button>
       <button id="btnExport" onclick="exportGrid()" class="export-btn" disabled>Export JSON</button>
       <button id="btnSave" class="save-btn" onclick="saveGrid()" disabled>Save</button>
@@ -507,12 +504,12 @@ function exportGrid() {
 
 let editingEnabled = false;
 
-function toggleEditing() {
-  editingEnabled = document.getElementById('enableEditing').checked;
-  document.getElementById('btnClear').disabled = !editingEnabled;
-  document.getElementById('btnExport').disabled = !editingEnabled;
-  document.getElementById('btnSave').disabled = !editingEnabled;
-  // Re-render grid to enable/disable cell clicking and axis inputs
+// Enable editing via browser console: enableEditing()
+function enableGridEditing() {
+  editingEnabled = true;
+  document.getElementById('btnClear').disabled = false;
+  document.getElementById('btnExport').disabled = false;
+  document.getElementById('btnSave').disabled = false;
   renderGrid();
 }
 

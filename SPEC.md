@@ -107,7 +107,7 @@ GitHub Pages uses CDN caching that can persist after a new deploy, even with a g
 A 10×10 grid displaying the pool configuration:
 
 1. **Locked by default** — Grid is read-only on load. Axis inputs are disabled, cells are not clickable, and action buttons are visually greyed out (opacity + no hover highlight). This makes it clear they are disabled, not just non-functional.
-2. **Enable Editing checkbox** — Unlocks the grid, axis inputs, and action buttons for admin changes. Buttons restore their full color and hover effects when enabled.
+2. **Enable editing via console** — Run `enableGridEditing()` in the browser DevTools console to unlock the grid, axis inputs, and action buttons. Buttons restore their full color and hover effects when enabled. No UI toggle is exposed to prevent accidental edits.
 3. **Edit axis numbers** — Set the randomly drawn number (0–9) for each position on both the X-axis (higher seed) and Y-axis (lower seed).
 4. **Enter participant names** — Click any square to enter/edit the name.
 5. **Save** — Writes current state to localStorage.
