@@ -274,14 +274,22 @@
       font-weight: inherit;
     }
     .results-section .round-header:hover { opacity: 0.8; }
-    .round-chevron {
-      font-size: 0.75rem;
-      transition: transform 0.2s ease;
-      color: var(--text-muted);
-      flex-shrink: 0;
+    .round-toggle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      font-size: 22px;
+      font-weight: 700;
       line-height: 1;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: #fff;
     }
-    .results-section:not(.collapsed) .round-chevron { transform: rotate(90deg); }
+    .results-section.collapsed .round-toggle-icon::before { content: '+'; }
+    .results-section:not(.collapsed) .round-toggle-icon::before { content: '−'; }
     .results-section.collapsed .round-body { display: none; }
     .results-section:not(.collapsed) .round-body { display: block; }
 
@@ -1050,7 +1058,7 @@ function renderResults() {
 
   tournamentData.rounds.forEach(round => {
     html += `<div class="results-section collapsed" data-round="${round.round}">`;
-    html += `<h3 class="round-header"><span>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</span><span class="round-chevron">&#9658;</span></h3>`;
+    html += `<h3 class="round-header"><span class="round-toggle-icon"></span><span>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</span></h3>`;
     html += `<div class="round-body">`;
 
     const finalGames = round.games.filter(g => g.gameState === 'final');
