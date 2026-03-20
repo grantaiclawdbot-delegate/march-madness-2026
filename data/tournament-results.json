@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-20T13:46:51Z",
+  "lastUpdated": "2026-03-20T18:39:05Z",
   "rounds": [
     {
       "round": 1,
@@ -22,10 +22,10 @@
         {"gameID":"6534621","date":"2026-03-19","startTime":"9:10 PM CT","network":"CBS","gameState":"final","away":{"team":"Saint Louis","seed":9,"score":102},"home":{"team":"Georgia","seed":8,"score":77}},
         {"gameID":"6534611","date":"2026-03-19","startTime":"9:15 PM CT","network":"truTV","gameState":"final","away":{"team":"Idaho","seed":15,"score":47},"home":{"team":"Houston","seed":2,"score":78}},
         {"gameID":"6534617","date":"2026-03-19","startTime":"9:24 PM CT","network":"TBS","gameState":"final","away":{"team":"Kennesaw St.","seed":14,"score":64},"home":{"team":"Gonzaga","seed":3,"score":73}},
-        {"gameID":"6534626","date":"2026-03-20","startTime":"11:15 AM CT","network":"CBS","gameState":"pre","away":{"team":"Santa Clara","seed":10,"score":null},"home":{"team":"Kentucky","seed":7,"score":null}},
-        {"gameID":"6534622","date":"2026-03-20","startTime":"11:40 AM CT","network":"truTV","gameState":"pre","away":{"team":"Akron","seed":12,"score":null},"home":{"team":"Texas Tech","seed":5,"score":null}},
-        {"gameID":"6534612","date":"2026-03-20","startTime":"12:35 PM CT","network":"TNT","gameState":"pre","away":{"team":"LIU","seed":16,"score":null},"home":{"team":"Arizona","seed":1,"score":null}},
-        {"gameID":"6534625","date":"2026-03-20","startTime":"12:50 PM CT","network":"TBS","gameState":"pre","away":{"team":"Wright St.","seed":14,"score":null},"home":{"team":"Virginia","seed":3,"score":null}},
+        {"gameID":"6534626","date":"2026-03-20","startTime":"11:15 AM CT","network":"CBS","gameState":"final","away":{"team":"Santa Clara","seed":10,"score":84},"home":{"team":"Kentucky","seed":7,"score":89}},
+        {"gameID":"6534622","date":"2026-03-20","startTime":"11:40 AM CT","network":"truTV","gameState":"live","away":{"team":"Akron","seed":12,"score":66},"home":{"team":"Texas Tech","seed":5,"score":82}},
+        {"gameID":"6534612","date":"2026-03-20","startTime":"12:35 PM CT","network":"TNT","gameState":"live","away":{"team":"LIU","seed":16,"score":29},"home":{"team":"Arizona","seed":1,"score":53}},
+        {"gameID":"6534625","date":"2026-03-20","startTime":"12:50 PM CT","network":"TBS","gameState":"live","away":{"team":"Wright St.","seed":14,"score":41},"home":{"team":"Virginia","seed":3,"score":38}},
         {"gameID":"6534627","date":"2026-03-20","startTime":"1:50 PM CT","network":"CBS","gameState":"pre","away":{"team":"Tennessee St.","seed":15,"score":null},"home":{"team":"Iowa St.","seed":2,"score":null}},
         {"gameID":"6534623","date":"2026-03-20","startTime":"2:15 PM CT","network":"truTV","gameState":"pre","away":{"team":"Hofstra","seed":13,"score":null},"home":{"team":"Alabama","seed":4,"score":null}},
         {"gameID":"6534613","date":"2026-03-20","startTime":"3:10 PM CT","network":"TNT","gameState":"pre","away":{"team":"Utah St.","seed":9,"score":null},"home":{"team":"Villanova","seed":8,"score":null}},
