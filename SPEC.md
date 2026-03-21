@@ -246,6 +246,10 @@ Two versions of the UI are deployed for A/B testing:
 | B (mobile-optimized) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
 | A (original) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Red title (`#ef5350`), desktop-first; tab mobile CSS added |
 
+### Sticky Tab Navigation
+
+The tab bar (`.tabs` nav) uses `position: sticky; top: 0; z-index: 100` in both versions, keeping it locked at the top of the viewport as the user scrolls down through long tab content.
+
 ### Version B mobile changes
 
 - Blue title color instead of red
