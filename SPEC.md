@@ -255,6 +255,7 @@ Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `RO
 March Madness Bracket/
 ├── index.html                      # Version B — mobile-optimized UI (blue title) — main URL
 ├── index-b.html                    # Version A — original UI (red title), desktop-first
+├── update_scores.py                # Score update automation script (see below)
 ├── SPEC.md                         # This file — full project specification
 ├── .gitignore                      # Excludes .claude/ directory
 ├── squares config.png              # Original pool grid image (source for names)
@@ -262,6 +263,33 @@ March Madness Bracket/
     ├── grid-config.json            # Grid axis numbers + participant names (JSON)
     └── tournament-results.json     # Pre-fetched game results snapshot (JSON)
 ```
+
+## Score Update Script (`update_scores.py`)
+
+`update_scores.py` automates the complete score update workflow in a single command.
+
+### What it does
+
+1. **Fetches scores** from `https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1/{year}/{month}/{day}` for all tournament dates up to today (Mar 19–20 for Round 1, Mar 21–22 for Round 2, etc.)
+2. **Updates `data/tournament-results.json`** — scores, game states (`pre`/`live`/`final`), and any new games that appear for later rounds
+3. **Updates `FALLBACK_RESULTS`** in both `index.html` and `index-b.html` — replaces the embedded JS constant with the new data
+4. **Commits and pushes** — runs `git add`, `git commit`, and `git push origin master` if anything changed. Skips if data is unchanged.
+
+### Usage
+
+```bash
+python update_scores.py
+```
+
+No arguments needed. Run from the repo root. Uses only Python standard library (`json`, `re`, `os`, `subprocess`, `sys`, `datetime`, `urllib`).
+
+### Key behaviors
+
+- **Idempotent** — safe to run multiple times; only commits when data actually changed
+- **API format** — actual NCAA API shape is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }` (teams are inside `game`, not a separate `teams` array)
+- **ET → CT conversion** — `startTime` from the API is Eastern Time; the script converts to Central (subtract 1 hour) before storing
+- **Merge strategy** — updates existing games by `gameID` matching; adds new games; never removes games (in case API has intermittent issues)
+- **No false commits** — compares rounds data (excluding `lastUpdated`) to decide whether to write files
 
 ### Key Implementation Details
 
@@ -272,7 +300,7 @@ March Madness Bracket/
 - **Tab persistence** — `mm_active_tab` stores the last active tab index (0 = Grid Setup, 1 = Results Tracker, 2 = Leaderboard). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
 - **Results section states** — `mm_results_sections` stores an object of `{ roundNumber: boolean }` pairs where `true` = expanded. Written on every toggle and when a round is auto-expanded. Read on every `renderResults()` call to restore state. Default (no key) = all collapsed except live rounds.
 - **Live round tracking** — `mm_results_live_rounds` stores `{ roundNumber: true }` for every round that has ever been seen in a live/in-progress state. Used to distinguish "newly live" rounds (auto-expand override) from rounds the user has already had a chance to interact with (respect `mm_results_sections`).
-- **Live API parsing** — The NCAA API response format is `{ games: [{ game: {...}, teams: [...] }] }`. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
+- **Live API parsing** — The NCAA API response format is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }`. Teams are nested directly inside `game` as `away` and `home` objects. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
 - **Round detection** — Games are assigned to rounds by matching their date against `ROUND_SCHEDULE` (a hardcoded date-to-round mapping in the JS).
 
 ## How to Recreate This Project
@@ -293,11 +321,11 @@ March Madness Bracket/
 - **Collaborator:** `puresoto` added as collaborator (git credentials on local machine authenticate as this user)
 - **No `gh` CLI installed** — repo was created manually via GitHub web UI; pushes via `git push`
 
-## Status (as of 2026-03-20)
+## Status (as of 2026-03-21)
 
 - Grid fully populated with all 100 participant names from pool image
-- Round of 64 Day 1 (Mar 19): 16 games complete, results showing with winning squares
-- Round of 64 Day 2 (Mar 20): 16 games upcoming, showing times/networks
+- Round of 64 (Mar 19–20): all 32 games complete, results showing with winning squares
+- Round of 32 (Mar 21–22): 8 games in progress on Mar 21, 8 games scheduled for Mar 22
 - Live NCAA API confirmed working when served over HTTP (GitHub Pages)
 - Site accessible on desktop and iPhone via GitHub Pages URL
-- Embedded fallback data covers through Mar 20 pre-game state
+- `update_scores.py` operational — run `python update_scores.py` to sync scores and push
