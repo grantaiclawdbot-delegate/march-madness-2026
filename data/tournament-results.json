@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-20T23:58:00Z",
+  "lastUpdated": "2026-03-21T00:15:00Z",
   "rounds": [
     {
       "round": 1,
@@ -30,10 +30,10 @@
         {"gameID":"6534623","date":"2026-03-20","startTime":"2:15 PM CT","network":"truTV","gameState":"final","away":{"team":"Hofstra","seed":13,"score":70},"home":{"team":"Alabama","seed":4,"score":90}},
         {"gameID":"6534613","date":"2026-03-20","startTime":"3:10 PM CT","network":"TNT","gameState":"final","away":{"team":"Utah St.","seed":9,"score":86},"home":{"team":"Villanova","seed":8,"score":76}},
         {"gameID":"6534624","date":"2026-03-20","startTime":"3:25 PM CT","network":"TBS","gameState":"final","away":{"team":"Miami (OH)","seed":11,"score":56},"home":{"team":"Tennessee","seed":6,"score":78}},
-        {"gameID":"6534605","date":"2026-03-20","startTime":"5:50 PM CT","network":"TNT","gameState":"live","away":{"team":"Iowa","seed":9,"score":35},"home":{"team":"Clemson","seed":8,"score":25}},
-        {"gameID":"6534598","date":"2026-03-20","startTime":"6:10 PM CT","network":"CBS","gameState":"live","away":{"team":"UNI","seed":12,"score":13},"home":{"team":"St. John's (NY)","seed":5,"score":29}},
-        {"gameID":"6534602","date":"2026-03-20","startTime":"6:25 PM CT","network":"TBS","gameState":"live","away":{"team":"UCF","seed":10,"score":13},"home":{"team":"UCLA","seed":7,"score":24}},
-        {"gameID":"6534619","date":"2026-03-20","startTime":"6:35 PM CT","network":"truTV","gameState":"live","away":{"team":"Queens (NC)","seed":15,"score":19},"home":{"team":"Purdue","seed":2,"score":26}},
+        {"gameID":"6534605","date":"2026-03-20","startTime":"5:50 PM CT","network":"TNT","gameState":"live","away":{"team":"Iowa","seed":9,"score":38},"home":{"team":"Clemson","seed":8,"score":33}},
+        {"gameID":"6534598","date":"2026-03-20","startTime":"6:10 PM CT","network":"CBS","gameState":"live","away":{"team":"UNI","seed":12,"score":22},"home":{"team":"St. John's (NY)","seed":5,"score":40}},
+        {"gameID":"6534602","date":"2026-03-20","startTime":"6:25 PM CT","network":"TBS","gameState":"live","away":{"team":"UCF","seed":10,"score":21},"home":{"team":"UCLA","seed":7,"score":33}},
+        {"gameID":"6534619","date":"2026-03-20","startTime":"6:35 PM CT","network":"truTV","gameState":"live","away":{"team":"Queens (NC)","seed":15,"score":28},"home":{"team":"Purdue","seed":2,"score":35}},
         {"gameID":"6534604","date":"2026-03-20","startTime":"8:25 PM CT","network":"TNT","gameState":"pre","away":{"team":"Prairie View","seed":16,"score":null},"home":{"team":"Florida","seed":1,"score":null}},
         {"gameID":"6534599","date":"2026-03-20","startTime":"8:45 PM CT","network":"CBS","gameState":"pre","away":{"team":"California Baptist","seed":13,"score":null},"home":{"team":"Kansas","seed":4,"score":null}},
         {"gameID":"6534603","date":"2026-03-20","startTime":"9:00 PM CT","network":"TBS","gameState":"pre","away":{"team":"Furman","seed":15,"score":null},"home":{"team":"UConn","seed":2,"score":null}},
@@ -48,11 +48,15 @@
         {"gameID":"6534640","date":"2026-03-21","startTime":"11:10 AM CT","network":"CBS","gameState":"pre","away":{"team":"Saint Louis","seed":9,"score":null},"home":{"team":"Michigan","seed":1,"score":null}},
         {"gameID":"6534630","date":"2026-03-21","startTime":"1:45 PM CT","network":"CBS","gameState":"pre","away":{"team":"Louisville","seed":6,"score":null},"home":{"team":"Michigan St.","seed":3,"score":null}},
         {"gameID":"6534628","date":"2026-03-21","startTime":"4:15 PM CT","network":"CBS","gameState":"pre","away":{"team":"TCU","seed":9,"score":null},"home":{"team":"Duke","seed":1,"score":null}},
-        {"gameID":"6534635","date":"2026-03-21","startTime":"5:10 PM CT","network":"TNT","gameState":"pre","away":{"team":"Houston","seed":2,"score":null},"home":{"team":"Texas A&M","seed":10,"score":null}},
-        {"gameID":"6534638","date":"2026-03-21","startTime":"6:10 PM CT","network":"TBS","gameState":"pre","away":{"team":"Gonzaga","seed":3,"score":null},"home":{"team":"Texas","seed":11,"score":null}},
+        {"gameID":"6534635","date":"2026-03-21","startTime":"5:10 PM CT","network":"TNT","gameState":"pre","away":{"team":"Texas A&M","seed":10,"score":null},"home":{"team":"Houston","seed":2,"score":null}},
+        {"gameID":"6534638","date":"2026-03-21","startTime":"6:10 PM CT","network":"TBS","gameState":"pre","away":{"team":"Texas","seed":11,"score":null},"home":{"team":"Gonzaga","seed":3,"score":null}},
         {"gameID":"6534634","date":"2026-03-21","startTime":"6:50 PM CT","network":"CBS","gameState":"pre","away":{"team":"VCU","seed":11,"score":null},"home":{"team":"Illinois","seed":3,"score":null}},
         {"gameID":"6534633","date":"2026-03-21","startTime":"7:45 PM CT","network":"TNT","gameState":"pre","away":{"team":"Vanderbilt","seed":5,"score":null},"home":{"team":"Nebraska","seed":4,"score":null}},
-        {"gameID":"6534637","date":"2026-03-21","startTime":"8:45 PM CT","network":"TBS","gameState":"pre","away":{"team":"High Point","seed":12,"score":null},"home":{"team":"Arkansas","seed":4,"score":null}}
+        {"gameID":"6534637","date":"2026-03-21","startTime":"8:45 PM CT","network":"TBS","gameState":"pre","away":{"team":"High Point","seed":12,"score":null},"home":{"team":"Arkansas","seed":4,"score":null}},
+        {"gameID":"6534636","date":"2026-03-22","startTime":"TBA","network":"","gameState":"pre","away":{"team":"Utah St.","seed":9,"score":null},"home":{"team":"Arizona","seed":1,"score":null}},
+        {"gameID":"6534641","date":"2026-03-22","startTime":"TBA","network":"","gameState":"pre","away":{"team":"Alabama","seed":4,"score":null},"home":{"team":"Texas Tech","seed":5,"score":null}},
+        {"gameID":"6534642","date":"2026-03-22","startTime":"TBA","network":"","gameState":"pre","away":{"team":"Virginia","seed":3,"score":null},"home":{"team":"Tennessee","seed":6,"score":null}},
+        {"gameID":"6534643","date":"2026-03-22","startTime":"TBA","network":"","gameState":"pre","away":{"team":"Iowa St.","seed":2,"score":null},"home":{"team":"Kentucky","seed":7,"score":null}}
       ]
     },
     {"round":3,"name":"Sweet 16","payout":200,"games":[]},
