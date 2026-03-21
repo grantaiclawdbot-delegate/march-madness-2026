@@ -761,11 +761,12 @@ const FALLBACK_RESULTS = {"lastUpdated":"2026-03-21T01:14:56Z","rounds":[{"round
 
 async function fetchFallbackResults() {
   // Try fetching the JSON file first (works on HTTP), fall back to embedded data
+  // Cache-busting param ensures browser always fetches the latest version after a push
   try {
-    const resp = await fetch('data/tournament-results.json');
+    const resp = await fetch('data/tournament-results.json?t=' + Date.now());
     if (resp.ok) {
       const data = await resp.json();
-      data.source = 'fallback';
+      data.source = 'json';
       return data;
     }
   } catch (e) { /* fall through */ }
@@ -884,7 +885,9 @@ function renderResults() {
 
   const sourceLabel = dataSource === 'live'
     ? '<span class="data-source-note live">LIVE from NCAA API</span>'
-    : '<span class="data-source-note fallback">Static fallback data</span>';
+    : (tournamentData && tournamentData.source === 'embedded')
+      ? '<span class="data-source-note fallback">Embedded snapshot (offline)</span>'
+      : '<span class="data-source-note fallback">Static fallback data</span>';
   const rawTs = tournamentData.lastUpdated;
   const tsDate = new Date(rawTs);
   const displayTs = (!isNaN(tsDate) && /^\d{4}-\d{2}-\d{2}T/.test(rawTs))

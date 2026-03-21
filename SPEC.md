@@ -76,9 +76,13 @@ Results are fetched using a **three-tier approach**:
 
 1. **Primary: Live API calls from the browser.** On page load, the webpage fetches scores directly from `https://ncaa-api.henrygd.me` for each tournament date (up to today, in parallel). This provides real-time data with no server infrastructure.
 
-2. **Fallback: `data/tournament-results.json`** — A pre-fetched snapshot committed to the repo. Loaded if the live API is unreachable (requires HTTP serving).
+2. **Fallback: `data/tournament-results.json`** — A pre-fetched snapshot committed to the repo. Loaded if the live API is unreachable (requires HTTP serving). The URL includes a cache-busting `?t=<timestamp>` parameter so browsers always fetch the latest version after a push — bypassing both browser cache and CDN edge cache.
 
-3. **Embedded `FALLBACK_RESULTS` in HTML** — Hardcoded JS object inside `index.html`; works on `file://` protocol. Must be manually updated with new results.
+3. **Embedded `FALLBACK_RESULTS` in HTML** — Hardcoded JS object inside `index.html`; works on `file://` protocol when `fetch()` is blocked.
+
+The **source badge** distinguishes all three tiers: "LIVE from NCAA API", "Static fallback data" (JSON file loaded from GitHub Pages), or "Embedded snapshot (offline)" (embedded FALLBACK_RESULTS used).
+
+`update_scores.py` keeps **all three data locations in sync** on every run: it updates `data/tournament-results.json`, then uses regex to replace the `FALLBACK_RESULTS` constant in both `index.html` and `index-b.html`, then commits and pushes all three files together. This means the embedded snapshot is always as current as the JSON file.
 
 If CORS proves to be a persistent issue, a **GitHub Actions cron job** can be set up to auto-fetch results every 15–30 minutes on game days and commit the updated JSON.
 
@@ -311,7 +315,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 3. **Copy `data/grid-config.json`** and **`data/tournament-results.json`** — these are fetched when served over HTTP (GitHub Pages) but not required since data is also embedded.
 4. **Enable GitHub Pages** — Settings → Pages → Deploy from branch (main/master, root).
 5. **Update grid names** — Edit via Tab 1 UI, click Export JSON, replace `data/grid-config.json`, and update the `DEFAULT_GRID` object in `index.html` to match.
-6. **Update fallback results** — Fetch new data from `https://ncaa-api.henrygd.me/scoreboard/basketball-men/d1/YYYY/MM/DD`, update `data/tournament-results.json`, and update `FALLBACK_RESULTS` in `index.html`.
+6. **Update fallback results** — Run `python update_scores.py` from the repo root. This fetches the latest scores, updates `data/tournament-results.json` and the `FALLBACK_RESULTS` constant in both HTML files, then commits and pushes everything together.
 7. **Push to GitHub** — `git add -A && git commit -m "update" && git push`.
 
 ## GitHub Setup
@@ -330,3 +334,5 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - Live NCAA API confirmed working when served over HTTP (GitHub Pages)
 - Site accessible on desktop and iPhone via GitHub Pages URL
 - `update_scores.py` operational — run `python update_scores.py` to sync scores and push
+  - Updates all three data locations: `data/tournament-results.json`, `index.html` FALLBACK_RESULTS, `index-b.html` FALLBACK_RESULTS
+  - Commits and pushes all three files together in a single commit
