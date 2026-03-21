@@ -237,7 +237,7 @@ Two versions of the UI are deployed for A/B testing:
 
 - Blue title color instead of red
 - Tighter tab buttons that stretch to fill width on small screens
-- Grid cells reduced from 80px to 56px wide on mobile, with a "← Scroll →" hint
+- Grid cells reduced from 80px to 72px wide on mobile (increased from 56px to reduce name text wrapping), with a "← Scroll →" hint
 - `overflow-x: auto` scroll wrappers on all results tables
 - Reduced table cell padding and font sizes on mobile
 - Reduced tab content padding (12px vs 24px) on mobile
