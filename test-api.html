@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NCAA API Proxy Test</title>
+  <style>
+    body { font-family: system-ui; background: #0f1923; color: #e8e8e8; padding: 24px; }
+    h1 { color: #ffd700; margin-bottom: 16px; }
+    .test-section { margin-bottom: 32px; }
+    h2 { color: #ff6b35; font-size: 1rem; margin-bottom: 8px; }
+    .status { padding: 8px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 0.9rem; }
+    .status.success { background: #1b5e20; color: #a5d6a7; }
+    .status.fail { background: #b71c1c; color: #ef9a9a; }
+    .status.loading { background: #1a2733; color: #8899aa; }
+    pre { background: #1a2733; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; max-height: 400px; overflow-y: auto; }
+    button { padding: 10px 20px; background: #ff6b35; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; margin-right: 8px; }
+    button:hover { background: #e55a28; }
+    input { padding: 8px 12px; background: #1a2733; border: 1px solid #2d4050; color: #e8e8e8; border-radius: 6px; font-size: 0.9rem; width: 200px; margin-right: 8px; }
+    .instructions { background: #243447; padding: 16px; border-radius: 8px; margin-bottom: 24px; line-height: 1.6; }
+    .instructions code { background: #1a2733; padding: 2px 6px; border-radius: 3px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<h1>NCAA API Proxy — Test Page</h1>
+
+<div class="instructions">
+  <strong>How this works:</strong><br>
+  Test 1 calls the NCAA API directly from your browser (will fail due to CORS).<br>
+  Test 2 calls through the Vercel proxy (should succeed — CORS headers added server-side).<br><br>
+  <strong>Setup:</strong> Replace the Vercel URL below with your deployed proxy URL once it's live.
+</div>
+
+<div>
+  <label>Date to test: <input type="text" id="testDate" value="2026-03-21" placeholder="YYYY-MM-DD"></label>
+</div>
+<br>
+
+<!-- TEST 1: Direct API call -->
+<div class="test-section">
+  <h2>Test 1: Direct NCAA API (expect CORS failure)</h2>
+  <button onclick="testDirect()">Run Test 1</button>
+  <div id="status1" class="status loading">Not run yet</div>
+  <pre id="result1">—</pre>
+</div>
+
+<!-- TEST 2: Via Vercel proxy -->
+<div class="test-section">
+  <h2>Test 2: Via Vercel Proxy (should work)</h2>
+  <p style="margin-bottom:8px; font-size:0.85rem; color:#8899aa;">
+    Proxy URL: <input type="text" id="proxyUrl" value="https://YOUR-PROJECT.vercel.app" style="width:350px;">
+  </p>
+  <button onclick="testProxy()">Run Test 2</button>
+  <div id="status2" class="status loading">Not run yet</div>
+  <pre id="result2">—</pre>
+</div>
+
+<script>
+const NCAA_API = 'https://ncaa-api.henrygd.me';
+
+async function testDirect() {
+  const date = document.getElementById('testDate').value;
+  const [y, m, d] = date.split('-');
+  const url = `${NCAA_API}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
+  const status = document.getElementById('status1');
+  const result = document.getElementById('result1');
+
+  status.className = 'status loading';
+  status.textContent = `Fetching ${url} ...`;
+
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const games = data.games || [];
+    const tourneyGames = games.filter(g => {
+      const game = g.game || g;
+      const away = game.away || (g.teams && g.teams[0]) || {};
+      const home = game.home || (g.teams && g.teams[1]) || {};
+      return away.seed && home.seed;
+    });
+    status.className = 'status success';
+    status.textContent = `SUCCESS — ${tourneyGames.length} tournament games found (CORS is allowed!)`;
+    result.textContent = JSON.stringify(tourneyGames.slice(0, 3), null, 2) + `\n\n... (${tourneyGames.length} total)`;
+  } catch (e) {
+    status.className = 'status fail';
+    status.textContent = `FAILED — ${e.message} (CORS blocked as expected)`;
+    result.textContent = e.toString();
+  }
+}
+
+async function testProxy() {
+  const date = document.getElementById('testDate').value;
+  const proxyBase = document.getElementById('proxyUrl').value.replace(/\/$/, '');
+  const url = `${proxyBase}/api/scores?date=${date}`;
+  const status = document.getElementById('status2');
+  const result = document.getElementById('result2');
+
+  if (proxyBase.includes('YOUR-PROJECT')) {
+    status.className = 'status fail';
+    status.textContent = 'Please enter your Vercel proxy URL first';
+    return;
+  }
+
+  status.className = 'status loading';
+  status.textContent = `Fetching ${url} ...`;
+
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const games = data.games || [];
+    const tourneyGames = games.filter(g => {
+      const game = g.game || g;
+      const away = game.away || (g.teams && g.teams[0]) || {};
+      const home = game.home || (g.teams && g.teams[1]) || {};
+      return away.seed && home.seed;
+    });
+    status.className = 'status success';
+    status.textContent = `SUCCESS — ${tourneyGames.length} tournament games found via proxy!`;
+    result.textContent = JSON.stringify(tourneyGames.slice(0, 3), null, 2) + `\n\n... (${tourneyGames.length} total)`;
+  } catch (e) {
+    status.className = 'status fail';
+    status.textContent = `FAILED — ${e.message}`;
+    result.textContent = e.toString();
+  }
+}
+</script>
+
+</body>
+</html>
