@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T01:48:58Z",
+  "lastUpdated": "2026-03-21T01:56:16Z",
   "rounds": [
     {
       "round": 1,
@@ -457,12 +457,12 @@
           "away": {
             "team": "UCF",
             "seed": 10,
-            "score": 65
+            "score": 69
           },
           "home": {
             "team": "UCLA",
             "seed": 7,
-            "score": 71
+            "score": 73
           }
         },
         {
@@ -491,12 +491,12 @@
           "away": {
             "team": "Prairie View",
             "seed": 16,
-            "score": 0
+            "score": 15
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 5
+            "score": 17
           }
         },
         {
@@ -519,7 +519,7 @@
         {
           "gameID": "6534603",
           "date": "2026-03-20",
-          "startTime": "9:15 PM CT",
+          "startTime": "9:25 PM CT",
           "network": "TBS",
           "gameState": "pre",
           "away": {
