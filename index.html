@@ -917,7 +917,7 @@ async function fetchLiveResults() {
   if (!anyData) throw new Error('No data returned from API');
 
   return {
-    lastUpdated: new Date().toLocaleString(),
+    lastUpdated: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }) + ' CT',
     source: 'live',
     rounds
   };
@@ -1052,7 +1052,12 @@ function renderResults() {
   const sourceLabel = dataSource === 'live'
     ? '<span class="data-source-note live">LIVE from NCAA API</span>'
     : '<span class="data-source-note fallback">Static fallback data</span>';
-  note.innerHTML = 'Updated: ' + tournamentData.lastUpdated + ' ' + sourceLabel;
+  const rawTs = tournamentData.lastUpdated;
+  const tsDate = new Date(rawTs);
+  const displayTs = (!isNaN(tsDate) && /^\d{4}-\d{2}-\d{2}T/.test(rawTs))
+    ? tsDate.toLocaleString('en-US', { timeZone: 'America/Chicago' }) + ' CT'
+    : rawTs;
+  note.innerHTML = 'Updated: ' + displayTs + ' ' + sourceLabel;
 
   let html = '';
 
