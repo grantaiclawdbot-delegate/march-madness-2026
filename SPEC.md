@@ -146,6 +146,16 @@ A running tally of each participant's total winnings:
 2. **Sorted by total** — Ranked from highest to lowest earnings.
 3. **Win count** — Shows number of games won alongside dollar total.
 
+### Tab 4: My Numbers
+
+A reference table showing each participant's grid squares expressed as number pairs:
+
+1. **Reads grid data** — Iterates all 100 cells in `gridData` and extracts the Y-axis number (`gridData.yAxis[y]`) and X-axis number (`gridData.xAxis[x]`) for each occupied cell.
+2. **Groups by name** — Collects all Y/X number pairs for each unique participant name. If axis numbers haven't been set yet, shows `?` in place of the digit.
+3. **Sorted alphabetically** — Participants listed A–Z (case-insensitive).
+4. **Table columns** — Name | Squares (Y/X as comma-separated pairs, e.g., `3/2, 0/7, 5/1`) | # (count of squares).
+5. **Live updates** — Re-renders on Save, Clear All, and page load.
+
 ---
 
 ## Data Sources
@@ -303,7 +313,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
-- **Tab persistence** — `mm_active_tab` stores the last active tab index (0 = Grid Setup, 1 = Results Tracker, 2 = Leaderboard). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
+- **Tab persistence** — `mm_active_tab` stores the last active tab name (`grid`, `results`, `leaderboard`, `mynumbers`). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
 - **Results section states** — `mm_results_sections` stores an object of `{ roundNumber: boolean }` pairs where `true` = expanded. Written on every toggle and when a round is auto-expanded. Read on every `renderResults()` call to restore state. Default (no key) = all collapsed except live rounds.
 - **Live round tracking** — `mm_results_live_rounds` stores `{ roundNumber: true }` for every round that has ever been seen in a live/in-progress state. Used to distinguish "newly live" rounds (auto-expand override) from rounds the user has already had a chance to interact with (respect `mm_results_sections`).
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }`. Teams are nested directly inside `game` as `away` and `home` objects. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
