@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T23:37:21Z",
+  "lastUpdated": "2026-03-21T23:42:21Z",
   "rounds": [
     {
       "round": 1,
@@ -596,16 +596,16 @@
           "date": "2026-03-21",
           "startTime": "4:25 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "TCU",
             "seed": 9,
-            "score": 52
+            "score": 58
           },
           "home": {
             "team": "Duke",
             "seed": 1,
-            "score": 74
+            "score": 81
           }
         },
         {
@@ -617,12 +617,12 @@
           "away": {
             "team": "Texas A&M",
             "seed": 10,
-            "score": 31
+            "score": 33
           },
           "home": {
             "team": "Houston",
             "seed": 2,
-            "score": 54
+            "score": 56
           }
         },
         {
@@ -634,18 +634,18 @@
           "away": {
             "team": "Texas",
             "seed": 11,
-            "score": 19
+            "score": 20
           },
           "home": {
             "team": "Gonzaga",
             "seed": 3,
-            "score": 23
+            "score": 28
           }
         },
         {
           "gameID": "6534634",
           "date": "2026-03-21",
-          "startTime": "6:50 PM CT",
+          "startTime": "7:15 PM CT",
           "network": "CBS",
           "gameState": "pre",
           "away": {
