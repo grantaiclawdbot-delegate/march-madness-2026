@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T01:32:10Z",
+  "lastUpdated": "2026-03-21T01:44:17Z",
   "rounds": [
     {
       "round": 1,
@@ -436,7 +436,7 @@
           "date": "2026-03-20",
           "startTime": "6:25 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "UNI",
             "seed": 12,
@@ -457,12 +457,12 @@
           "away": {
             "team": "UCF",
             "seed": 10,
-            "score": 56
+            "score": 62
           },
           "home": {
             "team": "UCLA",
             "seed": 7,
-            "score": 63
+            "score": 68
           }
         },
         {
@@ -470,11 +470,11 @@
           "date": "2026-03-20",
           "startTime": "6:35 PM CT",
           "network": "truTV",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Queens (NC)",
             "seed": 15,
-            "score": 69
+            "score": 71
           },
           "home": {
             "team": "Purdue",
@@ -487,22 +487,22 @@
           "date": "2026-03-20",
           "startTime": "8:43 PM CT",
           "network": "TNT",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Prairie View",
             "seed": 16,
-            "score": null
+            "score": 0
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": null
+            "score": 0
           }
         },
         {
           "gameID": "6534599",
           "date": "2026-03-20",
-          "startTime": "8:45 PM CT",
+          "startTime": "9:07 PM CT",
           "network": "CBS",
           "gameState": "pre",
           "away": {
@@ -519,7 +519,7 @@
         {
           "gameID": "6534603",
           "date": "2026-03-20",
-          "startTime": "9:00 PM CT",
+          "startTime": "9:15 PM CT",
           "network": "TBS",
           "gameState": "pre",
           "away": {
@@ -536,7 +536,7 @@
         {
           "gameID": "6534618",
           "date": "2026-03-20",
-          "startTime": "9:10 PM CT",
+          "startTime": "9:07 PM CT",
           "network": "truTV",
           "gameState": "pre",
           "away": {
