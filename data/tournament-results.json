@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T04:12:22Z",
+  "lastUpdated": "2026-03-21T04:17:22Z",
   "rounds": [
     {
       "round": 1,
@@ -504,7 +504,7 @@
           "date": "2026-03-20",
           "startTime": "9:07 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "California Baptist",
             "seed": 13,
@@ -513,7 +513,7 @@
           "home": {
             "team": "Kansas",
             "seed": 4,
-            "score": 66
+            "score": 68
           }
         },
         {
@@ -525,12 +525,12 @@
           "away": {
             "team": "Furman",
             "seed": 15,
-            "score": 52
+            "score": 55
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": 61
+            "score": 63
           }
         },
         {
@@ -542,12 +542,12 @@
           "away": {
             "team": "Missouri",
             "seed": 10,
-            "score": 54
+            "score": 57
           },
           "home": {
             "team": "Miami (FL)",
             "seed": 7,
-            "score": 63
+            "score": 65
           }
         }
       ]
