@@ -143,8 +143,10 @@ Displays game results and maps each completed game to a winning square/participa
 A running tally of each participant's total winnings:
 
 1. **Aggregate by person** — Sums all payouts won by each participant across all completed games.
-2. **Sorted by total** — Ranked from highest to lowest earnings.
+2. **Default sort** — Ranked from highest to lowest earnings (Total descending).
 3. **Win count** — Shows number of games won alongside dollar total.
+4. **Sortable columns** — Clicking the **Name**, **Wins**, or **Total** column header sorts the table by that column. The `#` column always shows the ordinal rank within the current sort. Clicking the active column toggles between ascending (↑) and descending (↓). Clicking a different column defaults to descending for numeric columns (Wins, Total) and ascending for Name. The active column header is highlighted white with an arrow indicator.
+5. **Persisted sort** — Sort column and direction are saved to `localStorage` under key `mm_lb_sort` (object `{ col, dir }`) and restored on page load.
 
 ### Tab 4: Numbers
 
