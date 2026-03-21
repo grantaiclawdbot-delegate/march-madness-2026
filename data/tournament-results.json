@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T03:02:22Z",
+  "lastUpdated": "2026-03-21T03:07:22Z",
   "rounds": [
     {
       "round": 1,
@@ -491,12 +491,12 @@
           "away": {
             "team": "Prairie View",
             "seed": 16,
-            "score": 27
+            "score": 31
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 71
+            "score": 75
           }
         },
         {
