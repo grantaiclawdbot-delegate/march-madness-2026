@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T02:37:22Z",
+  "lastUpdated": "2026-03-21T02:42:22Z",
   "rounds": [
     {
       "round": 1,
@@ -513,7 +513,7 @@
           "home": {
             "team": "Kansas",
             "seed": 4,
-            "score": 23
+            "score": 25
           }
         },
         {
@@ -521,16 +521,16 @@
           "date": "2026-03-20",
           "startTime": "9:31 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Furman",
             "seed": 15,
-            "score": null
+            "score": 10
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": null
+            "score": 14
           }
         },
         {
@@ -547,7 +547,7 @@
           "home": {
             "team": "Miami (FL)",
             "seed": 7,
-            "score": 21
+            "score": 23
           }
         }
       ]
