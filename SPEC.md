@@ -250,7 +250,7 @@ The Grid Setup table on the B version has additional mobile-specific enhancement
 
 - **Horizontal scrolling with sticky Y-axis column** — The table scrolls horizontally while the first column (Y-axis row labels) stays frozen/sticky so it remains visible while the user swipes right.
 - **Scroll shadow hint** — A subtle right-edge gradient shadow overlays the table container to signal that the table is scrollable. The shadow fades out automatically when the user reaches the right end of the table (implemented via a scroll event listener that toggles a CSS class).
-- **Reduced cell size** — Cell padding and font sizes are smaller on mobile to fit more content on screen.
+- **Reduced cell size** — Cell padding and font sizes are smaller on mobile to fit more content on screen. Cell name font size is 0.58rem (reduced from 0.68rem to minimize text wrapping within the 72px-wide cells).
 - **Vertical axis label visible on mobile** — The vertical "Worse Seed (Away)" label is shown on mobile at a reduced font size (0.65rem) and padding. It is visible at the initial (unscrolled) position and scrolls with the grid when the user swipes right. There is no overlap with the sticky first column: the label scrolls fully off-screen at precisely the same point the sticky column engages.
 
 Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic).
