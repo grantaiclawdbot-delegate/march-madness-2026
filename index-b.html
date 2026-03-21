@@ -906,39 +906,6 @@ function renderResults() {
     const preGames = round.games.filter(g => g.gameState === 'pre');
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
-    if (finalGames.length > 0) {
-      html += `<table class="results-table">`;
-      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
-
-      finalGames.forEach(game => {
-        const coord = getWinningCoord(game);
-        const away = game.away;
-        const home = game.home;
-        const awayWon = away.score > home.score;
-
-        html += `<tr>`;
-        html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}<br>${escHtml(game.startTime)}</td>`;
-        html += `<td>`;
-        html += `<span class="seed-badge">${away.seed}</span><span class="${awayWon ? 'winner-team' : 'loser-team'}">${escHtml(away.team)}</span>`;
-        html += ` vs `;
-        html += `<span class="seed-badge">${home.seed}</span><span class="${!awayWon ? 'winner-team' : 'loser-team'}">${escHtml(home.team)}</span>`;
-        html += `</td>`;
-        html += `<td><span class="${awayWon ? 'winner-team' : 'loser-team'}">${away.score}</span> – <span class="${!awayWon ? 'winner-team' : 'loser-team'}">${home.score}</span></td>`;
-
-        if (coord && round.payout > 0) {
-          const sq = lookupGridSquare(coord.y, coord.x);
-          html += `<td><span class="coord-badge">${coord.y} / ${coord.x}</span></td>`;
-          html += `<td class="name-cell">${escHtml(sq.name)}</td>`;
-          html += `<td class="payout-badge">$${round.payout}</td>`;
-        } else {
-          html += `<td>—</td><td>—</td>`;
-          if (round.payout) html += `<td>—</td>`;
-        }
-        html += `</tr>`;
-      });
-      html += `</table>`;
-    }
-
     if (liveGames.length > 0) {
       html += `<table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
@@ -970,6 +937,39 @@ function renderResults() {
     if (tbdGames.length > 0) {
       html += `<table class="results-table">`;
       html += `<tr><th colspan="3" style="text-align:center; color:var(--text-muted);">${tbdGames.length} game${tbdGames.length > 1 ? 's' : ''} — Matchups TBD</th></tr>`;
+      html += `</table>`;
+    }
+
+    if (finalGames.length > 0) {
+      html += `<table class="results-table">`;
+      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
+
+      finalGames.forEach(game => {
+        const coord = getWinningCoord(game);
+        const away = game.away;
+        const home = game.home;
+        const awayWon = away.score > home.score;
+
+        html += `<tr>`;
+        html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}<br>${escHtml(game.startTime)}</td>`;
+        html += `<td>`;
+        html += `<span class="seed-badge">${away.seed}</span><span class="${awayWon ? 'winner-team' : 'loser-team'}">${escHtml(away.team)}</span>`;
+        html += ` vs `;
+        html += `<span class="seed-badge">${home.seed}</span><span class="${!awayWon ? 'winner-team' : 'loser-team'}">${escHtml(home.team)}</span>`;
+        html += `</td>`;
+        html += `<td><span class="${awayWon ? 'winner-team' : 'loser-team'}">${away.score}</span> – <span class="${!awayWon ? 'winner-team' : 'loser-team'}">${home.score}</span></td>`;
+
+        if (coord && round.payout > 0) {
+          const sq = lookupGridSquare(coord.y, coord.x);
+          html += `<td><span class="coord-badge">${coord.y} / ${coord.x}</span></td>`;
+          html += `<td class="name-cell">${escHtml(sq.name)}</td>`;
+          html += `<td class="payout-badge">$${round.payout}</td>`;
+        } else {
+          html += `<td>—</td><td>—</td>`;
+          if (round.payout) html += `<td>—</td>`;
+        }
+        html += `</tr>`;
+      });
       html += `</table>`;
     }
 
