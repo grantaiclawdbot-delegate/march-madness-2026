@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T22:12:21Z",
+  "lastUpdated": "2026-03-21T22:17:21Z",
   "rounds": [
     {
       "round": 1,
@@ -600,7 +600,7 @@
           "away": {
             "team": "TCU",
             "seed": 9,
-            "score": 25
+            "score": 27
           },
           "home": {
             "team": "Duke",
@@ -613,16 +613,16 @@
           "date": "2026-03-21",
           "startTime": "5:10 PM CT",
           "network": "TNT",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Texas A&M",
             "seed": 10,
-            "score": 0
+            "score": 5
           },
           "home": {
             "team": "Houston",
             "seed": 2,
-            "score": 0
+            "score": 4
           }
         },
         {
