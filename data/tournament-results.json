@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T01:25:12Z",
+  "lastUpdated": "2026-03-21T01:32:10Z",
   "rounds": [
     {
       "round": 1,
@@ -440,12 +440,12 @@
           "away": {
             "team": "UNI",
             "seed": 12,
-            "score": 50
+            "score": 53
           },
           "home": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 73
+            "score": 79
           }
         },
         {
@@ -457,7 +457,7 @@
           "away": {
             "team": "UCF",
             "seed": 10,
-            "score": 51
+            "score": 56
           },
           "home": {
             "team": "UCLA",
@@ -474,12 +474,12 @@
           "away": {
             "team": "Queens (NC)",
             "seed": 15,
-            "score": 60
+            "score": 69
           },
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 98
+            "score": 104
           }
         },
         {
