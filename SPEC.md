@@ -280,6 +280,7 @@ March Madness Bracket/
 ├── index.html                      # Version B — mobile-optimized UI (blue title) — main URL
 ├── index-b.html                    # Version A — original UI (red title), desktop-first
 ├── update_scores.py                # Score update automation script (see below)
+├── update_matchups.py              # Matchup population script for future rounds (see below)
 ├── SPEC.md                         # This file — full project specification
 ├── .gitignore                      # Excludes .claude/ directory
 ├── squares config.png              # Original pool grid image (source for names)
@@ -326,6 +327,59 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - **Live round tracking** — `mm_results_live_rounds` stores `{ roundNumber: true }` for every round that has ever been seen in a live/in-progress state. Used to distinguish "newly live" rounds (auto-expand override) from rounds the user has already had a chance to interact with (respect `mm_results_sections`).
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }`. Teams are nested directly inside `game` as `away` and `home` objects. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
 - **Round detection** — Games are assigned to rounds by matching their date against `ROUND_SCHEDULE` (a hardcoded date-to-round mapping in the JS).
+
+## Matchup Population Script (`update_matchups.py`)
+
+`update_matchups.py` discovers and populates future-round matchups once they are announced by the NCAA. It is separate from `update_scores.py` (which only updates scores for past/current games).
+
+### What it does
+
+1. **Fetches matchup data** from the NCAA API for **all tournament dates** (March 21–April 7 2026), not just dates up to today. This lets it discover Sweet 16, Elite Eight, Final Four, and Championship matchups as soon as they appear.
+2. **Adds new games** — If the API returns a game for a tournament date that isn't in `data/tournament-results.json` yet (e.g., a Sweet 16 matchup that was just determined), it adds that game to the appropriate round.
+3. **Fills in TBD games** — If a game already exists in the JSON with missing or TBD team info (empty team name, seed = 0, startTime = "TBA", or empty network), it updates those fields from the API.
+4. **Updates all three data locations** — Same as `update_scores.py`: writes `data/tournament-results.json`, then replaces `FALLBACK_RESULTS` in both `index.html` and `index-b.html`.
+5. **Commits and pushes** — Commits all three files together and pushes to master if anything changed.
+
+### When to run
+
+Run `update_matchups.py` after each round concludes to pick up the matchups for the next round:
+
+- After Round 1 (Mar 19–20) ends → run to get Round 2 matchups
+- After Round 2 (Mar 21–22) ends → run to get Sweet 16 matchups
+- After Sweet 16 (Mar 27–28) ends → run to get Elite Eight matchups
+- After Elite Eight (Mar 29–30) ends → run to get Final Four matchups
+- After Final Four (Apr 4) ends → run to get Championship matchup
+
+It is safe to run at any time — it is idempotent and only commits when data actually changed.
+
+### Usage
+
+```bash
+python update_matchups.py
+```
+
+No arguments needed. Run from the repo root.
+
+### Key behaviors
+
+- **Idempotent** — safe to run multiple times; only commits when data actually changed
+- **Never overwrites scores** — only fills in missing matchup fields; scores on completed games are untouched
+- **Checks all future dates** — unlike `update_scores.py`, fetches all tournament dates regardless of whether they're in the past or future
+- **Skips undetermined teams** — if a game on the API still has TBD/unknown team names (e.g., matchups not yet set), it skips that game and waits for the next run
+- **ET → CT conversion** — same `et_to_ct()` logic as `update_scores.py`
+- **Logs to `update_matchups.log`** in the repo root
+
+### Difference from `update_scores.py`
+
+| | `update_scores.py` | `update_matchups.py` |
+|---|---|---|
+| **Dates fetched** | Only dates ≤ today | All tournament dates (Mar 21–Apr 7) |
+| **Purpose** | Update live/final scores | Populate team names, seeds, times, networks |
+| **Touches scores?** | Yes | Never overwrites existing scores |
+| **When to run** | During games (live updates) | After each round concludes |
+| **Log file** | `update_scores.log` | `update_matchups.log` |
+
+---
 
 ## How to Recreate This Project
 
