@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T03:07:22Z",
+  "lastUpdated": "2026-03-21T03:12:22Z",
   "rounds": [
     {
       "round": 1,
@@ -491,12 +491,12 @@
           "away": {
             "team": "Prairie View",
             "seed": 16,
-            "score": 31
+            "score": 33
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 75
+            "score": 79
           }
         },
         {
@@ -525,12 +525,12 @@
           "away": {
             "team": "Furman",
             "seed": 15,
-            "score": 21
+            "score": 25
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": 26
+            "score": 29
           }
         },
         {
