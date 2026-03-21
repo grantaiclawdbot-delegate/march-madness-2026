@@ -162,6 +162,15 @@ A running tally of each participant's total winnings:
 4. **Sortable columns** — Clicking the **Name**, **Wins**, or **Total** column header sorts the table by that column. The `#` column always shows the ordinal rank within the current sort. Clicking the active column toggles between ascending (↑) and descending (↓). Clicking a different column defaults to descending for numeric columns (Wins, Total) and ascending for Name. The active column header is highlighted white with an arrow indicator.
 5. **Persisted sort** — Sort column and direction are saved to `localStorage` under key `mm_lb_sort` (object `{ col, dir }`) and restored on page load.
 
+#### B Version Only: Expandable Round Breakdown (index-b.html)
+
+`index-b.html` adds per-person expandable rows to the Wins tab:
+
+6. **Expandable rows** — Each person's main row has a **+** / **−** toggle icon (22×22px circle, left of the name, styled like the Results tab collapsible icons). Clicking the row expands or collapses sub-rows showing that person's wins broken down by round.
+7. **Sub-rows** — One sub-row per round in which the person won at least one game. Each shows the round name and dollar amount won (e.g., `Round of 64: $50`). If a person won multiple games in the same round, the count is shown (e.g., `Round of 32 (2 wins): $200`). Sub-rows appear in tournament order (Round of 64 → Championship).
+8. **Persisted expand state** — Expanded/collapsed state for each person is saved to `localStorage` under key `mm_lb_expand` (object keyed by name: `{ "PlayerName": true/false }` where `true` = expanded). Restored on every page load and after sorting.
+9. **Expand All / Collapse All button** — A button at the top-right of the Wins tab expands all rows at once (label: "Expand All") or collapses all (label: "Collapse All"). The label updates dynamically: shows "Expand All" if any row is collapsed, "Collapse All" if all are expanded.
+
 ---
 
 ## Data Sources
