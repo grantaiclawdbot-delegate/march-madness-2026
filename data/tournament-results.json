@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T22:27:21Z",
+  "lastUpdated": "2026-03-21T22:32:21Z",
   "rounds": [
     {
       "round": 1,
@@ -617,12 +617,12 @@
           "away": {
             "team": "Texas A&M",
             "seed": 10,
-            "score": 11
+            "score": 13
           },
           "home": {
             "team": "Houston",
             "seed": 2,
-            "score": 15
+            "score": 17
           }
         },
         {
