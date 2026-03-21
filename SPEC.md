@@ -247,15 +247,15 @@ Two versions of the UI are deployed for A/B testing:
 | Version | File | URL | Notes |
 |---|---|---|---|
 | A (main) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
-| B (fresh copy) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Reset to exact copy of `index.html` on 2026-03-21; ready for new A/B experiment |
+| B (fresh copy) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Blue title (`#1565c0`) for visual differentiation from version A |
 
-**As of 2026-03-21:** `index-b.html` was reset to an exact copy of `index.html` to start fresh A/B testing. Both files are now identical. Future A/B tests should diverge from this baseline.
+**As of 2026-03-21:** `index-b.html` was reset to an exact copy of `index.html` to start fresh A/B testing. The first divergence from this baseline: the header title color in `index-b.html` was changed to **blue** (`#1565c0`) for visual differentiation.
 
 ### Sticky Tab Navigation
 
 The tab bar (`.tabs` nav) uses `position: sticky; top: 0; z-index: 100` in both versions, keeping it locked at the top of the viewport as the user scrolls down through long tab content.
 
-Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic). As of 2026-03-21, both versions also share identical UI code — `index-b.html` was reset to match `index.html` to start fresh A/B testing.
+Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic). UI differs: `index-b.html` uses a blue title (`#1565c0`); `index.html` uses green (`#00c853`).
 
 ## Project Structure
 
@@ -302,7 +302,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 
 ### Key Implementation Details
 
-- **Header title color** — In both `index.html` and `index-b.html`, the "March Madness 2026" title is styled in **green** (`#00c853`). The subtitle span ("— Squares Pool") uses the default text color in both.
+- **Header title color** — `index.html` uses **green** (`#00c853`); `index-b.html` uses **blue** (`#1565c0`) for visual differentiation in A/B testing. The subtitle span ("— Squares Pool") uses the default text color in both.
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
