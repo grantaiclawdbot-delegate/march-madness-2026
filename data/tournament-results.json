@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T01:02:58Z",
+  "lastUpdated": "2026-03-21T01:14:56Z",
   "rounds": [
     {
       "round": 1,
@@ -419,16 +419,16 @@
           "date": "2026-03-20",
           "startTime": "5:50 PM CT",
           "network": "TNT",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 63
+            "score": 67
           },
           "home": {
             "team": "Clemson",
             "seed": 8,
-            "score": 57
+            "score": 61
           }
         },
         {
@@ -440,12 +440,12 @@
           "away": {
             "team": "UNI",
             "seed": 12,
-            "score": 40
+            "score": 44
           },
           "home": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 57
+            "score": 64
           }
         },
         {
@@ -457,12 +457,12 @@
           "away": {
             "team": "UCF",
             "seed": 10,
-            "score": 43
+            "score": 44
           },
           "home": {
             "team": "UCLA",
             "seed": 7,
-            "score": 50
+            "score": 58
           }
         },
         {
@@ -474,18 +474,18 @@
           "away": {
             "team": "Queens (NC)",
             "seed": 15,
-            "score": 38
+            "score": 49
           },
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 65
+            "score": 78
           }
         },
         {
           "gameID": "6534604",
           "date": "2026-03-20",
-          "startTime": "8:25 PM CT",
+          "startTime": "8:43 PM CT",
           "network": "TNT",
           "gameState": "pre",
           "away": {
