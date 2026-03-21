@@ -155,8 +155,9 @@ A reference table showing each participant's grid squares expressed as number pa
 1. **Reads grid data** — Iterates all 100 cells in `gridData` and extracts the Y-axis number (`gridData.yAxis[y]`) and X-axis number (`gridData.xAxis[x]`) for each occupied cell.
 2. **Groups by name** — Collects all Y/X number pairs for each unique participant name. If axis numbers haven't been set yet, shows `?` in place of the digit.
 3. **Sorted alphabetically** — Participants listed A–Z (case-insensitive).
-4. **Table columns** — Name | Squares (Y/X as comma-separated pairs, e.g., `3/2, 0/7, 5/1`) | # (count of squares).
-5. **Live updates** — Re-renders on Save, Clear All, and page load.
+4. **Pairs sorted by Y value** — Within each participant's list of squares, pairs are sorted ascending by the Y-axis value (first number). Pairs with `?` sort last.
+5. **Table columns** — Name | Squares (Y/X as comma-separated pairs, e.g., `0/7, 3/2, 5/1`) | # (count of squares).
+6. **Live updates** — Re-renders on Save, Clear All, and page load.
 
 ---
 
