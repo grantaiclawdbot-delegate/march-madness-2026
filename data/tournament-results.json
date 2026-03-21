@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T18:57:22Z",
+  "lastUpdated": "2026-03-21T19:02:22Z",
   "rounds": [
     {
       "round": 1,
@@ -583,12 +583,12 @@
           "away": {
             "team": "Louisville",
             "seed": 6,
-            "score": 7
+            "score": 12
           },
           "home": {
             "team": "Michigan St.",
             "seed": 3,
-            "score": 7
+            "score": 14
           }
         },
         {
