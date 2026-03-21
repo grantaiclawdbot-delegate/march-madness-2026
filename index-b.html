@@ -1349,19 +1349,6 @@ function renderLeaderboard() {
       totals[sq.name].byRound[round.name].count++;
     });
   });
-
-  // TEMP TEST DATA — fake wins for expandable row testing (revert to remove)
-  ['Grant P', 'Doug C'].forEach(n => { if (!totals[n]) totals[n] = { wins: 0, total: 0, byRound: {} }; });
-  totals['Grant P'].wins += 2; totals['Grant P'].total += 200;
-  if (!totals['Grant P'].byRound['Round of 32']) totals['Grant P'].byRound['Round of 32'] = { total: 0, count: 0 };
-  totals['Grant P'].byRound['Round of 32'].total += 200; totals['Grant P'].byRound['Round of 32'].count += 2;
-  totals['Doug C'].wins += 3; totals['Doug C'].total += 500;
-  if (!totals['Doug C'].byRound['Round of 32']) totals['Doug C'].byRound['Round of 32'] = { total: 0, count: 0 };
-  totals['Doug C'].byRound['Round of 32'].total += 100; totals['Doug C'].byRound['Round of 32'].count += 1;
-  if (!totals['Doug C'].byRound['Sweet 16']) totals['Doug C'].byRound['Sweet 16'] = { total: 0, count: 0 };
-  totals['Doug C'].byRound['Sweet 16'].total += 400; totals['Doug C'].byRound['Sweet 16'].count += 2;
-  // END TEMP TEST DATA
-
   const sorted = Object.entries(totals).sort((a, b) => {
     let cmp;
     if (lbSort.col === 'name') {
