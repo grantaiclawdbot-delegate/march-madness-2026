@@ -244,44 +244,25 @@ Each game object includes:
 
 Two versions of the UI are deployed for A/B testing:
 
-| Version | File | URL | Differences |
+| Version | File | URL | Notes |
 |---|---|---|---|
-| B (mobile-optimized) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
-| A (original) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Red title (`#ef5350`), desktop-first; tab mobile CSS added |
+| A (main) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
+| B (fresh copy) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Reset to exact copy of `index.html` on 2026-03-21; ready for new A/B experiment |
+
+**As of 2026-03-21:** `index-b.html` was reset to an exact copy of `index.html` to start fresh A/B testing. Both files are now identical. Future A/B tests should diverge from this baseline.
 
 ### Sticky Tab Navigation
 
 The tab bar (`.tabs` nav) uses `position: sticky; top: 0; z-index: 100` in both versions, keeping it locked at the top of the viewport as the user scrolls down through long tab content.
 
-### Version B mobile changes
-
-- Blue title color instead of red
-- Tab labels shortened: "Grid Setup" → "Grid", "Leaderboard" → "Wins", "My Numbers" → "Numbers"
-- Tighter tab buttons that stretch to fill width on small screens (padding 10px 8px, font-size 0.78rem, flex: 1, min-width: 0)
-- Grid cells reduced from 80px to 72px wide on mobile (increased from 56px to reduce name text wrapping), with a "← Scroll →" hint
-- `overflow-x: auto` scroll wrappers on all results tables
-- Reduced table cell padding and font sizes on mobile
-- Reduced tab content padding (12px vs 24px) on mobile
-- Wins (Leaderboard) uses full width on mobile
-- All changes are gated behind a `@media (max-width: 600px)` query
-
-### Version B — Grid table (Tab 1) mobile improvements
-
-The Grid table on the B version has additional mobile-specific enhancements:
-
-- **Horizontal scrolling with sticky Y-axis column** — The table scrolls horizontally while the first column (Y-axis row labels) stays frozen/sticky so it remains visible while the user swipes right.
-- **Scroll shadow hint** — A subtle right-edge gradient shadow overlays the table container to signal that the table is scrollable. The shadow fades out automatically when the user reaches the right end of the table (implemented via a scroll event listener that toggles a CSS class).
-- **Reduced cell size** — Cell padding and font sizes are smaller on mobile to fit more content on screen. Cell name font size is 0.58rem (reduced from 0.68rem to minimize text wrapping within the 72px-wide cells).
-- **Vertical axis label visible on mobile** — The vertical "Worse Seed (Away)" label is shown on mobile at a reduced font size (0.65rem) and padding. It is visible at the initial (unscrolled) position and scrolls with the grid when the user swipes right. There is no overlap with the sticky first column: the label scrolls fully off-screen at precisely the same point the sticky column engages.
-
-Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic).
+Both versions share identical data (same `DEFAULT_GRID`, `FALLBACK_RESULTS`, `ROUND_SCHEDULE`, and data fetching logic). As of 2026-03-21, both versions also share identical UI code — `index-b.html` was reset to match `index.html` to start fresh A/B testing.
 
 ## Project Structure
 
 ```
 March Madness Bracket/
-├── index.html                      # Version B — mobile-optimized UI (blue title) — main URL
-├── index-b.html                    # Version A — original UI (red title), desktop-first
+├── index.html                      # Version A (main) — mobile-optimized UI (blue title) — main URL
+├── index-b.html                    # Version B — reset to exact copy of index.html on 2026-03-21
 ├── update_scores.py                # Score update automation script (see below)
 ├── update_matchups.py              # Matchup population script for future rounds (see below)
 ├── SPEC.md                         # This file — full project specification

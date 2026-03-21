@@ -15,6 +15,7 @@
       --text-muted: #8899aa;
       --green: #4caf50;
       --red: #ef5350;
+      --blue: #1976d2;
       --border: #2d4050;
     }
 
@@ -48,6 +49,7 @@
       font-size: 0.9rem;
       color: var(--accent2);
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .tabs {
@@ -78,7 +80,35 @@
     .tab-content.active { display: block; }
 
     /* Tab 1: Grid Setup */
-    .grid-container { overflow-x: auto; }
+    .grid-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .grid-scroll-outer { position: relative; }
+
+    .grid-scroll-outer::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 28px;
+      background: linear-gradient(to left, rgba(15, 25, 35, 0.85), transparent);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.2s;
+      display: none;
+    }
+
+    .grid-scroll-outer.at-end::after { opacity: 0; }
+
+    .scroll-hint {
+      display: none;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 4px 0 8px;
+    }
 
     .grid-header {
       display: flex;
@@ -160,6 +190,14 @@
       font-weight: 700;
     }
 
+    /* Sticky first column — row labels stay visible while scrolling */
+    table.pool-grid th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: var(--surface2);
+    }
+
     table.pool-grid .corner {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -223,12 +261,44 @@
     .data-source-note.fallback { background: #e65100; color: #ffcc80; }
 
     .results-section { margin-bottom: 32px; }
-    .results-section h3 {
+    .results-section .round-header {
       font-size: 1rem;
       color: var(--accent2);
       margin-bottom: 12px;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      gap: 8px;
+      font-weight: inherit;
+    }
+    .results-section .round-header:hover { opacity: 0.8; }
+    .round-toggle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: #fff;
+    }
+    .results-section.collapsed .round-toggle-icon::before { content: '+'; }
+    .results-section:not(.collapsed) .round-toggle-icon::before { content: '−'; }
+    .results-section.collapsed .round-body { display: none; }
+    .results-section:not(.collapsed) .round-body { display: block; }
+
+    .table-scroll-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .results-table {
@@ -245,6 +315,7 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     .results-table td {
@@ -384,7 +455,19 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ============================================================
+       MOBILE STYLES — optimized for ~375px screens
+       ============================================================ */
     @media (max-width: 600px) {
+      header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      header h1 { font-size: 1.15rem; }
+      .prize-pool { font-size: 0.8rem; }
+
       .tabs { display: flex; }
 
       .tab-btn {
@@ -396,6 +479,73 @@
       }
 
       .tab-content { padding: 12px; }
+
+      /* Grid: wider cells to reduce name wrapping */
+      table.pool-grid th,
+      table.pool-grid td {
+        width: 72px;
+        height: 44px;
+        font-size: 0.72rem;
+      }
+
+      table.pool-grid th:first-child,
+      table.pool-grid td:first-child {
+        width: 60px;
+      }
+
+      table.pool-grid .axis-input {
+        width: 42px;
+        font-size: 0.78rem;
+      }
+
+      .cell-name {
+        font-size: 0.58rem;
+        padding: 2px;
+      }
+
+      .y-axis-label { font-size: 0.65rem; padding-right: 4px; }
+      .x-axis-label { font-size: 0.72rem; }
+
+      .grid-with-labels { justify-content: flex-start; }
+
+      .scroll-hint { display: block; }
+
+      /* Right-edge fade shadow hints that the table is scrollable */
+      .grid-scroll-outer::after { display: block; }
+
+      .grid-header { margin-bottom: 8px; }
+      .grid-header h2 { font-size: 1rem; }
+      .grid-actions button { padding: 8px 12px; font-size: 0.8rem; margin-left: 4px; }
+
+      /* Results: tighter */
+      .results-section { margin-bottom: 20px; }
+      .results-section .round-header { font-size: 0.9rem; margin-bottom: 8px; padding: 10px 0 8px; }
+
+      .results-table th {
+        padding: 8px 8px;
+        font-size: 0.72rem;
+      }
+
+      .results-table td {
+        padding: 8px 8px;
+        font-size: 0.78rem;
+      }
+
+      .seed-badge {
+        font-size: 0.62rem;
+        padding: 1px 4px;
+        min-width: 16px;
+      }
+
+      .coord-badge { font-size: 0.72rem; padding: 2px 6px; }
+
+      .updated-note { font-size: 0.7rem; }
+
+      /* Leaderboard: full width */
+      .leaderboard-table { max-width: 100%; }
+      .leaderboard-table th { padding: 10px 12px; font-size: 0.75rem; }
+      .leaderboard-table td { padding: 10px 12px; font-size: 0.88rem; }
+      .total-cell { font-size: 0.95rem; }
     }
   </style>
 </head>
@@ -423,12 +573,15 @@
       <button id="btnSave" class="save-btn" onclick="saveGrid()" disabled>Save</button>
     </div>
   </div>
-  <div class="grid-container">
-    <div class="grid-with-labels">
-      <div class="y-axis-label">Worse Seed (Away)</div>
-      <div class="grid-and-x-label">
-        <table class="pool-grid" id="poolGrid"></table>
-        <div class="x-axis-label">Better Seed (Home)</div>
+  <div class="scroll-hint">← Scroll to see full grid →</div>
+  <div class="grid-scroll-outer">
+    <div class="grid-container">
+      <div class="grid-with-labels">
+        <div class="y-axis-label">Worse Seed (Away)</div>
+        <div class="grid-and-x-label">
+          <table class="pool-grid" id="poolGrid"></table>
+          <div class="x-axis-label">Better Seed (Home)</div>
+        </div>
       </div>
     </div>
   </div>
@@ -969,12 +1122,13 @@ function renderResults() {
     return a.round - b.round;
   });
   sortedRounds.forEach(round => {
-    html += `<div class="results-section">`;
+    html += `<div class="results-section collapsed" data-round="${round.round}">`;
     const roundTitle = round.round === 1
       ? `Round of 64 - Complete -- $${round.payout} per game`
       : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
     const headerColor = round.round === 1 ? 'color: lightgreen;' : round.round === 2 ? 'color: dodgerblue; font-weight: bold;' : '';
-    html += `<h3 style="${headerColor}">${roundTitle}</h3>`;
+    html += `<h3 class="round-header" style="${headerColor}"><span class="round-toggle-icon"></span><span>${roundTitle}</span></h3>`;
+    html += `<div class="round-body">`;
 
     const finalGames = round.games.filter(g => g.gameState === 'final');
     const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd');
@@ -982,7 +1136,7 @@ function renderResults() {
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
     if (liveGames.length > 0) {
-      html += `<table class="results-table">`;
+      html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
       liveGames.forEach(game => {
         html += `<tr>`;
@@ -992,11 +1146,11 @@ function renderResults() {
         html += `<td style="color:var(--red); font-weight:600;">LIVE</td>`;
         html += `</tr>`;
       });
-      html += `</table>`;
+      html += `</table></div>`;
     }
 
     if (preGames.length > 0) {
-      html += `<table class="results-table">`;
+      html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
       preGames.forEach(game => {
         html += `<tr>`;
@@ -1006,17 +1160,17 @@ function renderResults() {
         html += `<td>${escHtml(game.network)}</td>`;
         html += `</tr>`;
       });
-      html += `</table>`;
+      html += `</table></div>`;
     }
 
     if (tbdGames.length > 0) {
-      html += `<table class="results-table">`;
+      html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th colspan="3" style="text-align:center; color:var(--text-muted);">${tbdGames.length} game${tbdGames.length > 1 ? 's' : ''} — Matchups TBD</th></tr>`;
-      html += `</table>`;
+      html += `</table></div>`;
     }
 
     if (finalGames.length > 0) {
-      html += `<table class="results-table">`;
+      html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
 
       finalGames.forEach(game => {
@@ -1045,13 +1199,59 @@ function renderResults() {
         }
         html += `</tr>`;
       });
-      html += `</table>`;
+      html += `</table></div>`;
     }
 
-    html += `</div>`;
+    html += `</div>`; // close round-body
+    html += `</div>`; // close results-section
   });
 
   container.innerHTML = html;
+
+  // Restore expanded/collapsed states from localStorage, then wire up toggles.
+  // Live sections (rounds with in-progress games) are auto-expanded on first encounter.
+  const sectionStates = (() => {
+    try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
+  })();
+  const seenLiveRounds = (() => {
+    try { return JSON.parse(localStorage.getItem('mm_results_live_rounds')) || {}; } catch { return {}; }
+  })();
+
+  container.querySelectorAll('.results-section').forEach(section => {
+    const round = section.dataset.round;
+    const roundData = tournamentData && tournamentData.rounds.find(r => String(r.round) === round);
+    const hasLive = roundData && roundData.games.some(g =>
+      g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd'
+    );
+
+    if (hasLive && !seenLiveRounds[round]) {
+      // Newly live round — auto-expand and record so user's future collapses are respected
+      section.classList.remove('collapsed');
+      seenLiveRounds[round] = true;
+      localStorage.setItem('mm_results_live_rounds', JSON.stringify(seenLiveRounds));
+      sectionStates[round] = true;
+      localStorage.setItem('mm_results_sections', JSON.stringify(sectionStates));
+    } else if (sectionStates[round] === true) {
+      section.classList.remove('collapsed');
+    }
+
+  });
+
+  // Single delegated click handler — more reliable across all desktop browsers
+  // than attaching individual listeners to h3 elements with display:flex.
+  container.addEventListener('click', (e) => {
+    const header = e.target.closest('.round-header');
+    if (!header) return;
+    const section = header.closest('.results-section');
+    if (!section) return;
+    const round = section.dataset.round;
+    section.classList.toggle('collapsed');
+    const states = (() => {
+      try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
+    })();
+    states[round] = !section.classList.contains('collapsed');
+    localStorage.setItem('mm_results_sections', JSON.stringify(states));
+  });
 }
 
 // ============================================================
@@ -1210,6 +1410,14 @@ async function init() {
   // Load grid (from localStorage or grid-config.json)
   gridData = await loadGrid();
   renderGrid();
+
+  // Hide right-edge shadow when scrolled fully right
+  const gridContainer = document.querySelector('.grid-container');
+  const scrollOuter = document.querySelector('.grid-scroll-outer');
+  gridContainer.addEventListener('scroll', () => {
+    const atEnd = gridContainer.scrollLeft + gridContainer.clientWidth >= gridContainer.scrollWidth - 4;
+    scrollOuter.classList.toggle('at-end', atEnd);
+  });
 
   // Load results (live API first, then static fallback)
   await loadResults();
