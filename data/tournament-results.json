@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T22:02:23Z",
+  "lastUpdated": "2026-03-21T22:07:21Z",
   "rounds": [
     {
       "round": 1,
@@ -600,12 +600,12 @@
           "away": {
             "team": "TCU",
             "seed": 9,
-            "score": 22
+            "score": 23
           },
           "home": {
             "team": "Duke",
             "seed": 1,
-            "score": 29
+            "score": 31
           }
         },
         {
