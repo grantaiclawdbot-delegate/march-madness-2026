@@ -140,7 +140,7 @@ Displays game results and maps each completed game to a winning square/participa
 1. **Fetch scores** — Attempts live NCAA API fetch for each tournament date. Falls back to static JSON, then to embedded data.
 2. **All 6 rounds displayed** — Every round (Round of 64 through Championship) is always shown, even if matchups are not yet determined. First Four is excluded (no payout).
    - **Round order** — Completed rounds sink to the bottom. Specifically, the Round of 64 (round 1) is always rendered last, after the Championship. All other rounds render in natural order (2–6). This is handled in `renderResults()` by sorting rounds before iterating.
-   - **Round header colors** — Applied dynamically based on round number: Round of 64 is light green (complete); Round of 32 is blue (in progress); all other rounds use the default accent color.
+   - **Round header colors** — Applied dynamically based on round number: Round of 64 is light green (complete); Round of 32 is blue and bold (in progress); all other rounds use the default accent color.
    - **Round of 64 title** — Displayed as "Round of 64 - Complete -- $50 per game" to signal the round is finished.
 3. **Determine winning square** — For each completed game (Round 1 onwards), compares seeds and takes last digit of each score to produce Y/X coordinate.
 4. **Show winners** — Displays participant name from the grid, along with payout amount.

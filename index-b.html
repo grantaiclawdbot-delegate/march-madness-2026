@@ -973,7 +973,7 @@ function renderResults() {
     const roundTitle = round.round === 1
       ? `Round of 64 - Complete -- $${round.payout} per game`
       : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
-    const headerColor = round.round === 1 ? 'color: lightgreen;' : round.round === 2 ? 'color: dodgerblue;' : '';
+    const headerColor = round.round === 1 ? 'color: lightgreen;' : round.round === 2 ? 'color: dodgerblue; font-weight: bold;' : '';
     html += `<h3 style="${headerColor}">${roundTitle}</h3>`;
 
     const finalGames = round.games.filter(g => g.gameState === 'final');
