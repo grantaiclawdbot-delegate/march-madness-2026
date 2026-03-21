@@ -963,9 +963,18 @@ function renderResults() {
 
   let html = '';
 
-  tournamentData.rounds.forEach(round => {
+  const sortedRounds = [...tournamentData.rounds].sort((a, b) => {
+    if (a.round === 1) return 1;
+    if (b.round === 1) return -1;
+    return a.round - b.round;
+  });
+  sortedRounds.forEach(round => {
     html += `<div class="results-section">`;
-    html += `<h3>${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}</h3>`;
+    const roundTitle = round.round === 1
+      ? `Round of 64 - Complete -- $${round.payout} per game`
+      : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
+    const headerColor = round.round === 1 ? 'color: lightgreen;' : round.round === 2 ? 'color: dodgerblue;' : '';
+    html += `<h3 style="${headerColor}">${roundTitle}</h3>`;
 
     const finalGames = round.games.filter(g => g.gameState === 'final');
     const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd');
