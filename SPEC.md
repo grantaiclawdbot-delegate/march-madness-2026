@@ -122,7 +122,18 @@ Axis labels: "Better Seed (Home)" centered below the grid, "Worse Seed (Away)" r
 
 Grid was initially populated by reading `squares config.png` (the pool organizer's image of the physical grid).
 
-### Tab 2: Results Tracker
+### Tab 2: Numbers
+
+A reference table showing each participant's grid squares expressed as number pairs:
+
+1. **Reads grid data** — Iterates all 100 cells in `gridData` and extracts the Y-axis number (`gridData.yAxis[y]`) and X-axis number (`gridData.xAxis[x]`) for each occupied cell.
+2. **Groups by name** — Collects all Y/X number pairs for each unique participant name. If axis numbers haven't been set yet, shows `?` in place of the digit.
+3. **Sorted alphabetically** — Participants listed A–Z (case-insensitive).
+4. **Pairs sorted by Y value** — Within each participant's list of squares, pairs are sorted ascending by the Y-axis value (first number). Pairs with `?` sort last.
+5. **Table columns** — Name | Squares (Y/X as comma-separated pairs, e.g., `0/7, 3/2, 5/1`) | # (count of squares).
+6. **Live updates** — Re-renders on Save, Clear All, and page load.
+
+### Tab 3: Results Tracker
 
 Displays game results and maps each completed game to a winning square/participant:
 
@@ -136,9 +147,9 @@ Displays game results and maps each completed game to a winning square/participa
 8. **Source badge** — Shows whether data is "LIVE from NCAA API", "Static fallback", or embedded.
 9. **Last Updated timestamp** — Always displayed in Central Time (CT). Live data uses `toLocaleString('en-US', { timeZone: 'America/Chicago' }) + ' CT'`. Fallback/embedded ISO UTC timestamps are parsed and converted to CT at display time.
 10. **Collapsible round sections** — Each round section (Round of 64, Round of 32, etc.) is independently collapsible. A **+** / **−** toggle icon (28×28px circle, white text on a translucent white background) sits on the **left** side of the section header: **+** when collapsed, **−** when expanded. Tap/click the header to toggle. Expanded/collapsed state for each round is persisted in `localStorage` under key `mm_results_sections` (object keyed by round number: `{ "1": true, "2": false, ... }` where `true` = expanded). State is restored on every page load and after every `renderResults()` call.
-   - **Live auto-expand** — Any round containing at least one in-progress game (`gameState` is not `"final"`, `"pre"`, or `"tbd"`) is automatically expanded on first encounter. "First encounter" means the round has not previously been seen in a live state. A second `localStorage` key `mm_results_live_rounds` (object keyed by round number) tracks which rounds have been seen live. When a round first goes live, it is expanded regardless of any prior localStorage state, and both keys are updated. On subsequent visits, once a round is in `mm_results_live_rounds`, normal `mm_results_sections` state is used — meaning the user can manually collapse a live section and that choice is remembered.
+    - **Live auto-expand** — Any round containing at least one in-progress game (`gameState` is not `"final"`, `"pre"`, or `"tbd"`) is automatically expanded on first encounter. "First encounter" means the round has not previously been seen in a live state. A second `localStorage` key `mm_results_live_rounds` (object keyed by round number) tracks which rounds have been seen live. When a round first goes live, it is expanded regardless of any prior localStorage state, and both keys are updated. On subsequent visits, once a round is in `mm_results_live_rounds`, normal `mm_results_sections` state is used — meaning the user can manually collapse a live section and that choice is remembered.
 
-### Tab 3: Wins
+### Tab 4: Wins
 
 A running tally of each participant's total winnings:
 
@@ -147,17 +158,6 @@ A running tally of each participant's total winnings:
 3. **Win count** — Shows number of games won alongside dollar total.
 4. **Sortable columns** — Clicking the **Name**, **Wins**, or **Total** column header sorts the table by that column. The `#` column always shows the ordinal rank within the current sort. Clicking the active column toggles between ascending (↑) and descending (↓). Clicking a different column defaults to descending for numeric columns (Wins, Total) and ascending for Name. The active column header is highlighted white with an arrow indicator.
 5. **Persisted sort** — Sort column and direction are saved to `localStorage` under key `mm_lb_sort` (object `{ col, dir }`) and restored on page load.
-
-### Tab 4: Numbers
-
-A reference table showing each participant's grid squares expressed as number pairs:
-
-1. **Reads grid data** — Iterates all 100 cells in `gridData` and extracts the Y-axis number (`gridData.yAxis[y]`) and X-axis number (`gridData.xAxis[x]`) for each occupied cell.
-2. **Groups by name** — Collects all Y/X number pairs for each unique participant name. If axis numbers haven't been set yet, shows `?` in place of the digit.
-3. **Sorted alphabetically** — Participants listed A–Z (case-insensitive).
-4. **Pairs sorted by Y value** — Within each participant's list of squares, pairs are sorted ascending by the Y-axis value (first number). Pairs with `?` sort last.
-5. **Table columns** — Name | Squares (Y/X as comma-separated pairs, e.g., `0/7, 3/2, 5/1`) | # (count of squares).
-6. **Live updates** — Re-renders on Save, Clear All, and page load.
 
 ---
 
