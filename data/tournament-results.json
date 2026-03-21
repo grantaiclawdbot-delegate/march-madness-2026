@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T20:57:22Z",
+  "lastUpdated": "2026-03-21T21:02:22Z",
   "rounds": [
     {
       "round": 1,
@@ -583,18 +583,18 @@
           "away": {
             "team": "Louisville",
             "seed": 6,
-            "score": 64
+            "score": 69
           },
           "home": {
             "team": "Michigan St.",
             "seed": 3,
-            "score": 74
+            "score": 75
           }
         },
         {
           "gameID": "6534628",
           "date": "2026-03-21",
-          "startTime": "4:15 PM CT",
+          "startTime": "4:25 PM CT",
           "network": "CBS",
           "gameState": "pre",
           "away": {
