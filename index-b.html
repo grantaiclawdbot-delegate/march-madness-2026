@@ -373,6 +373,20 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .tabs { display: flex; }
+
+      .tab-btn {
+        padding: 10px 8px;
+        font-size: 0.78rem;
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+      }
+
+      .tab-content { padding: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -383,10 +397,10 @@
 </header>
 
 <nav class="tabs">
-  <button class="tab-btn active" data-tab="grid">Grid Setup</button>
+  <button class="tab-btn active" data-tab="grid">Grid</button>
   <button class="tab-btn" data-tab="results">Results</button>
-  <button class="tab-btn" data-tab="leaderboard">Leaderboard</button>
-  <button class="tab-btn" data-tab="mynumbers">My Numbers</button>
+  <button class="tab-btn" data-tab="leaderboard">Wins</button>
+  <button class="tab-btn" data-tab="mynumbers">Numbers</button>
 </nav>
 
 <!-- TAB 1: Grid Setup -->
@@ -418,13 +432,13 @@
 
 <!-- TAB 3: Leaderboard -->
 <div id="tab-leaderboard" class="tab-content">
-  <h2 style="margin-bottom: 16px;">Leaderboard</h2>
+  <h2 style="margin-bottom: 16px;">Wins</h2>
   <div id="leaderboardContainer"><div class="loading">Loading</div></div>
 </div>
 
 <!-- TAB 4: My Numbers -->
 <div id="tab-mynumbers" class="tab-content">
-  <h2 style="margin-bottom: 16px;">My Numbers</h2>
+  <h2 style="margin-bottom: 16px;">Numbers</h2>
   <div id="mynumbersContainer"><div class="loading">Loading</div></div>
 </div>
 
@@ -1053,7 +1067,7 @@ function renderLeaderboard() {
   const sorted = Object.entries(totals).sort((a, b) => b[1].total - a[1].total);
 
   if (sorted.length === 0) {
-    container.innerHTML = '<div class="no-data">No winners yet. Set up your grid in the Grid Setup tab and results will appear here.</div>';
+    container.innerHTML = '<div class="no-data">No winners yet. Set up your grid in the Grid tab and results will appear here.</div>';
     return;
   }
 
@@ -1101,7 +1115,7 @@ function renderMyNumbers() {
   );
 
   if (sorted.length === 0) {
-    container.innerHTML = '<div class="no-data">No names found in grid. Set up your grid in the Grid Setup tab.</div>';
+    container.innerHTML = '<div class="no-data">No names found in grid. Set up your grid in the Grid tab.</div>';
     return;
   }
 

@@ -106,7 +106,7 @@ GitHub Pages uses CDN caching that can persist after a new deploy, even with a g
 
 ## Web Tool
 
-### Tab 1: Grid Setup
+### Tab 1: Grid
 
 A 10×10 grid displaying the pool configuration:
 
@@ -138,7 +138,7 @@ Displays game results and maps each completed game to a winning square/participa
 10. **Collapsible round sections** — Each round section (Round of 64, Round of 32, etc.) is independently collapsible. A **+** / **−** toggle icon (28×28px circle, white text on a translucent white background) sits on the **left** side of the section header: **+** when collapsed, **−** when expanded. Tap/click the header to toggle. Expanded/collapsed state for each round is persisted in `localStorage` under key `mm_results_sections` (object keyed by round number: `{ "1": true, "2": false, ... }` where `true` = expanded). State is restored on every page load and after every `renderResults()` call.
    - **Live auto-expand** — Any round containing at least one in-progress game (`gameState` is not `"final"`, `"pre"`, or `"tbd"`) is automatically expanded on first encounter. "First encounter" means the round has not previously been seen in a live state. A second `localStorage` key `mm_results_live_rounds` (object keyed by round number) tracks which rounds have been seen live. When a round first goes live, it is expanded regardless of any prior localStorage state, and both keys are updated. On subsequent visits, once a round is in `mm_results_live_rounds`, normal `mm_results_sections` state is used — meaning the user can manually collapse a live section and that choice is remembered.
 
-### Tab 3: Leaderboard
+### Tab 3: Wins
 
 A running tally of each participant's total winnings:
 
@@ -146,7 +146,7 @@ A running tally of each participant's total winnings:
 2. **Sorted by total** — Ranked from highest to lowest earnings.
 3. **Win count** — Shows number of games won alongside dollar total.
 
-### Tab 4: My Numbers
+### Tab 4: Numbers
 
 A reference table showing each participant's grid squares expressed as number pairs:
 
@@ -241,22 +241,23 @@ Two versions of the UI are deployed for A/B testing:
 | Version | File | URL | Differences |
 |---|---|---|---|
 | B (mobile-optimized) | `index.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/` | Blue title (`#1976d2`), mobile-responsive layout — **main URL** |
-| A (original) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Red title (`#ef5350`), desktop-first |
+| A (original) | `index-b.html` | `https://grantaiclawdbot-delegate.github.io/march-madness-2026/index-b.html` | Red title (`#ef5350`), desktop-first; tab mobile CSS added |
 
 ### Version B mobile changes
 
 - Blue title color instead of red
-- Tighter tab buttons that stretch to fill width on small screens
+- Tab labels shortened: "Grid Setup" → "Grid", "Leaderboard" → "Wins", "My Numbers" → "Numbers"
+- Tighter tab buttons that stretch to fill width on small screens (padding 10px 8px, font-size 0.78rem, flex: 1, min-width: 0)
 - Grid cells reduced from 80px to 72px wide on mobile (increased from 56px to reduce name text wrapping), with a "← Scroll →" hint
 - `overflow-x: auto` scroll wrappers on all results tables
 - Reduced table cell padding and font sizes on mobile
 - Reduced tab content padding (12px vs 24px) on mobile
-- Leaderboard uses full width on mobile
+- Wins (Leaderboard) uses full width on mobile
 - All changes are gated behind a `@media (max-width: 600px)` query
 
-### Version B — Grid Setup table (Tab 1) mobile improvements
+### Version B — Grid table (Tab 1) mobile improvements
 
-The Grid Setup table on the B version has additional mobile-specific enhancements:
+The Grid table on the B version has additional mobile-specific enhancements:
 
 - **Horizontal scrolling with sticky Y-axis column** — The table scrolls horizontally while the first column (Y-axis row labels) stays frozen/sticky so it remains visible while the user swipes right.
 - **Scroll shadow hint** — A subtle right-edge gradient shadow overlays the table container to signal that the table is scrollable. The shadow fades out automatically when the user reaches the right end of the table (implemented via a scroll event listener that toggles a CSS class).
@@ -313,7 +314,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
-- **Tab persistence** — `mm_active_tab` stores the last active tab name (`grid`, `results`, `leaderboard`, `mynumbers`). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid Setup. The key is written every time the user switches tabs.
+- **Tab persistence** — `mm_active_tab` stores the last active tab name (`grid`, `results`, `leaderboard`, `mynumbers`). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid. The key is written every time the user switches tabs.
 - **Results section states** — `mm_results_sections` stores an object of `{ roundNumber: boolean }` pairs where `true` = expanded. Written on every toggle and when a round is auto-expanded. Read on every `renderResults()` call to restore state. Default (no key) = all collapsed except live rounds.
 - **Live round tracking** — `mm_results_live_rounds` stores `{ roundNumber: true }` for every round that has ever been seen in a live/in-progress state. Used to distinguish "newly live" rounds (auto-expand override) from rounds the user has already had a chance to interact with (respect `mm_results_sections`).
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }`. Teams are nested directly inside `game` as `away` and `home` objects. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
