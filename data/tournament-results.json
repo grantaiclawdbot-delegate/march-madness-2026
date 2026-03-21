@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T01:44:17Z",
+  "lastUpdated": "2026-03-21T01:48:58Z",
   "rounds": [
     {
       "round": 1,
@@ -457,12 +457,12 @@
           "away": {
             "team": "UCF",
             "seed": 10,
-            "score": 62
+            "score": 65
           },
           "home": {
             "team": "UCLA",
             "seed": 7,
-            "score": 68
+            "score": 71
           }
         },
         {
@@ -496,7 +496,7 @@
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 0
+            "score": 5
           }
         },
         {
