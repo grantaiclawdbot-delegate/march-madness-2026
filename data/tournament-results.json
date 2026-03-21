@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-20T22:41:02Z",
+  "lastUpdated": "2026-03-20T23:58:00Z",
   "rounds": [
     {
       "round": 1,
@@ -30,10 +30,10 @@
         {"gameID":"6534623","date":"2026-03-20","startTime":"2:15 PM CT","network":"truTV","gameState":"final","away":{"team":"Hofstra","seed":13,"score":70},"home":{"team":"Alabama","seed":4,"score":90}},
         {"gameID":"6534613","date":"2026-03-20","startTime":"3:10 PM CT","network":"TNT","gameState":"final","away":{"team":"Utah St.","seed":9,"score":86},"home":{"team":"Villanova","seed":8,"score":76}},
         {"gameID":"6534624","date":"2026-03-20","startTime":"3:25 PM CT","network":"TBS","gameState":"final","away":{"team":"Miami (OH)","seed":11,"score":56},"home":{"team":"Tennessee","seed":6,"score":78}},
-        {"gameID":"6534605","date":"2026-03-20","startTime":"5:50 PM CT","network":"TNT","gameState":"pre","away":{"team":"Iowa","seed":9,"score":null},"home":{"team":"Clemson","seed":8,"score":null}},
-        {"gameID":"6534598","date":"2026-03-20","startTime":"6:10 PM CT","network":"CBS","gameState":"pre","away":{"team":"UNI","seed":12,"score":null},"home":{"team":"St. John's (NY)","seed":5,"score":null}},
-        {"gameID":"6534602","date":"2026-03-20","startTime":"6:25 PM CT","network":"TBS","gameState":"pre","away":{"team":"UCF","seed":10,"score":null},"home":{"team":"UCLA","seed":7,"score":null}},
-        {"gameID":"6534619","date":"2026-03-20","startTime":"6:35 PM CT","network":"truTV","gameState":"pre","away":{"team":"Queens (NC)","seed":15,"score":null},"home":{"team":"Purdue","seed":2,"score":null}},
+        {"gameID":"6534605","date":"2026-03-20","startTime":"5:50 PM CT","network":"TNT","gameState":"live","away":{"team":"Iowa","seed":9,"score":35},"home":{"team":"Clemson","seed":8,"score":25}},
+        {"gameID":"6534598","date":"2026-03-20","startTime":"6:10 PM CT","network":"CBS","gameState":"live","away":{"team":"UNI","seed":12,"score":13},"home":{"team":"St. John's (NY)","seed":5,"score":29}},
+        {"gameID":"6534602","date":"2026-03-20","startTime":"6:25 PM CT","network":"TBS","gameState":"live","away":{"team":"UCF","seed":10,"score":13},"home":{"team":"UCLA","seed":7,"score":24}},
+        {"gameID":"6534619","date":"2026-03-20","startTime":"6:35 PM CT","network":"truTV","gameState":"live","away":{"team":"Queens (NC)","seed":15,"score":19},"home":{"team":"Purdue","seed":2,"score":26}},
         {"gameID":"6534604","date":"2026-03-20","startTime":"8:25 PM CT","network":"TNT","gameState":"pre","away":{"team":"Prairie View","seed":16,"score":null},"home":{"team":"Florida","seed":1,"score":null}},
         {"gameID":"6534599","date":"2026-03-20","startTime":"8:45 PM CT","network":"CBS","gameState":"pre","away":{"team":"California Baptist","seed":13,"score":null},"home":{"team":"Kansas","seed":4,"score":null}},
         {"gameID":"6534603","date":"2026-03-20","startTime":"9:00 PM CT","network":"TBS","gameState":"pre","away":{"team":"Furman","seed":15,"score":null},"home":{"team":"UConn","seed":2,"score":null}},
