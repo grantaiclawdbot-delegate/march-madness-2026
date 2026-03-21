@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T03:42:22Z",
+  "lastUpdated": "2026-03-21T03:47:22Z",
   "rounds": [
     {
       "round": 1,
@@ -487,16 +487,16 @@
           "date": "2026-03-20",
           "startTime": "8:43 PM CT",
           "network": "TNT",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Prairie View",
             "seed": 16,
-            "score": 48
+            "score": 55
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 109
+            "score": 114
           }
         },
         {
@@ -508,12 +508,12 @@
           "away": {
             "team": "California Baptist",
             "seed": 13,
-            "score": 33
+            "score": 42
           },
           "home": {
             "team": "Kansas",
             "seed": 4,
-            "score": 54
+            "score": 64
           }
         },
         {
@@ -542,12 +542,12 @@
           "away": {
             "team": "Missouri",
             "seed": 10,
-            "score": 38
+            "score": 43
           },
           "home": {
             "team": "Miami (FL)",
             "seed": 7,
-            "score": 39
+            "score": 46
           }
         }
       ]
