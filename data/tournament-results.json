@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T10:49:04Z",
+  "lastUpdated": "2026-03-21T16:17:22Z",
   "rounds": [
     {
       "round": 1,
@@ -562,16 +562,16 @@
           "date": "2026-03-21",
           "startTime": "11:10 AM CT",
           "network": "CBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Saint Louis",
             "seed": 9,
-            "score": null
+            "score": 10
           },
           "home": {
             "team": "Michigan",
             "seed": 1,
-            "score": null
+            "score": 13
           }
         },
         {
