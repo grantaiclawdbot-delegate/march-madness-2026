@@ -345,7 +345,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - **Collaborator:** `puresoto` added as collaborator (git credentials on local machine authenticate as this user)
 - **No `gh` CLI installed** — repo was created manually via GitHub web UI; pushes via `git push`
 
-## Status (as of 2026-03-21)
+## Status (as of 2026-03-21, updated 2026-03-21)
 
 - Grid fully populated with all 100 participant names from pool image
 - Round of 64 (Mar 19–20): all 32 games complete, results showing with winning squares
@@ -355,3 +355,6 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - `update_scores.py` operational — run `python update_scores.py` to sync scores and push
   - Updates all three data locations: `data/tournament-results.json`, `index.html` FALLBACK_RESULTS, `index-b.html` FALLBACK_RESULTS
   - Commits and pushes all three files together in a single commit
+- Participant name corrections applied to all data tiers (index.html, index-b.html, data/grid-config.json):
+  - `"Grant"` at grid row 2, col 4 normalized to `"Grant P"` (same person as other Grant P entries)
+  - `"the Cooks"` (row 8, col 7) normalized to `"The Cooks"` to match the capitalization used elsewhere
