@@ -391,13 +391,6 @@
     .leaderboard-table th.lb-sortable:hover { background: rgba(255,255,255,0.08); color: var(--text); }
     .leaderboard-table th.lb-sort-active { color: #fff; }
 
-    .results-table th.results-sortable {
-      cursor: pointer;
-      user-select: none;
-    }
-    .results-table th.results-sortable:hover { background: rgba(255,255,255,0.08); color: var(--text); }
-    .results-table th.results-sort-active { color: #fff; }
-
     .lb-expand-btn {
       padding: 7px 14px;
       background: var(--surface2);
@@ -703,10 +696,6 @@ let dataSource = 'none';
 const LB_SORT_KEY = 'mm_lb_sort';
 let lbSort = { col: 'total', dir: 'desc' };
 try { const _s = JSON.parse(localStorage.getItem(LB_SORT_KEY)); if (_s && _s.col) lbSort = _s; } catch(e) {}
-
-const RESULTS_SORT_KEY = 'mm_results_sort';
-let resultsSortState = {};
-try { const _rs = JSON.parse(localStorage.getItem(RESULTS_SORT_KEY)); if (_rs) resultsSortState = _rs; } catch(e) {}
 
 const LB_EXPAND_KEY = 'mm_lb_expand';
 function getLbExpand() {
@@ -1156,32 +1145,6 @@ function lookupGridSquare(yDigit, xDigit) {
   return { name: gridData.names[gridY][gridX] || '(empty)', gridY, gridX };
 }
 
-function gameTimeSortKey(game) {
-  const d = game.date || '';
-  const t = game.startTime || '';
-  const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
-  if (!m) return d;
-  let h = parseInt(m[1]);
-  const min = parseInt(m[2]);
-  if (m[3].toUpperCase() === 'PM' && h !== 12) h += 12;
-  if (m[3].toUpperCase() === 'AM' && h === 12) h = 0;
-  return d + String(h).padStart(2, '0') + String(min).padStart(2, '0');
-}
-
-function sortResults(round, tableType, col) {
-  const key = `${round}-${tableType}`;
-  const cur = resultsSortState[key] || { col: null, dir: 'asc' };
-  if (cur.col === col) {
-    cur.dir = cur.dir === 'asc' ? 'desc' : 'asc';
-  } else {
-    cur.col = col;
-    cur.dir = 'asc';
-  }
-  resultsSortState[key] = cur;
-  localStorage.setItem(RESULTS_SORT_KEY, JSON.stringify(resultsSortState));
-  renderResults();
-}
-
 function renderResults() {
   if (!tournamentData) {
     document.getElementById('resultsContainer').innerHTML =
@@ -1226,17 +1189,9 @@ function renderResults() {
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
     if (liveGames.length > 0) {
-      const _liveSortKey = `${round.round}-live`;
-      const _liveSort = resultsSortState[_liveSortKey] || { col: null, dir: 'asc' };
-      const sortedLiveGames = [...liveGames].sort((a, b) => {
-        if (_liveSort.col !== 'game') return 0;
-        const ta = gameTimeSortKey(a), tb = gameTimeSortKey(b);
-        return _liveSort.dir === 'asc' ? (ta < tb ? -1 : ta > tb ? 1 : 0) : (ta > tb ? -1 : ta < tb ? 1 : 0);
-      });
-      const _liveGameActive = _liveSort.col === 'game';
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
-      html += `<tr><th class="results-sortable${_liveGameActive ? ' results-sort-active' : ''}" onclick="sortResults(${round.round},'live','game')">Game${_liveGameActive ? (_liveSort.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
-      sortedLiveGames.forEach(game => {
+      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
+      liveGames.forEach(game => {
         html += `<tr>`;
         html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
         html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
@@ -1248,17 +1203,9 @@ function renderResults() {
     }
 
     if (preGames.length > 0) {
-      const _preSortKey = `${round.round}-pre`;
-      const _preSort = resultsSortState[_preSortKey] || { col: null, dir: 'asc' };
-      const sortedPreGames = [...preGames].sort((a, b) => {
-        if (_preSort.col !== 'game') return 0;
-        const ta = gameTimeSortKey(a), tb = gameTimeSortKey(b);
-        return _preSort.dir === 'asc' ? (ta < tb ? -1 : ta > tb ? 1 : 0) : (ta > tb ? -1 : ta < tb ? 1 : 0);
-      });
-      const _preGameActive = _preSort.col === 'game';
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
-      html += `<tr><th class="results-sortable${_preGameActive ? ' results-sort-active' : ''}" onclick="sortResults(${round.round},'pre','game')">Game${_preGameActive ? (_preSort.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
-      sortedPreGames.forEach(game => {
+      html += `<tr><th>Game</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
+      preGames.forEach(game => {
         html += `<tr>`;
         html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
         html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
@@ -1276,26 +1223,10 @@ function renderResults() {
     }
 
     if (finalGames.length > 0) {
-      const _finalSortKey = `${round.round}-final`;
-      const _finalSort = resultsSortState[_finalSortKey] || { col: null, dir: 'asc' };
-      const sortedFinalGames = [...finalGames].sort((a, b) => {
-        if (_finalSort.col === 'game') {
-          const ta = gameTimeSortKey(a), tb = gameTimeSortKey(b);
-          return _finalSort.dir === 'asc' ? (ta < tb ? -1 : ta > tb ? 1 : 0) : (ta > tb ? -1 : ta < tb ? 1 : 0);
-        } else if (_finalSort.col === 'winner') {
-          const wa = a.away.score > a.home.score ? a.away.team : a.home.team;
-          const wb = b.away.score > b.home.score ? b.away.team : b.home.team;
-          const cmp = wa.localeCompare(wb);
-          return _finalSort.dir === 'asc' ? cmp : -cmp;
-        }
-        return 0;
-      });
-      const _finalGameActive = _finalSort.col === 'game';
-      const _finalWinnerActive = _finalSort.col === 'winner';
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
-      html += `<tr><th class="results-sortable${_finalGameActive ? ' results-sort-active' : ''}" onclick="sortResults(${round.round},'final','game')">Game${_finalGameActive ? (_finalSort.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th><th>Matchup</th><th>Score</th><th>Square</th><th class="results-sortable${_finalWinnerActive ? ' results-sort-active' : ''}" onclick="sortResults(${round.round},'final','winner')">Winner${_finalWinnerActive ? (_finalSort.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
+      html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
 
-      sortedFinalGames.forEach(game => {
+      finalGames.forEach(game => {
         const coord = getWinningCoord(game);
         const away = game.away;
         const home = game.home;
