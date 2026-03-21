@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T04:47:22Z",
+  "lastUpdated": "2026-03-21T10:49:04Z",
   "rounds": [
     {
       "round": 1,
@@ -696,8 +696,8 @@
         {
           "gameID": "6534636",
           "date": "2026-03-22",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "6:50 PM CT",
+          "network": "truTV",
           "gameState": "pre",
           "away": {
             "team": "Utah St.",
@@ -713,8 +713,8 @@
         {
           "gameID": "6534641",
           "date": "2026-03-22",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "8:45 PM CT",
+          "network": "TBS",
           "gameState": "pre",
           "away": {
             "team": "Alabama",
@@ -730,8 +730,8 @@
         {
           "gameID": "6534642",
           "date": "2026-03-22",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "5:10 PM CT",
+          "network": "TNT",
           "gameState": "pre",
           "away": {
             "team": "Virginia",
@@ -747,8 +747,8 @@
         {
           "gameID": "6534643",
           "date": "2026-03-22",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "1:45 PM CT",
+          "network": "CBS",
           "gameState": "pre",
           "away": {
             "team": "Iowa St.",
@@ -758,6 +758,74 @@
           "home": {
             "team": "Kentucky",
             "seed": 7,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534639",
+          "date": "2026-03-22",
+          "startTime": "11:10 AM CT",
+          "network": "CBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Miami (FL)",
+            "seed": 7,
+            "score": null
+          },
+          "home": {
+            "team": "Purdue",
+            "seed": 2,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534629",
+          "date": "2026-03-22",
+          "startTime": "4:15 PM CT",
+          "network": "CBS",
+          "gameState": "pre",
+          "away": {
+            "team": "St. John's (NY)",
+            "seed": 5,
+            "score": null
+          },
+          "home": {
+            "team": "Kansas",
+            "seed": 4,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534632",
+          "date": "2026-03-22",
+          "startTime": "6:10 PM CT",
+          "network": "TBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Iowa",
+            "seed": 9,
+            "score": null
+          },
+          "home": {
+            "team": "Florida",
+            "seed": 1,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534631",
+          "date": "2026-03-22",
+          "startTime": "7:45 PM CT",
+          "network": "TNT",
+          "gameState": "pre",
+          "away": {
+            "team": "UCLA",
+            "seed": 7,
+            "score": null
+          },
+          "home": {
+            "team": "UConn",
+            "seed": 2,
             "score": null
           }
         }
