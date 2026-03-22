@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T23:42:22Z",
+  "lastUpdated": "2026-03-22T23:47:23Z",
   "rounds": [
     {
       "round": 1,
@@ -696,7 +696,7 @@
         {
           "gameID": "6534636",
           "date": "2026-03-22",
-          "startTime": "7:10 PM CT",
+          "startTime": "7:11 PM CT",
           "network": "truTV",
           "gameState": "pre",
           "away": {
@@ -804,12 +804,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 21
+            "score": 23
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 13
+            "score": 15
           }
         },
         {
