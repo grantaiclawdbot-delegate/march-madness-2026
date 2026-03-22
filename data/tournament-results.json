@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T22:07:22Z",
+  "lastUpdated": "2026-03-22T22:12:22Z",
   "rounds": [
     {
       "round": 1,
@@ -732,16 +732,16 @@
           "date": "2026-03-22",
           "startTime": "5:10 PM CT",
           "network": "TNT",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Tennessee",
             "seed": 6,
-            "score": null
+            "score": 3
           },
           "home": {
             "team": "Virginia",
             "seed": 3,
-            "score": null
+            "score": 0
           }
         },
         {
@@ -787,12 +787,12 @@
           "away": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 23
+            "score": 25
           },
           "home": {
             "team": "Kansas",
             "seed": 4,
-            "score": 20
+            "score": 22
           }
         },
         {
