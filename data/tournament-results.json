@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T03:57:23Z",
+  "lastUpdated": "2026-03-22T16:12:22Z",
   "rounds": [
     {
       "round": 1,
@@ -766,16 +766,16 @@
           "date": "2026-03-22",
           "startTime": "11:10 AM CT",
           "network": "CBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Miami (FL)",
             "seed": 7,
-            "score": null
+            "score": 2
           },
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": null
+            "score": 0
           }
         },
         {
