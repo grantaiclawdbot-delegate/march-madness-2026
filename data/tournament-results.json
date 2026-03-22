@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T20:52:22Z",
+  "lastUpdated": "2026-03-22T20:57:22Z",
   "rounds": [
     {
       "round": 1,
@@ -753,12 +753,12 @@
           "away": {
             "team": "Kentucky",
             "seed": 7,
-            "score": 60
+            "score": 63
           },
           "home": {
             "team": "Iowa St.",
             "seed": 2,
-            "score": 79
+            "score": 82
           }
         },
         {
@@ -781,7 +781,7 @@
         {
           "gameID": "6534629",
           "date": "2026-03-22",
-          "startTime": "4:15 PM CT",
+          "startTime": "4:25 PM CT",
           "network": "CBS",
           "gameState": "pre",
           "away": {
