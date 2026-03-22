@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T18:17:22Z",
+  "lastUpdated": "2026-03-22T18:22:22Z",
   "rounds": [
     {
       "round": 1,
@@ -766,7 +766,7 @@
           "date": "2026-03-22",
           "startTime": "11:10 AM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Miami (FL)",
             "seed": 7,
