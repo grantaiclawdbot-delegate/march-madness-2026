@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T23:22:22Z",
+  "lastUpdated": "2026-03-22T23:27:22Z",
   "rounds": [
     {
       "round": 1,
@@ -696,7 +696,7 @@
         {
           "gameID": "6534636",
           "date": "2026-03-22",
-          "startTime": "6:50 PM CT",
+          "startTime": "7:10 PM CT",
           "network": "truTV",
           "gameState": "pre",
           "away": {
@@ -736,12 +736,12 @@
           "away": {
             "team": "Tennessee",
             "seed": 6,
-            "score": 36
+            "score": 38
           },
           "home": {
             "team": "Virginia",
             "seed": 3,
-            "score": 31
+            "score": 34
           }
         },
         {
@@ -787,12 +787,12 @@
           "away": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 58
+            "score": 62
           },
           "home": {
             "team": "Kansas",
             "seed": 4,
-            "score": 53
+            "score": 55
           }
         },
         {
@@ -804,12 +804,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 11
+            "score": 17
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 11
+            "score": 12
           }
         },
         {
