@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T01:47:23Z",
+  "lastUpdated": "2026-03-22T01:52:22Z",
   "rounds": [
     {
       "round": 1,
@@ -651,12 +651,12 @@
           "away": {
             "team": "VCU",
             "seed": 11,
-            "score": 34
+            "score": 37
           },
           "home": {
             "team": "Illinois",
             "seed": 3,
-            "score": 50
+            "score": 52
           }
         },
         {
@@ -668,12 +668,12 @@
           "away": {
             "team": "Vanderbilt",
             "seed": 5,
-            "score": 24
+            "score": 28
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 31
+            "score": 34
           }
         },
         {
@@ -681,16 +681,16 @@
           "date": "2026-03-21",
           "startTime": "8:45 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "High Point",
             "seed": 12,
-            "score": null
+            "score": 7
           },
           "home": {
             "team": "Arkansas",
             "seed": 4,
-            "score": null
+            "score": 2
           }
         },
         {
