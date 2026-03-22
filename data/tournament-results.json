@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-21T23:57:21Z",
+  "lastUpdated": "2026-03-22T00:07:23Z",
   "rounds": [
     {
       "round": 1,
@@ -617,12 +617,12 @@
           "away": {
             "team": "Texas A&M",
             "seed": 10,
-            "score": 43
+            "score": 49
           },
           "home": {
             "team": "Houston",
             "seed": 2,
-            "score": 69
+            "score": 73
           }
         },
         {
@@ -717,13 +717,13 @@
           "network": "TBS",
           "gameState": "pre",
           "away": {
-            "team": "Alabama",
-            "seed": 4,
+            "team": "Texas Tech",
+            "seed": 5,
             "score": null
           },
           "home": {
-            "team": "Texas Tech",
-            "seed": 5,
+            "team": "Alabama",
+            "seed": 4,
             "score": null
           }
         },
@@ -734,13 +734,13 @@
           "network": "TNT",
           "gameState": "pre",
           "away": {
-            "team": "Virginia",
-            "seed": 3,
+            "team": "Tennessee",
+            "seed": 6,
             "score": null
           },
           "home": {
-            "team": "Tennessee",
-            "seed": 6,
+            "team": "Virginia",
+            "seed": 3,
             "score": null
           }
         },
@@ -751,13 +751,13 @@
           "network": "CBS",
           "gameState": "pre",
           "away": {
-            "team": "Iowa St.",
-            "seed": 2,
+            "team": "Kentucky",
+            "seed": 7,
             "score": null
           },
           "home": {
-            "team": "Kentucky",
-            "seed": 7,
+            "team": "Iowa St.",
+            "seed": 2,
             "score": null
           }
         },
