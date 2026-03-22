@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T01:27:22Z",
+  "lastUpdated": "2026-03-22T01:32:22Z",
   "rounds": [
     {
       "round": 1,
@@ -651,12 +651,12 @@
           "away": {
             "team": "VCU",
             "seed": 11,
-            "score": 28
+            "score": 30
           },
           "home": {
             "team": "Illinois",
             "seed": 3,
-            "score": 35
+            "score": 43
           }
         },
         {
@@ -668,12 +668,12 @@
           "away": {
             "team": "Vanderbilt",
             "seed": 5,
-            "score": 10
+            "score": 15
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 16
+            "score": 18
           }
         },
         {
