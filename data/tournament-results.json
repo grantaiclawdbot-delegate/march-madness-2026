@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T23:37:22Z",
+  "lastUpdated": "2026-03-22T23:42:22Z",
   "rounds": [
     {
       "round": 1,
@@ -736,12 +736,12 @@
           "away": {
             "team": "Tennessee",
             "seed": 6,
-            "score": 44
+            "score": 54
           },
           "home": {
             "team": "Virginia",
             "seed": 3,
-            "score": 39
+            "score": 48
           }
         },
         {
@@ -783,11 +783,11 @@
           "date": "2026-03-22",
           "startTime": "4:25 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 65
+            "score": 67
           },
           "home": {
             "team": "Kansas",
@@ -804,7 +804,7 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 19
+            "score": 21
           },
           "home": {
             "team": "Florida",
