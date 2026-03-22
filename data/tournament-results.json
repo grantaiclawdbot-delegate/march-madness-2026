@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T00:27:22Z",
+  "lastUpdated": "2026-03-22T00:32:22Z",
   "rounds": [
     {
       "round": 1,
@@ -613,7 +613,7 @@
           "date": "2026-03-21",
           "startTime": "5:10 PM CT",
           "network": "TNT",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Texas A&M",
             "seed": 10,
@@ -634,12 +634,12 @@
           "away": {
             "team": "Texas",
             "seed": 11,
-            "score": 45
+            "score": 49
           },
           "home": {
             "team": "Gonzaga",
             "seed": 3,
-            "score": 45
+            "score": 47
           }
         },
         {
@@ -651,12 +651,12 @@
           "away": {
             "team": "VCU",
             "seed": 11,
-            "score": 2
+            "score": 5
           },
           "home": {
             "team": "Illinois",
             "seed": 3,
-            "score": 11
+            "score": 15
           }
         },
         {
