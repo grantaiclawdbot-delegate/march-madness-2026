@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T16:47:22Z",
+  "lastUpdated": "2026-03-22T16:52:22Z",
   "rounds": [
     {
       "round": 1,
@@ -770,7 +770,7 @@
           "away": {
             "team": "Miami (FL)",
             "seed": 7,
-            "score": 31
+            "score": 33
           },
           "home": {
             "team": "Purdue",
