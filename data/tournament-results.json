@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T01:07:22Z",
+  "lastUpdated": "2026-03-22T01:12:22Z",
   "rounds": [
     {
       "round": 1,
@@ -630,11 +630,11 @@
           "date": "2026-03-21",
           "startTime": "6:10 PM CT",
           "network": "TBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Texas",
             "seed": 11,
-            "score": 69
+            "score": 74
           },
           "home": {
             "team": "Gonzaga",
@@ -668,12 +668,12 @@
           "away": {
             "team": "Vanderbilt",
             "seed": 5,
-            "score": 0
+            "score": 2
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 3
+            "score": 11
           }
         },
         {
