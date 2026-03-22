@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T03:17:22Z",
+  "lastUpdated": "2026-03-22T03:22:23Z",
   "rounds": [
     {
       "round": 1,
@@ -685,12 +685,12 @@
           "away": {
             "team": "High Point",
             "seed": 12,
-            "score": 65
+            "score": 66
           },
           "home": {
             "team": "Arkansas",
             "seed": 4,
-            "score": 64
+            "score": 67
           }
         },
         {
