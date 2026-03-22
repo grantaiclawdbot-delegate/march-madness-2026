@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-22T20:57:22Z",
+  "lastUpdated": "2026-03-22T21:02:23Z",
   "rounds": [
     {
       "round": 1,
@@ -749,7 +749,7 @@
           "date": "2026-03-22",
           "startTime": "1:49 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Kentucky",
             "seed": 7,
