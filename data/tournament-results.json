@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T01:07:21Z",
+  "lastUpdated": "2026-03-23T01:12:21Z",
   "rounds": [
     {
       "round": 1,
@@ -804,12 +804,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 61
+            "score": 66
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 60
+            "score": 65
           }
         },
         {
@@ -817,16 +817,16 @@
           "date": "2026-03-22",
           "startTime": "8:10 PM CT",
           "network": "TNT",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "UCLA",
             "seed": 7,
-            "score": null
+            "score": 2
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": null
+            "score": 0
           }
         }
       ]
