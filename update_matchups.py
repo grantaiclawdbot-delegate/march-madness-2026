@@ -52,8 +52,8 @@ if not os.path.isfile(GIT_EXE):
 # Round 1 (Mar 19–20) is already complete; matchups only change from Round 2 onward.
 TOURNAMENT_DATES = [
     "2026-03-21", "2026-03-22",  # Round of 32
-    "2026-03-27", "2026-03-28",  # Sweet 16
-    "2026-03-29", "2026-03-30",  # Elite Eight
+    "2026-03-26", "2026-03-27",  # Sweet 16
+    "2026-03-28", "2026-03-29",  # Elite Eight
     "2026-04-04",                # Final Four
     "2026-04-06",                # Championship
 ]
@@ -62,8 +62,8 @@ TOURNAMENT_DATES = [
 ROUND_SCHEDULE = [
     {"round": 1, "name": "Round of 64",  "payout": 50,   "dates": ["2026-03-19", "2026-03-20"]},
     {"round": 2, "name": "Round of 32",  "payout": 100,  "dates": ["2026-03-21", "2026-03-22"]},
-    {"round": 3, "name": "Sweet 16",     "payout": 200,  "dates": ["2026-03-27", "2026-03-28"]},
-    {"round": 4, "name": "Elite Eight",  "payout": 400,  "dates": ["2026-03-29", "2026-03-30"]},
+    {"round": 3, "name": "Sweet 16",     "payout": 200,  "dates": ["2026-03-26", "2026-03-27"]},
+    {"round": 4, "name": "Elite Eight",  "payout": 400,  "dates": ["2026-03-28", "2026-03-29"]},
     {"round": 5, "name": "Final Four",   "payout": 800,  "dates": ["2026-04-04"]},
     {"round": 6, "name": "Championship", "payout": 2000, "dates": ["2026-04-06"]},
 ]

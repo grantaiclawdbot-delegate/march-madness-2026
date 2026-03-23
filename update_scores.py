@@ -59,8 +59,8 @@ def log(msg=""):
 ROUND_SCHEDULE = [
     {"round": 1, "name": "Round of 64",  "payout": 50,   "dates": ["2026-03-19", "2026-03-20"], "expectedGames": 32},
     {"round": 2, "name": "Round of 32",  "payout": 100,  "dates": ["2026-03-21", "2026-03-22"], "expectedGames": 16},
-    {"round": 3, "name": "Sweet 16",     "payout": 200,  "dates": ["2026-03-27", "2026-03-28"], "expectedGames": 8},
-    {"round": 4, "name": "Elite Eight",  "payout": 400,  "dates": ["2026-03-29", "2026-03-30"], "expectedGames": 4},
+    {"round": 3, "name": "Sweet 16",     "payout": 200,  "dates": ["2026-03-26", "2026-03-27"], "expectedGames": 8},
+    {"round": 4, "name": "Elite Eight",  "payout": 400,  "dates": ["2026-03-28", "2026-03-29"], "expectedGames": 4},
     {"round": 5, "name": "Final Four",   "payout": 800,  "dates": ["2026-04-04"],               "expectedGames": 2},
     {"round": 6, "name": "Championship", "payout": 2000, "dates": ["2026-04-06"],               "expectedGames": 1},
 ]

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T05:02:07Z",
+  "lastUpdated": "2026-03-23T05:07:29Z",
   "rounds": [
     {
       "round": 1,
@@ -889,9 +889,9 @@
         },
         {
           "gameID": "derived-R3-305-306",
-          "date": "2026-03-28",
-          "startTime": "TBA",
-          "network": "",
+          "date": "2026-03-26",
+          "startTime": "6:30 PM CT",
+          "network": "TBS",
           "gameState": "pre",
           "away": {
             "team": "Iowa",
@@ -906,9 +906,9 @@
         },
         {
           "gameID": "derived-R3-307-308",
-          "date": "2026-03-28",
-          "startTime": "TBA",
-          "network": "",
+          "date": "2026-03-26",
+          "startTime": "9:05 PM CT",
+          "network": "TBS",
           "gameState": "pre",
           "away": {
             "team": "Illinois",
@@ -923,9 +923,9 @@
         },
         {
           "gameID": "derived-R3-309-310",
-          "date": "2026-03-28",
-          "startTime": "TBA",
-          "network": "",
+          "date": "2026-03-26",
+          "startTime": "8:45 PM CT",
+          "network": "CBS",
           "gameState": "pre",
           "away": {
             "team": "Arkansas",
@@ -940,9 +940,9 @@
         },
         {
           "gameID": "derived-R3-311-312",
-          "date": "2026-03-28",
-          "startTime": "TBA",
-          "network": "",
+          "date": "2026-03-26",
+          "startTime": "6:10 PM CT",
+          "network": "CBS",
           "gameState": "pre",
           "away": {
             "team": "Texas",
