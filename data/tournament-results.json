@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T04:02:22Z",
+  "lastUpdated": "2026-03-23T04:07:22Z",
   "rounds": [
     {
       "round": 1,
@@ -719,12 +719,12 @@
           "away": {
             "team": "Texas Tech",
             "seed": 5,
-            "score": 56
+            "score": 58
           },
           "home": {
             "team": "Alabama",
             "seed": 4,
-            "score": 85
+            "score": 90
           }
         },
         {
