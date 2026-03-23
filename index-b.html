@@ -1301,9 +1301,21 @@ function renderResults() {
     html += `<h3 class="round-header" style="${headerColor}"><span class="round-toggle-icon"></span><span>${roundTitle}</span></h3>`;
     html += `<div class="round-body">`;
 
-    const finalGames = round.games.filter(g => g.gameState === 'final');
-    const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd');
-    const preGames = round.games.filter(g => g.gameState === 'pre');
+    const sortByDateTime = (a, b) => {
+      if ((a.date || '') !== (b.date || '')) return (a.date || '').localeCompare(b.date || '');
+      const parseTime = t => {
+        if (!t) return 0;
+        const m = t.match(/^(\d+):(\d+)\s*(AM|PM)/i);
+        if (!m) return 0;
+        let h = parseInt(m[1]); const min = parseInt(m[2]); const pm = m[3].toUpperCase() === 'PM';
+        if (pm && h !== 12) h += 12; if (!pm && h === 12) h = 0;
+        return h * 60 + min;
+      };
+      return parseTime(a.startTime) - parseTime(b.startTime);
+    };
+    const finalGames = round.games.filter(g => g.gameState === 'final').sort(sortByDateTime);
+    const liveGames = round.games.filter(g => g.gameState !== 'final' && g.gameState !== 'pre' && g.gameState !== 'tbd').sort(sortByDateTime);
+    const preGames = round.games.filter(g => g.gameState === 'pre').sort(sortByDateTime);
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
     if (liveGames.length > 0) {
