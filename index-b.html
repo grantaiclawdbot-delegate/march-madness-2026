@@ -1287,17 +1287,26 @@ function renderResults() {
 
   let html = '';
 
+  const expectedGames = {1:32, 2:16, 3:8, 4:4, 5:2, 6:1};
+  const isRoundComplete = r => {
+    const exp = expectedGames[r.round] || 0;
+    return r.games.length >= exp && r.games.filter(g => g.gameState === 'final').length >= exp;
+  };
   const sortedRounds = [...tournamentData.rounds].sort((a, b) => {
-    if (a.round === 1) return 1;
-    if (b.round === 1) return -1;
+    const aComplete = isRoundComplete(a);
+    const bComplete = isRoundComplete(b);
+    if (aComplete && !bComplete) return 1;
+    if (!aComplete && bComplete) return -1;
     return a.round - b.round;
   });
+  const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.some(g => g.gameState === 'final'));
   sortedRounds.forEach(round => {
     html += `<div class="results-section collapsed" data-round="${round.round}">`;
-    const roundTitle = round.round === 1
-      ? `Round of 64 - Complete -- $${round.payout} per game`
+    const complete = isRoundComplete(round);
+    const roundTitle = complete
+      ? `${round.name} - Complete -- $${round.payout} per game`
       : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
-    const headerColor = round.round === 1 ? 'color: lightgreen;' : round.round === 2 ? 'color: dodgerblue; font-weight: bold;' : '';
+    const headerColor = complete ? 'color: lightgreen;' : (inProgressRound && round.round === inProgressRound.round) ? 'color: dodgerblue; font-weight: bold;' : '';
     html += `<h3 class="round-header" style="${headerColor}"><span class="round-toggle-icon"></span><span>${roundTitle}</span></h3>`;
     html += `<div class="round-body">`;
 
