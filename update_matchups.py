@@ -25,6 +25,7 @@ import re
 import os
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from urllib.request import urlopen, Request
 from urllib.error import URLError, HTTPError
@@ -72,6 +73,9 @@ DATE_TO_ROUND = {}
 for rs in ROUND_SCHEDULE:
     for d in rs["dates"]:
         DATE_TO_ROUND[d] = rs["round"]
+
+# Expected number of games per round — used to detect incomplete matchup data
+EXPECTED_GAMES = {1: 32, 2: 16, 3: 8, 4: 4, 5: 2, 6: 1}
 
 # ============================================================
 # LOGGING
@@ -309,6 +313,133 @@ def run_git(args):
 
 
 # ============================================================
+# BRACKET-DERIVED MATCHUPS
+# ============================================================
+
+def fetch_bracket_id(game_id):
+    """Fetch bracketId for a game from the NCAA API game detail endpoint.
+    The /game/{id} response includes championshipGame.bracketId which encodes
+    the game's position in the bracket tree."""
+    url = f"{NCAA_API}/game/{game_id}"
+    req = Request(url, headers={"User-Agent": "update_matchups.py/1.0"})
+    try:
+        with urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            contests = data.get("contests", [])
+            if contests:
+                cg = contests[0].get("championshipGame", {})
+                return cg.get("bracketId")
+    except Exception:
+        pass
+    return None
+
+
+def get_game_winner(game):
+    """Return (team, seed) for the winner of a completed game, or None."""
+    if game.get("gameState") != "final":
+        return None
+    away = game.get("away", {})
+    home = game.get("home", {})
+    a_score = away.get("score")
+    h_score = home.get("score")
+    if a_score is None or h_score is None:
+        return None
+    if a_score > h_score:
+        return (away.get("team", "?"), away.get("seed", 0))
+    else:
+        return (home.get("team", "?"), home.get("seed", 0))
+
+
+def find_matching_team_game(games, team_a, team_b):
+    """Find index of a game with matching teams (in any order). Returns index or None."""
+    a_lower = team_a.lower()
+    b_lower = team_b.lower()
+    for i, g in enumerate(games):
+        away = g.get("away", {}).get("team", "").lower()
+        home = g.get("home", {}).get("team", "").lower()
+        if (away == a_lower and home == b_lower) or (away == b_lower and home == a_lower):
+            return i
+    return None
+
+
+def derive_matchups_from_prior_round(prior_games, target_round_num):
+    """Derive matchups for target_round_num from completed games in the prior round
+    using NCAA bracket IDs.
+
+    The NCAA assigns sequential bracketId values to tournament games. Within each
+    round, consecutive pairs of bracketIds represent games whose winners will meet
+    in the next round. For example, R2 bracketIds [301, 302] means those two
+    winners play each other in the Sweet 16.
+
+    Returns a list of derived game dicts (gameState='pre', gameID='derived-...')."""
+    log(f"  Deriving R{target_round_num} matchups from R{target_round_num - 1} bracket IDs...")
+    bracket_games = []
+    for game in prior_games:
+        gid = game.get("gameID", "")
+        if not gid or gid.startswith("derived-"):
+            continue
+        bid = fetch_bracket_id(gid)
+        if bid is not None:
+            bracket_games.append((bid, game))
+        time.sleep(0.22)  # Stay under 5 req/sec API limit
+
+    if len(bracket_games) < 2:
+        log(f"  Not enough bracket data to derive matchups")
+        return []
+
+    # Sort by bracketId — consecutive pairs feed into the same next-round game
+    bracket_games.sort(key=lambda x: x[0])
+
+    derived = []
+    for i in range(0, len(bracket_games), 2):
+        if i + 1 >= len(bracket_games):
+            break
+        bid_a, game_a = bracket_games[i]
+        bid_b, game_b = bracket_games[i + 1]
+
+        winner_a = get_game_winner(game_a)
+        winner_b = get_game_winner(game_b)
+
+        if not winner_a or not winner_b:
+            continue  # One or both games not final yet
+
+        team_a, seed_a = winner_a
+        team_b, seed_b = winner_b
+
+        # Convention: higher seed number (worse rank) = away, lower = home
+        if seed_a > seed_b:
+            away_team, away_seed = team_a, seed_a
+            home_team, home_seed = team_b, seed_b
+        elif seed_b > seed_a:
+            away_team, away_seed = team_b, seed_b
+            home_team, home_seed = team_a, seed_a
+        else:
+            # Same seed — keep bracket order (lower bracketId = home)
+            away_team, away_seed = team_b, seed_b
+            home_team, home_seed = team_a, seed_a
+
+        derived.append({
+            "gameID": f"derived-R{target_round_num}-{bid_a}-{bid_b}",
+            "date": "",
+            "startTime": "TBA",
+            "network": "",
+            "gameState": "pre",
+            "away": {
+                "team": away_team,
+                "seed": away_seed,
+                "score": None,
+            },
+            "home": {
+                "team": home_team,
+                "seed": home_seed,
+                "score": None,
+            },
+        })
+
+    return derived
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -405,6 +536,16 @@ def main():
                 if is_tbd_team(a) or is_tbd_team(h) or not a_seed or not h_seed:
                     log(f"  [R{rnum}] Skipping game {gid} on {date_str} — teams not yet determined")
                     continue
+                # Check if a game with matching teams already exists (e.g., derived matchup)
+                match_idx = find_matching_team_game(games, a, h)
+                if match_idx is not None:
+                    old_gid = games[match_idx].get("gameID", "?")
+                    games[match_idx] = api_game
+                    game_id_set.discard(old_gid)
+                    game_id_set.add(gid)
+                    log(f"  [R{rnum}] Replaced derived game {old_gid} with API game {gid}: {a} vs {h}")
+                    changes += 1
+                    continue
                 log(f"  [R{rnum}] NEW game {gid}: {a} (#{a_seed}) vs {h} (#{h_seed}) on {date_str}")
                 games.append(api_game)
                 game_id_set.add(gid)
@@ -416,6 +557,37 @@ def main():
             "payout": ex_round["payout"],
             "games": games,
         })
+
+    # ── Step 3c: Derive matchups from bracket IDs if API is incomplete ──
+    new_rounds_by_num = {r["round"]: r for r in new_rounds}
+    for rs in ROUND_SCHEDULE:
+        rnum = rs["round"]
+        if rnum <= 1:
+            continue
+        target = new_rounds_by_num.get(rnum)
+        if not target:
+            continue
+        expected = EXPECTED_GAMES.get(rnum, 0)
+        actual = len(target["games"])
+        if actual >= expected:
+            continue  # Already have all games for this round
+        prior = new_rounds_by_num.get(rnum - 1)
+        if not prior or not prior["games"]:
+            continue
+        # Only derive if prior round has enough completed games
+        final_count = sum(1 for g in prior["games"] if g.get("gameState") == "final")
+        if final_count < 2:
+            continue
+        log(f"\n  R{rnum} has {actual}/{expected} games — attempting bracket derivation from R{rnum-1} ({final_count} final)...")
+        derived = derive_matchups_from_prior_round(prior["games"], rnum)
+        for dg in derived:
+            a_name = dg["away"]["team"]
+            h_name = dg["home"]["team"]
+            if find_matching_team_game(target["games"], a_name, h_name) is not None:
+                continue  # Already have this matchup
+            target["games"].append(dg)
+            changes += 1
+            log(f"  [R{rnum}] DERIVED: ({dg['away']['seed']}) {a_name} vs ({dg['home']['seed']}) {h_name}")
 
     if changes == 0:
         log("No matchup changes detected from API.")
