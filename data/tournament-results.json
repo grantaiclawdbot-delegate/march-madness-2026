@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T01:27:22Z",
+  "lastUpdated": "2026-03-23T01:32:22Z",
   "rounds": [
     {
       "round": 1,
@@ -702,18 +702,18 @@
           "away": {
             "team": "Utah St.",
             "seed": 9,
-            "score": 24
+            "score": 30
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 33
+            "score": 42
           }
         },
         {
           "gameID": "6534641",
           "date": "2026-03-22",
-          "startTime": "8:45 PM CT",
+          "startTime": "9:00 PM CT",
           "network": "TBS",
           "gameState": "pre",
           "away": {
@@ -804,12 +804,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 70
+            "score": 73
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 71
+            "score": 72
           }
         },
         {
