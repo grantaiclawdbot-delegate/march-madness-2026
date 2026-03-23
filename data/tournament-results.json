@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T03:12:22Z",
+  "lastUpdated": "2026-03-23T03:19:17Z",
   "rounds": [
     {
       "round": 1,
@@ -839,8 +839,8 @@
         {
           "gameID": "6534644",
           "date": "2026-03-27",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "6:10 PM CT",
+          "network": "CBS",
           "gameState": "pre",
           "away": {
             "team": "St. John's (NY)",
@@ -856,8 +856,8 @@
         {
           "gameID": "6534651",
           "date": "2026-03-27",
-          "startTime": "TBA",
-          "network": "",
+          "startTime": "9:10 PM CT",
+          "network": "TBS",
           "gameState": "pre",
           "away": {
             "team": "Iowa St.",
