@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T03:32:02Z",
+  "lastUpdated": "2026-03-23T03:37:22Z",
   "rounds": [
     {
       "round": 1,
@@ -719,12 +719,12 @@
           "away": {
             "team": "Texas Tech",
             "seed": 5,
-            "score": 33
+            "score": 39
           },
           "home": {
             "team": "Alabama",
             "seed": 4,
-            "score": 52
+            "score": 60
           }
         },
         {
@@ -817,7 +817,7 @@
           "date": "2026-03-22",
           "startTime": "8:10 PM CT",
           "network": "TNT",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "UCLA",
             "seed": 7,
