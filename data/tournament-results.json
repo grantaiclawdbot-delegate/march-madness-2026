@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T02:27:30Z",
+  "lastUpdated": "2026-03-23T02:32:22Z",
   "rounds": [
     {
       "round": 1,
@@ -707,7 +707,7 @@
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 73
+            "score": 74
           }
         },
         {
@@ -719,12 +719,12 @@
           "away": {
             "team": "Texas Tech",
             "seed": 5,
-            "score": 9
+            "score": 10
           },
           "home": {
             "team": "Alabama",
             "seed": 4,
-            "score": 20
+            "score": 26
           }
         },
         {
@@ -821,7 +821,7 @@
           "away": {
             "team": "UCLA",
             "seed": 7,
-            "score": 33
+            "score": 39
           },
           "home": {
             "team": "UConn",
