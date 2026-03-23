@@ -763,7 +763,9 @@
 // CONFIG
 // ============================================================
 const STORAGE_KEY = 'mm2026_grid';
-const NCAA_API = 'https://ncaa-api.henrygd.me';
+const NCAA_API = 'https://vercel-proxy-two-zeta.vercel.app';
+const NCAA_API_DIRECT = 'https://ncaa-api.henrygd.me';
+const REFRESH_INTERVAL = 60000; // Auto-refresh every 60 seconds
 
 // Embedded grid config — source of truth when localStorage and fetch are unavailable
 const DEFAULT_GRID = {
@@ -983,8 +985,15 @@ function todayStr() {
 }
 
 async function fetchScoreboardForDate(dateStr) {
+  // Try Vercel proxy first, fall back to direct NCAA API
+  try {
+    const proxyUrl = `${NCAA_API}/api/scores?date=${dateStr}`;
+    const resp = await fetch(proxyUrl);
+    if (resp.ok) return resp.json();
+  } catch (e) { /* fall through to direct */ }
+
   const [y, m, d] = dateStr.split('-');
-  const url = `${NCAA_API}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
+  const url = `${NCAA_API_DIRECT}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
   const resp = await fetch(url);
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   return resp.json();
@@ -1691,6 +1700,39 @@ async function init() {
   renderLeaderboard();
   renderMyNumbers();
   renderStats();
+
+  // Auto-refresh scores when live games are in progress
+  startAutoRefresh();
+}
+
+function hasLiveGames() {
+  if (!tournamentData) return false;
+  return tournamentData.rounds.some(r =>
+    r.games.some(g => g.gameState !== 'final' && g.gameState !== 'tbd' && g.gameState !== 'pre')
+  );
+}
+
+async function refreshScores() {
+  try {
+    await loadResults();
+    renderResults();
+    renderLeaderboard();
+    renderMyNumbers();
+    renderStats();
+    console.log('Auto-refresh complete', new Date().toLocaleTimeString());
+  } catch (e) {
+    console.warn('Auto-refresh failed:', e.message);
+  }
+}
+
+let refreshTimer = null;
+function startAutoRefresh() {
+  if (refreshTimer) return;
+  refreshTimer = setInterval(() => {
+    if (hasLiveGames()) {
+      refreshScores();
+    }
+  }, REFRESH_INTERVAL);
 }
 
 init();
