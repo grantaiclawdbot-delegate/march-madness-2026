@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T00:07:22Z",
+  "lastUpdated": "2026-03-23T00:09:14Z",
   "rounds": [
     {
       "round": 1,
@@ -835,7 +835,25 @@
       "round": 3,
       "name": "Sweet 16",
       "payout": 200,
-      "games": []
+      "games": [
+        {
+          "gameID": "6534644",
+          "date": "2026-03-27",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "St. John's (NY)",
+            "seed": 5,
+            "score": null
+          },
+          "home": {
+            "team": "Duke",
+            "seed": 1,
+            "score": null
+          }
+        }
+      ]
     },
     {
       "round": 4,
