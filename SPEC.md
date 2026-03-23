@@ -171,6 +171,20 @@ Both `index.html` and `index-b.html` include per-person expandable rows in the W
 8. **Persisted expand state** — Expanded/collapsed state for each person is saved to `localStorage` under key `mm_lb_expand` (object keyed by name: `{ "PlayerName": true/false }` where `true` = expanded). Restored on every page load and after sorting.
 9. **Expand All / Collapse All button** — A button at the top-right of the Wins tab expands all rows at once (label: "Expand All") or collapses all (label: "Collapse All"). The label updates dynamically: shows "Expand All" if any row is collapsed, "Collapse All" if all are expanded.
 
+### Tab 5: Stats
+
+Displays three bar charts showing the frequency distribution of the last digit of final scores across all completed tournament games:
+
+1. **Away Team — Last Digit** — Bar chart (orange, `var(--accent)`) showing how often each digit 0–9 appears as the last digit of away team scores.
+2. **Home Team — Last Digit** — Bar chart (blue, `var(--blue)`) showing how often each digit 0–9 appears as the last digit of home team scores.
+3. **Combined — Last Digit** — Bar chart (green, `var(--green)`) showing the combined frequency across both home and away scores.
+
+**Layout:** On desktop, the Away and Home charts sit side-by-side (2-column grid) with the Combined chart spanning full width below. On mobile (≤600px), all three stack vertically.
+
+**Data source:** Iterates all rounds in `tournamentData`, counting only games where `gameState === 'final'` and both scores are non-null. A summary line below the charts shows the total number of completed games and total scores counted.
+
+**Bar scaling:** Each chart scales bars relative to the maximum count in that chart (tallest bar = 100% height). Each bar shows its count above the bar and the digit label (0–9) below.
+
 ---
 
 ## Data Sources
@@ -315,7 +329,7 @@ No arguments needed. Run from the repo root. Uses only Python standard library (
 - **Single HTML file** — No build tools, no frameworks, no dependencies. All CSS and JS are inline.
 - **Embedded data** — `DEFAULT_GRID` and `FALLBACK_RESULTS` are hardcoded as JS objects in `index.html` so it works when opened via `file://` protocol (where `fetch()` is blocked).
 - **localStorage key** — `mm2026_grid` stores local grid edits. Clear it to revert to the embedded default.
-- **Tab persistence** — `mm_active_tab` stores the last active tab name (`grid`, `results`, `leaderboard`, `mynumbers`). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid. The key is written every time the user switches tabs.
+- **Tab persistence** — `mm_active_tab` stores the last active tab name (`grid`, `results`, `leaderboard`, `mynumbers`, `stats`). On page load, both `index.html` and `index-b.html` read this key and restore the previously viewed tab instead of defaulting to Grid. The key is written every time the user switches tabs.
 - **Results section states** — `mm_results_sections` stores an object of `{ roundNumber: boolean }` pairs where `true` = expanded. Written on every toggle and when a round is auto-expanded. Read on every `renderResults()` call to restore state. Default (no key) = all collapsed except live rounds.
 - **Live round tracking** — `mm_results_live_rounds` stores `{ roundNumber: true }` for every round that has ever been seen in a live/in-progress state. Used to distinguish "newly live" rounds (auto-expand override) from rounds the user has already had a chance to interact with (respect `mm_results_sections`).
 - **Live API parsing** — The NCAA API response format is `{ games: [{ game: { away: {...}, home: {...}, ... } }] }`. Teams are nested directly inside `game` as `away` and `home` objects. The parser filters to tournament games only (both teams must have seeds) and normalizes into the internal format.
