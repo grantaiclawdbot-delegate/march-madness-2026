@@ -1399,7 +1399,8 @@ function renderResults() {
       localStorage.setItem('mm_results_live_rounds', JSON.stringify(seenLiveRounds));
       sectionStates[round] = true;
       localStorage.setItem('mm_results_sections', JSON.stringify(sectionStates));
-    } else if (sectionStates[round] === true) {
+    } else if (sectionStates[round] === true || sectionStates[round] === undefined) {
+      // Default to expanded when no saved state (e.g. InPrivate/fresh browser)
       section.classList.remove('collapsed');
     }
 
