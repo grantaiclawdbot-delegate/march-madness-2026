@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T04:20:35Z",
+  "lastUpdated": "2026-03-23T04:32:08Z",
   "rounds": [
     {
       "round": 1,
@@ -952,6 +952,23 @@
           "home": {
             "team": "Purdue",
             "seed": 2,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534650",
+          "date": "2026-03-27",
+          "startTime": "6:35 PM CT",
+          "network": "TBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Alabama",
+            "seed": 4,
+            "score": null
+          },
+          "home": {
+            "team": "Michigan",
+            "seed": 1,
             "score": null
           }
         }
