@@ -1308,7 +1308,7 @@ function renderResults() {
     const roundTitle = complete
       ? `${round.name} - Complete -- $${round.payout} per game`
       : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
-    const headerColor = complete ? 'color: lightgreen;' : (inProgressRound && round.round === inProgressRound.round) ? 'color: dodgerblue; font-weight: bold;' : '';
+    const headerColor = complete ? 'color: #2e7d32;' : (inProgressRound && round.round === inProgressRound.round) ? 'color: dodgerblue; font-weight: bold;' : '';
     html += `<h3 class="round-header" style="${headerColor}"><span class="round-toggle-icon"></span><span>${roundTitle}</span></h3>`;
     html += `<div class="round-body">`;
 
