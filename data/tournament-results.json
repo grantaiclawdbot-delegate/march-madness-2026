@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T01:47:22Z",
+  "lastUpdated": "2026-03-23T01:51:38Z",
   "rounds": [
     {
       "round": 1,
@@ -850,6 +850,23 @@
           "home": {
             "team": "Duke",
             "seed": 1,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534651",
+          "date": "2026-03-27",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "Iowa St.",
+            "seed": 2,
+            "score": null
+          },
+          "home": {
+            "team": "Tennessee",
+            "seed": 6,
             "score": null
           }
         }
