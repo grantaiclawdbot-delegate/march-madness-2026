@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T03:27:22Z",
+  "lastUpdated": "2026-03-23T03:32:02Z",
   "rounds": [
     {
       "round": 1,
@@ -867,6 +867,91 @@
           "home": {
             "team": "Tennessee",
             "seed": 6,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534645",
+          "date": "2026-03-27",
+          "startTime": "8:45 PM CT",
+          "network": "CBS",
+          "gameState": "pre",
+          "away": {
+            "team": "UConn",
+            "seed": 2,
+            "score": null
+          },
+          "home": {
+            "team": "Michigan St.",
+            "seed": 3,
+            "score": null
+          }
+        },
+        {
+          "gameID": "derived-R3-305-306",
+          "date": "",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "Iowa",
+            "seed": 9,
+            "score": null
+          },
+          "home": {
+            "team": "Nebraska",
+            "seed": 4,
+            "score": null
+          }
+        },
+        {
+          "gameID": "derived-R3-307-308",
+          "date": "",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "Illinois",
+            "seed": 3,
+            "score": null
+          },
+          "home": {
+            "team": "Houston",
+            "seed": 2,
+            "score": null
+          }
+        },
+        {
+          "gameID": "derived-R3-309-310",
+          "date": "",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "Arkansas",
+            "seed": 4,
+            "score": null
+          },
+          "home": {
+            "team": "Arizona",
+            "seed": 1,
+            "score": null
+          }
+        },
+        {
+          "gameID": "derived-R3-311-312",
+          "date": "",
+          "startTime": "TBA",
+          "network": "",
+          "gameState": "pre",
+          "away": {
+            "team": "Texas",
+            "seed": 11,
+            "score": null
+          },
+          "home": {
+            "team": "Purdue",
+            "seed": 2,
             "score": null
           }
         }
