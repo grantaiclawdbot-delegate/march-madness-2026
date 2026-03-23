@@ -419,3 +419,4 @@ No arguments needed. Run from the repo root.
 - Participant name corrections applied to all data tiers (index.html, index-b.html, data/grid-config.json):
   - `"Grant"` at grid row 2, col 4 normalized to `"Grant P"` (same person as other Grant P entries)
   - `"the Cooks"` (row 8, col 7) normalized to `"The Cooks"` to match the capitalization used elsewhere
+  - `"BCM"` at grid row 3, col 9 normalized to `"Ben M"` (same person)
