@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T01:02:23Z",
+  "lastUpdated": "2026-03-23T01:07:21Z",
   "rounds": [
     {
       "round": 1,
@@ -702,12 +702,12 @@
           "away": {
             "team": "Utah St.",
             "seed": 9,
-            "score": 22
+            "score": 24
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 32
+            "score": 33
           }
         },
         {
@@ -804,12 +804,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 57
+            "score": 61
           },
           "home": {
             "team": "Florida",
             "seed": 1,
-            "score": 56
+            "score": 60
           }
         },
         {
