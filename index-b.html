@@ -1299,7 +1299,7 @@ function renderResults() {
     if (!aComplete && bComplete) return -1;
     return a.round - b.round;
   });
-  const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.some(g => g.gameState === 'final'));
+  const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.length > 0);
   sortedRounds.forEach(round => {
     html += `<div class="results-section collapsed" data-round="${round.round}">`;
     const complete = isRoundComplete(round);

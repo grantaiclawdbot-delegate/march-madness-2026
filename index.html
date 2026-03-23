@@ -1301,7 +1301,7 @@ function renderResults() {
     return a.round - b.round;
   });
   // Find the lowest incomplete round that has at least one final game (= "in progress")
-  const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.some(g => g.gameState === 'final'));
+  const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.length > 0);
   sortedRounds.forEach(round => {
     html += `<div class="results-section collapsed" data-round="${round.round}">`;
     const complete = isRoundComplete(round);
