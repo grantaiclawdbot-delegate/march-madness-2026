@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-23T00:22:22Z",
+  "lastUpdated": "2026-03-23T00:27:22Z",
   "rounds": [
     {
       "round": 1,
@@ -707,7 +707,7 @@
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 10
+            "score": 12
           }
         },
         {
@@ -736,7 +736,7 @@
           "away": {
             "team": "Tennessee",
             "seed": 6,
-            "score": 72
+            "score": 73
           },
           "home": {
             "team": "Virginia",
