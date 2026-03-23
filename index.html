@@ -847,23 +847,35 @@ function emptyGrid() {
   };
 }
 
+// Name merges — applied after loading grid from any source
+const NAME_MERGES = { 'Grant': 'Grant P', 'the Cooks': 'The Cooks', 'BCM': 'Ben M' };
+function normalizeGridNames(grid) {
+  for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < 10; x++) {
+      const n = grid.names[y][x];
+      if (NAME_MERGES[n]) grid.names[y][x] = NAME_MERGES[n];
+    }
+  }
+  return grid;
+}
+
 async function loadGrid() {
   // Priority: localStorage > fetched grid-config.json > embedded DEFAULT_GRID
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
-    try { return JSON.parse(saved); } catch (e) { /* fall through */ }
+    try { return normalizeGridNames(JSON.parse(saved)); } catch (e) { /* fall through */ }
   }
 
   try {
     const resp = await fetch('data/grid-config.json');
     if (resp.ok) {
       const config = await resp.json();
-      return config;
+      return normalizeGridNames(config);
     }
   } catch (e) { /* fall through — expected on file:// protocol */ }
 
   // Use embedded default (works on file:// and when JSON fetch fails)
-  return JSON.parse(JSON.stringify(DEFAULT_GRID));
+  return normalizeGridNames(JSON.parse(JSON.stringify(DEFAULT_GRID)));
 }
 
 function saveGrid() {
