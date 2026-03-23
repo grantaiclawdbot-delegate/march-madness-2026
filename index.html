@@ -764,9 +764,7 @@
 // CONFIG
 // ============================================================
 const STORAGE_KEY = 'mm2026_grid';
-const NCAA_API = 'https://vercel-proxy-two-zeta.vercel.app';
-const NCAA_API_DIRECT = 'https://ncaa-api.henrygd.me';
-const REFRESH_INTERVAL = 60000; // Auto-refresh every 60 seconds
+const NCAA_API = 'https://ncaa-api.henrygd.me';
 
 // Embedded grid config — source of truth when localStorage and fetch are unavailable
 const DEFAULT_GRID = {
@@ -986,15 +984,8 @@ function todayStr() {
 }
 
 async function fetchScoreboardForDate(dateStr) {
-  // Try Vercel proxy first, fall back to direct NCAA API
-  try {
-    const proxyUrl = `${NCAA_API}/api/scores?date=${dateStr}`;
-    const resp = await fetch(proxyUrl);
-    if (resp.ok) return resp.json();
-  } catch (e) { /* fall through to direct */ }
-
   const [y, m, d] = dateStr.split('-');
-  const url = `${NCAA_API_DIRECT}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
+  const url = `${NCAA_API}/scoreboard/basketball-men/d1/${y}/${m}/${d}`;
   const resp = await fetch(url);
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   return resp.json();
@@ -1019,31 +1010,32 @@ function etToCt(timeStr) {
 }
 
 function parseApiGames(apiData, dateStr) {
-  // The NCAA API returns a games array. Each entry has:
-  //   { game: { away: {...}, home: {...}, gameState, ... } }
-  // Teams (away/home) are nested inside game with seed, score, names.
+  // The NCAA API returns a games array. Each entry may be structured as:
+  //   { game: { ... }, teams: [ ... ] }
+  // or as a flat object. We handle both.
   const raw = apiData.games || [];
   const games = [];
 
   for (const entry of raw) {
     try {
-      const gameObj = entry.game;
-      if (!gameObj) continue;
+      let gameObj, teamsArr;
 
-      // Support both formats: teams as separate array, or away/home inside game
-      let awayTeam, homeTeam;
-      if (entry.teams && entry.teams.length >= 2) {
-        awayTeam = entry.teams.find(t => t.isHome === false) || entry.teams[0];
-        homeTeam = entry.teams.find(t => t.isHome === true) || entry.teams[1];
-      } else if (gameObj.away && gameObj.home) {
-        awayTeam = gameObj.away;
-        homeTeam = gameObj.home;
+      if (entry.game && entry.teams) {
+        gameObj = entry.game;
+        teamsArr = entry.teams;
       } else {
         continue;
       }
 
       // Only include tournament games (both teams have seeds)
-      if (!awayTeam.seed && !homeTeam.seed) continue;
+      if (!teamsArr || teamsArr.length < 2) continue;
+
+      const team0seed = teamsArr[0].seed;
+      const team1seed = teamsArr[1].seed;
+      if (!team0seed && !team1seed) continue;
+
+      const awayTeam = teamsArr.find(t => t.isHome === false) || teamsArr[0];
+      const homeTeam = teamsArr.find(t => t.isHome === true) || teamsArr[1];
 
       const getName = (t) => t.nameShort || t.names?.short || t.teamName || t.name || '??';
       const getScore = (t) => {
@@ -1399,8 +1391,7 @@ function renderResults() {
       localStorage.setItem('mm_results_live_rounds', JSON.stringify(seenLiveRounds));
       sectionStates[round] = true;
       localStorage.setItem('mm_results_sections', JSON.stringify(sectionStates));
-    } else if (sectionStates[round] === true || sectionStates[round] === undefined) {
-      // Default to expanded when no saved state (e.g. InPrivate/fresh browser)
+    } else if (sectionStates[round] === true) {
       section.classList.remove('collapsed');
     }
 
@@ -1720,39 +1711,6 @@ async function init() {
   renderLeaderboard();
   renderMyNumbers();
   renderStats();
-
-  // Auto-refresh scores when live games are in progress
-  startAutoRefresh();
-}
-
-function hasLiveGames() {
-  if (!tournamentData) return false;
-  return tournamentData.rounds.some(r =>
-    r.games.some(g => g.gameState !== 'final' && g.gameState !== 'tbd' && g.gameState !== 'pre')
-  );
-}
-
-async function refreshScores() {
-  try {
-    await loadResults();
-    renderResults();
-    renderLeaderboard();
-    renderMyNumbers();
-    renderStats();
-    console.log('Auto-refresh complete', new Date().toLocaleTimeString());
-  } catch (e) {
-    console.warn('Auto-refresh failed:', e.message);
-  }
-}
-
-let refreshTimer = null;
-function startAutoRefresh() {
-  if (refreshTimer) return;
-  refreshTimer = setInterval(() => {
-    if (hasLiveGames()) {
-      refreshScores();
-    }
-  }, REFRESH_INTERVAL);
 }
 
 init();
