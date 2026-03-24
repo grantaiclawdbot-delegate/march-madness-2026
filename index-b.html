@@ -504,7 +504,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 24px;
     }
-    .stats-grid .stats-chart-wrap:last-child {
+    .stats-grid.has-full-width .stats-chart-wrap:last-child {
       grid-column: 1 / -1;
     }
     .stats-chart-wrap {
@@ -554,6 +554,32 @@
       margin-top: 16px;
       font-size: 0.82rem;
       color: var(--text-muted);
+    }
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .diff-table th {
+      text-align: left;
+      padding: 6px 8px;
+      border-bottom: 2px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .diff-table td {
+      padding: 5px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .diff-table td:nth-child(2),
+    .diff-table td:nth-child(3),
+    .diff-table td:nth-child(4),
+    .diff-table td:nth-child(5),
+    .diff-table th:nth-child(2),
+    .diff-table th:nth-child(3),
+    .diff-table th:nth-child(4),
+    .diff-table th:nth-child(5) {
+      text-align: center;
     }
 
     /* ============================================================
@@ -651,7 +677,7 @@
 
       /* Stats: stack on mobile */
       .stats-grid { grid-template-columns: 1fr; gap: 16px; }
-      .stats-grid .stats-chart-wrap:last-child { grid-column: auto; }
+      .stats-grid.has-full-width .stats-chart-wrap:last-child { grid-column: auto; }
       .bar-chart { height: 140px; }
     }
   </style>
@@ -741,7 +767,7 @@
 <!-- TAB 5: Stats -->
 <div id="tab-stats" class="tab-content">
   <h2 style="margin-bottom: 16px;">Score Digit Frequency</h2>
-  <div class="stats-grid">
+  <div class="stats-grid has-full-width">
     <div class="stats-chart-wrap">
       <h3>Away Team — Last Digit</h3>
       <div class="bar-chart" id="chartAway"></div>
@@ -756,6 +782,28 @@
     </div>
   </div>
   <div class="stats-note" id="statsNote"></div>
+  <h2 style="margin-top: 32px; margin-bottom: 16px;">Score Differential — Last Digit</h2>
+  <div class="stats-grid">
+    <div class="stats-chart-wrap">
+      <h3>Worse Seed (Away) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffAway"></div>
+    </div>
+    <div class="stats-chart-wrap">
+      <h3>Better Seed (Home) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffHome"></div>
+    </div>
+  </div>
+  <div class="stats-note" id="statsDiffNote"></div>
+  <div class="stats-grid" style="margin-top: 24px;">
+    <div class="stats-chart-wrap">
+      <h3>Worse Seed (Away) Wins — Detail</h3>
+      <div id="tableDiffAway"></div>
+    </div>
+    <div class="stats-chart-wrap">
+      <h3>Better Seed (Home) Wins — Detail</h3>
+      <div id="tableDiffHome"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1673,6 +1721,16 @@ function renderBarChart(containerId, counts, color) {
   el.innerHTML = html;
 }
 
+function renderDiffTable(containerId, rows) {
+  const el = document.getElementById(containerId);
+  let html = '<table class="diff-table"><thead><tr><th>Matchup</th><th>Score</th><th>Winner</th><th>Loser</th><th>Diff</th></tr></thead><tbody>';
+  for (const r of rows) {
+    html += `<tr><td>${escHtml(r.label)}</td><td>${r.score}</td><td>${r.winDigit}</td><td>${r.loseDigit}</td><td>${r.diff}</td></tr>`;
+  }
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
 function renderStats() {
   if (!tournamentData) return;
 
@@ -1703,6 +1761,40 @@ function renderStats() {
 
   document.getElementById('statsNote').textContent =
     `Based on ${gameCount} completed game${gameCount !== 1 ? 's' : ''} (${gameCount * 2} total scores)`;
+
+  // Differential of last digits — away wins vs home wins
+  const awayWinDiffs = new Array(10).fill(0);
+  const homeWinDiffs = new Array(10).fill(0);
+  const awayWinRows = [];
+  const homeWinRows = [];
+
+  for (const round of tournamentData.rounds) {
+    for (const game of round.games) {
+      if (game.gameState !== 'final') continue;
+      if (game.away.score === null || game.home.score === null) continue;
+
+      const awayDigit = game.away.score % 10;
+      const homeDigit = game.home.score % 10;
+      const diff = Math.abs(awayDigit - homeDigit);
+
+      if (game.away.score > game.home.score) {
+        awayWinDiffs[diff]++;
+        awayWinRows.push({ label: `${game.away.team} (${game.away.seed}) - ${game.home.team} (${game.home.seed})`, score: `${game.away.score}-${game.home.score}`, winDigit: awayDigit, loseDigit: homeDigit, diff });
+      } else if (game.home.score > game.away.score) {
+        homeWinDiffs[diff]++;
+        homeWinRows.push({ label: `${game.home.team} (${game.home.seed}) - ${game.away.team} (${game.away.seed})`, score: `${game.home.score}-${game.away.score}`, winDigit: homeDigit, loseDigit: awayDigit, diff });
+      }
+    }
+  }
+
+  renderBarChart('chartDiffAway', awayWinDiffs, 'var(--accent)');
+  renderBarChart('chartDiffHome', homeWinDiffs, 'var(--blue)');
+
+  document.getElementById('statsDiffNote').textContent =
+    `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | Differential = |last digit of winner − last digit of loser|`;
+
+  renderDiffTable('tableDiffAway', awayWinRows);
+  renderDiffTable('tableDiffHome', homeWinRows);
 }
 
 async function init() {
