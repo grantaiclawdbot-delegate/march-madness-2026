@@ -695,7 +695,6 @@
   <button class="tab-btn" data-tab="results">Results</button>
   <button class="tab-btn" data-tab="leaderboard">Wins</button>
   <button class="tab-btn" data-tab="stats">Stats</button>
-  <button class="tab-btn" data-tab="dddetail" style="display:none;">DD Detail</button>
 </nav>
 
 <!-- TAB 1: Grid Setup -->
@@ -779,6 +778,16 @@
     </div>
   </div>
   <div class="stats-note" id="statsDiffNote"></div>
+  <div class="stats-grid" style="margin-top: 24px;">
+    <div class="stats-chart-wrap">
+      <h3>Worse Seed (Away) Wins — Detail</h3>
+      <div id="tableDiffAway"></div>
+    </div>
+    <div class="stats-chart-wrap">
+      <h3>Better Seed (Home) Wins ��� Detail</h3>
+      <div id="tableDiffHome"></div>
+    </div>
+  </div>
   <h2 style="margin-top: 32px; margin-bottom: 16px;">Score Digit Frequency</h2>
   <div class="stats-grid has-full-width">
     <div class="stats-chart-wrap">
@@ -795,32 +804,6 @@
     </div>
   </div>
   <div class="stats-note" id="statsNote"></div>
-</div>
-
-<!-- TAB 6: DD Detail (hidden unless ?ShowAll) -->
-<div id="tab-dddetail" class="tab-content">
-  <h2>Digit Differential — Game Detail</h2>
-  <p style="color:var(--muted);margin-bottom:16px;">DD = (winner score − loser score) % 10</p>
-  <div class="stats-grid">
-    <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffAway2"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffHome2"></div>
-    </div>
-  </div>
-  <div class="stats-grid" style="margin-top: 24px;">
-    <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Wins</h3>
-      <div id="tableDiffAway"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Wins</h3>
-      <div id="tableDiffHome"></div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -899,11 +882,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     activateTab(saved);
   }
 })();
-
-// Show hidden tabs when ?ShowAll is in the URL
-if (new URLSearchParams(window.location.search).has('ShowAll')) {
-  document.querySelectorAll('.tab-btn[style*="display:none"]').forEach(b => b.style.display = '');
-}
 
 // ============================================================
 // TAB 1: GRID
@@ -1811,8 +1789,6 @@ function renderStats() {
 
   renderBarChart('chartDiffAway', awayWinDiffs, 'var(--accent)');
   renderBarChart('chartDiffHome', homeWinDiffs, 'var(--blue)');
-  renderBarChart('chartDiffAway2', awayWinDiffs, 'var(--accent)');
-  renderBarChart('chartDiffHome2', homeWinDiffs, 'var(--blue)');
 
   document.getElementById('statsDiffNote').textContent =
     `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | DD = (winner score − loser score) % 10`;
