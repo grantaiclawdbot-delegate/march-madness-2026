@@ -1593,6 +1593,12 @@ function renderLeaderboard() {
     html += `</tbody>`;
   });
 
+  const grandWins = sorted.reduce((s, e) => s + e[1].wins, 0);
+  const grandTotal = sorted.reduce((s, e) => s + e[1].total, 0);
+  html += `<tfoot><tr style="font-weight:bold;border-top:2px solid var(--accent);">`;
+  html += `<td></td><td>Total</td><td class="wins-cell">${grandWins}</td><td class="total-cell">$${grandTotal.toLocaleString()}</td>`;
+  html += `</tr></tfoot>`;
+
   html += `</table>`;
   container.innerHTML = html;
 
