@@ -768,7 +768,19 @@
 
 <!-- TAB 5: Stats -->
 <div id="tab-stats" class="tab-content">
-  <h2 style="margin-bottom: 16px;">Score Digit Frequency</h2>
+  <h2 style="margin-bottom: 16px;">Score Differential — Last Digit</h2>
+  <div class="stats-grid">
+    <div class="stats-chart-wrap">
+      <h3>Worse Seed (Away) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffAway"></div>
+    </div>
+    <div class="stats-chart-wrap">
+      <h3>Better Seed (Home) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffHome"></div>
+    </div>
+  </div>
+  <div class="stats-note" id="statsDiffNote"></div>
+  <h2 style="margin-top: 32px; margin-bottom: 16px;">Score Digit Frequency</h2>
   <div class="stats-grid has-full-width">
     <div class="stats-chart-wrap">
       <h3>Away Team — Last Digit</h3>
@@ -784,18 +796,6 @@
     </div>
   </div>
   <div class="stats-note" id="statsNote"></div>
-  <h2 style="margin-top: 32px; margin-bottom: 16px;">Score Differential — Last Digit</h2>
-  <div class="stats-grid">
-    <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffAway"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffHome"></div>
-    </div>
-  </div>
-  <div class="stats-note" id="statsDiffNote"></div>
 </div>
 
 <!-- TAB 6: DD Detail (hidden unless ?ShowAll) -->
@@ -803,6 +803,16 @@
   <h2>Digit Differential — Game Detail</h2>
   <p style="color:var(--muted);margin-bottom:16px;">DD = (winner score − loser score) % 10</p>
   <div class="stats-grid">
+    <div class="stats-chart-wrap">
+      <h3>Worse Seed (Away) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffAway2"></div>
+    </div>
+    <div class="stats-chart-wrap">
+      <h3>Better Seed (Home) Team Wins — Differential</h3>
+      <div class="bar-chart" id="chartDiffHome2"></div>
+    </div>
+  </div>
+  <div class="stats-grid" style="margin-top: 24px;">
     <div class="stats-chart-wrap">
       <h3>Worse Seed (Away) Wins</h3>
       <div id="tableDiffAway"></div>
@@ -1822,6 +1832,8 @@ function renderStats() {
 
   renderBarChart('chartDiffAway', awayWinDiffs, 'var(--accent)');
   renderBarChart('chartDiffHome', homeWinDiffs, 'var(--blue)');
+  renderBarChart('chartDiffAway2', awayWinDiffs, 'var(--accent)');
+  renderBarChart('chartDiffHome2', homeWinDiffs, 'var(--blue)');
 
   document.getElementById('statsDiffNote').textContent =
     `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | DD = (winner score − loser score) % 10`;
