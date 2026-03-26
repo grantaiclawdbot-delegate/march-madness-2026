@@ -695,6 +695,7 @@
   <button class="tab-btn" data-tab="results">Results</button>
   <button class="tab-btn" data-tab="leaderboard">Wins</button>
   <button class="tab-btn" data-tab="stats">Stats</button>
+  <button class="tab-btn" data-tab="dddetail" style="display:none;">DD Detail</button>
 </nav>
 
 <!-- TAB 1: Grid Setup -->
@@ -794,13 +795,19 @@
     </div>
   </div>
   <div class="stats-note" id="statsDiffNote"></div>
-  <div class="stats-grid" style="margin-top: 24px;">
+</div>
+
+<!-- TAB 6: DD Detail (hidden unless ?ShowAll) -->
+<div id="tab-dddetail" class="tab-content">
+  <h2>Digit Differential — Game Detail</h2>
+  <p style="color:var(--muted);margin-bottom:16px;">DD = (winner score − loser score) % 10</p>
+  <div class="stats-grid">
     <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Wins — Detail</h3>
+      <h3>Worse Seed (Away) Wins</h3>
       <div id="tableDiffAway"></div>
     </div>
     <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Wins — Detail</h3>
+      <h3>Better Seed (Home) Wins</h3>
       <div id="tableDiffHome"></div>
     </div>
   </div>
@@ -882,6 +889,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     activateTab(saved);
   }
 })();
+
+// Show hidden tabs when ?ShowAll is in the URL
+if (new URLSearchParams(window.location.search).has('ShowAll')) {
+  document.querySelectorAll('.tab-btn[style*="display:none"]').forEach(b => b.style.display = '');
+}
 
 // ============================================================
 // TAB 1: GRID
