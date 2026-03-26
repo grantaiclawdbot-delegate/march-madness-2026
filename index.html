@@ -1744,9 +1744,9 @@ function renderBarChart(containerId, counts, color) {
 
 function renderDiffTable(containerId, rows) {
   const el = document.getElementById(containerId);
-  let html = '<table class="diff-table"><thead><tr><th>Matchup</th><th>Score</th><th>Winner</th><th>Loser</th><th>Diff</th></tr></thead><tbody>';
+  let html = '<table class="diff-table"><thead><tr><th>Matchup</th><th>Score</th><th>Margin</th><th>DD</th></tr></thead><tbody>';
   for (const r of rows) {
-    html += `<tr><td>${escHtml(r.label)}</td><td>${r.score}</td><td>${r.winDigit}</td><td>${r.loseDigit}</td><td>${r.diff}</td></tr>`;
+    html += `<tr><td>${escHtml(r.label)}</td><td>${r.score}</td><td>${r.margin}</td><td>${r.diff}</td></tr>`;
   }
   html += '</tbody></table>';
   el.innerHTML = html;
@@ -1794,16 +1794,16 @@ function renderStats() {
       if (game.gameState !== 'final') continue;
       if (game.away.score === null || game.home.score === null) continue;
 
-      const awayDigit = game.away.score % 10;
-      const homeDigit = game.home.score % 10;
-      const diff = Math.abs(awayDigit - homeDigit);
-
       if (game.away.score > game.home.score) {
+        const margin = game.away.score - game.home.score;
+        const diff = margin % 10;
         awayWinDiffs[diff]++;
-        awayWinRows.push({ label: `${game.away.team} (${game.away.seed}) - ${game.home.team} (${game.home.seed})`, score: `${game.away.score}-${game.home.score}`, winDigit: awayDigit, loseDigit: homeDigit, diff });
+        awayWinRows.push({ label: `${game.away.team} (${game.away.seed}) - ${game.home.team} (${game.home.seed})`, score: `${game.away.score}-${game.home.score}`, margin, diff });
       } else if (game.home.score > game.away.score) {
+        const margin = game.home.score - game.away.score;
+        const diff = margin % 10;
         homeWinDiffs[diff]++;
-        homeWinRows.push({ label: `${game.home.team} (${game.home.seed}) - ${game.away.team} (${game.away.seed})`, score: `${game.home.score}-${game.away.score}`, winDigit: homeDigit, loseDigit: awayDigit, diff });
+        homeWinRows.push({ label: `${game.home.team} (${game.home.seed}) - ${game.away.team} (${game.away.seed})`, score: `${game.home.score}-${game.away.score}`, margin, diff });
       }
     }
   }
@@ -1812,7 +1812,7 @@ function renderStats() {
   renderBarChart('chartDiffHome', homeWinDiffs, 'var(--blue)');
 
   document.getElementById('statsDiffNote').textContent =
-    `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | Differential = |last digit of winner − last digit of loser|`;
+    `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | DD = (winner score − loser score) % 10`;
 
   renderDiffTable('tableDiffAway', awayWinRows);
   renderDiffTable('tableDiffHome', homeWinRows);
