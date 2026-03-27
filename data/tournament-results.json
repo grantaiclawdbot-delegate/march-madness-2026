@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T04:17:23Z",
+  "lastUpdated": "2026-03-27T04:22:23Z",
   "rounds": [
     {
       "round": 1,
@@ -909,7 +909,7 @@
           "date": "2026-03-26",
           "startTime": "9:05 PM CT",
           "network": "TBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Illinois",
             "seed": 3,
@@ -930,12 +930,12 @@
           "away": {
             "team": "Arkansas",
             "seed": 4,
-            "score": 80
+            "score": 84
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 104
+            "score": 106
           }
         },
         {
