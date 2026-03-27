@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T04:27:23Z",
+  "lastUpdated": "2026-03-27T22:44:22Z",
   "rounds": [
     {
       "round": 1,
@@ -978,7 +978,42 @@
       "round": 4,
       "name": "Elite Eight",
       "payout": 400,
-      "games": []
+      "games": [
+        {
+          "gameID": "6534653",
+          "date": "2026-03-28",
+          "startTime": "5:09 PM CT",
+          "network": "TBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Iowa",
+            "seed": 9,
+            "score": null
+          },
+          "home": {
+            "team": "Illinois",
+            "seed": 3,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534654",
+          "date": "2026-03-28",
+          "startTime": "7:49 PM CT",
+          "network": "TBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Purdue",
+            "seed": 2,
+            "score": null
+          },
+          "home": {
+            "team": "Arizona",
+            "seed": 1,
+            "score": null
+          }
+        }
+      ]
     },
     {
       "round": 5,
