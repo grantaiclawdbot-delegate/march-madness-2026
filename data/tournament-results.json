@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T00:52:22Z",
+  "lastUpdated": "2026-03-27T00:57:22Z",
   "rounds": [
     {
       "round": 1,
@@ -896,12 +896,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 50
+            "score": 55
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 50
+            "score": 58
           }
         },
         {
@@ -947,12 +947,12 @@
           "away": {
             "team": "Texas",
             "seed": 11,
-            "score": 59
+            "score": 65
           },
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 58
+            "score": 63
           }
         },
         {
