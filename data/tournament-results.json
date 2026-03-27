@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T23:12:22Z",
+  "lastUpdated": "2026-03-27T23:17:22Z",
   "rounds": [
     {
       "round": 1,
@@ -845,12 +845,12 @@
           "away": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": 0
+            "score": 4
           },
           "home": {
             "team": "Duke",
             "seed": 1,
-            "score": 0
+            "score": 8
           }
         },
         {
