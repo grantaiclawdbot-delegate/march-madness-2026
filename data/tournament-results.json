@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T22:57:22Z",
+  "lastUpdated": "2026-03-27T23:12:22Z",
   "rounds": [
     {
       "round": 1,
@@ -841,16 +841,16 @@
           "date": "2026-03-27",
           "startTime": "6:10 PM CT",
           "network": "CBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "St. John's (NY)",
             "seed": 5,
-            "score": null
+            "score": 0
           },
           "home": {
             "team": "Duke",
             "seed": 1,
-            "score": null
+            "score": 0
           }
         },
         {
