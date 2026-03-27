@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T02:07:23Z",
+  "lastUpdated": "2026-03-27T02:12:23Z",
   "rounds": [
     {
       "round": 1,
@@ -913,7 +913,7 @@
           "away": {
             "team": "Illinois",
             "seed": 3,
-            "score": 0
+            "score": 2
           },
           "home": {
             "team": "Houston",
@@ -926,16 +926,16 @@
           "date": "2026-03-26",
           "startTime": "9:06 PM CT",
           "network": "CBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Arkansas",
             "seed": 4,
-            "score": null
+            "score": 4
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": null
+            "score": 6
           }
         },
         {
