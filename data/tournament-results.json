@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T01:27:22Z",
+  "lastUpdated": "2026-03-27T01:32:23Z",
   "rounds": [
     {
       "round": 1,
@@ -924,7 +924,7 @@
         {
           "gameID": "6534648",
           "date": "2026-03-26",
-          "startTime": "8:45 PM CT",
+          "startTime": "9:00 PM CT",
           "network": "CBS",
           "gameState": "pre",
           "away": {
@@ -947,12 +947,12 @@
           "away": {
             "team": "Texas",
             "seed": 11,
-            "score": 72
+            "score": 77
           },
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 75
+            "score": 77
           }
         },
         {
