@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-26T23:57:22Z",
+  "lastUpdated": "2026-03-27T00:02:22Z",
   "rounds": [
     {
       "round": 1,
@@ -860,13 +860,13 @@
           "network": "TBS",
           "gameState": "pre",
           "away": {
-            "team": "Iowa St.",
-            "seed": 2,
+            "team": "Tennessee",
+            "seed": 6,
             "score": null
           },
           "home": {
-            "team": "Tennessee",
-            "seed": 6,
+            "team": "Iowa St.",
+            "seed": 2,
             "score": null
           }
         },
@@ -877,13 +877,13 @@
           "network": "CBS",
           "gameState": "pre",
           "away": {
-            "team": "UConn",
-            "seed": 2,
+            "team": "Michigan St.",
+            "seed": 3,
             "score": null
           },
           "home": {
-            "team": "Michigan St.",
-            "seed": 3,
+            "team": "UConn",
+            "seed": 2,
             "score": null
           }
         },
@@ -896,12 +896,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 23
+            "score": 24
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 31
+            "score": 32
           }
         },
         {
@@ -952,7 +952,7 @@
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 37
+            "score": 39
           }
         },
         {
