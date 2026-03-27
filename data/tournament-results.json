@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T01:37:22Z",
+  "lastUpdated": "2026-03-27T02:07:23Z",
   "rounds": [
     {
       "round": 1,
@@ -909,16 +909,16 @@
           "date": "2026-03-26",
           "startTime": "9:05 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Illinois",
             "seed": 3,
-            "score": null
+            "score": 0
           },
           "home": {
             "team": "Houston",
             "seed": 2,
-            "score": null
+            "score": 0
           }
         },
         {
