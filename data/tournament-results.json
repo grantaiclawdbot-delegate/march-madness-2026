@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27T01:22:23Z",
+  "lastUpdated": "2026-03-27T01:27:22Z",
   "rounds": [
     {
       "round": 1,
@@ -892,16 +892,16 @@
           "date": "2026-03-26",
           "startTime": "6:30 PM CT",
           "network": "TBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 71
+            "score": 77
           },
           "home": {
             "team": "Nebraska",
             "seed": 4,
-            "score": 68
+            "score": 71
           }
         },
         {
@@ -952,7 +952,7 @@
           "home": {
             "team": "Purdue",
             "seed": 2,
-            "score": 73
+            "score": 75
           }
         },
         {
