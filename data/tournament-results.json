@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-28T02:07:23Z",
+  "lastUpdated": "2026-03-28T02:12:23Z",
   "rounds": [
     {
       "round": 1,
@@ -856,7 +856,7 @@
         {
           "gameID": "6534651",
           "date": "2026-03-27",
-          "startTime": "9:20 PM CT",
+          "startTime": "9:26 PM CT",
           "network": "TBS",
           "gameState": "pre",
           "away": {
@@ -879,12 +879,12 @@
           "away": {
             "team": "Michigan St.",
             "seed": 3,
-            "score": 4
+            "score": 5
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": 8
+            "score": 10
           }
         },
         {
