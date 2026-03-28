@@ -701,6 +701,16 @@
     }
 
     /* THEMES */
+    html[data-theme="jens-gators"] {
+      --bg: #000818; --surface: #001030; --surface2: #001848;
+      --accent: #FA4616; --accent2: #F2A900;
+      --text: #d8e0f8; --text-muted: #6080b8;
+      --green: #22884C; --red: #D32737; --blue: #0021A5;
+      --border: #0a1a48;
+      --header-bg: linear-gradient(160deg, #0021A5 0%, #000818 50%, #3a1000 100%);
+      --title-color: #FA4616;
+      --th-bg: #001260; --th-color: #FA4616;
+    }
     html[data-theme="neon"] {
       --bg: #0a0a0f; --surface: #0f0f1a; --surface2: #16162a;
       --accent: #ff0080; --accent2: #00ffff;
@@ -823,6 +833,7 @@
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
     <div class="prize-pool">Prize Pool: $10,000</div>
     <select id="themeSelect" onchange="setTheme(this.value)" title="Change theme">
+      <option value="jens-gators">Jen's Gators</option>
       <option value="dark">Dark</option>
       <option value="neon">Neon</option>
       <option value="ocean">Ocean</option>
