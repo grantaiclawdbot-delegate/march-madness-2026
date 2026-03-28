@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-28T02:37:23Z",
+  "lastUpdated": "2026-03-28T02:42:23Z",
   "rounds": [
     {
       "round": 1,
@@ -858,16 +858,16 @@
           "date": "2026-03-27",
           "startTime": "9:36 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Tennessee",
             "seed": 6,
-            "score": null
+            "score": 2
           },
           "home": {
             "team": "Iowa St.",
             "seed": 2,
-            "score": null
+            "score": 5
           }
         },
         {
@@ -879,12 +879,12 @@
           "away": {
             "team": "Michigan St.",
             "seed": 3,
-            "score": 14
+            "score": 16
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": 27
+            "score": 31
           }
         },
         {
