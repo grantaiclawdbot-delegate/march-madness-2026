@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-28T04:52:23Z",
+  "lastUpdated": "2026-03-28T11:41:11Z",
   "rounds": [
     {
       "round": 1,
@@ -1009,6 +1009,40 @@
           },
           "home": {
             "team": "Arizona",
+            "seed": 1,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534655",
+          "date": "2026-03-29",
+          "startTime": "1:15 PM CT",
+          "network": "CBS",
+          "gameState": "pre",
+          "away": {
+            "team": "Tennessee",
+            "seed": 6,
+            "score": null
+          },
+          "home": {
+            "team": "Michigan",
+            "seed": 1,
+            "score": null
+          }
+        },
+        {
+          "gameID": "6534652",
+          "date": "2026-03-29",
+          "startTime": "4:05 PM CT",
+          "network": "CBS",
+          "gameState": "pre",
+          "away": {
+            "team": "UConn",
+            "seed": 2,
+            "score": null
+          },
+          "home": {
+            "team": "Duke",
             "seed": 1,
             "score": null
           }
