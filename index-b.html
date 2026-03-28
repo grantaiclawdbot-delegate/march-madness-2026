@@ -5,34 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>March Madness 2026 — Squares Pool Tracker</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
     :root {
-      --bg: #0f1923;
-      --surface: #1a2733;
-      --surface2: #243447;
-      --accent: #ff6b35;
-      --accent2: #ffd700;
-      --text: #e8e8e8;
-      --text-muted: #8899aa;
-      --green: #4caf50;
-      --red: #ef5350;
-      --blue: #1976d2;
-      --border: #2d4050;
-      --header-bg: linear-gradient(135deg, #1a2733 0%, #0d3b66 100%);
-      --title-color: #1565c0;
+      --bg: #0c0e13;
+      --surface: #12161e;
+      --surface2: #1c2232;
+      --accent: #f05523;
+      --accent2: #ffe70e;
+      --text: #eef1f6;
+      --text-muted: #7a8ba0;
+      --green: #3daa6e;
+      --red: #dc2e32;
+      --blue: #219fbd;
+      --border: #202840;
+      --header-bg: linear-gradient(160deg, #1a2035 0%, #0c0e13 100%);
+      --title-color: #f05523;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
     }
 
+    /* HEADER */
     header {
       background: var(--header-bg);
-      padding: 20px 30px;
+      padding: 22px 34px;
       border-bottom: 3px solid var(--accent);
       display: flex;
       align-items: center;
@@ -40,48 +43,72 @@
     }
 
     header h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 2.4rem;
+      font-weight: 400;
       color: var(--title-color);
+      letter-spacing: 3px;
+      line-height: 1;
     }
 
-    header h1 span { color: var(--text); font-weight: 400; }
+    header h1 span {
+      color: var(--text);
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
 
     .prize-pool {
-      font-size: 0.9rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 3px;
       color: var(--accent2);
-      font-weight: 600;
+      font-weight: 400;
       white-space: nowrap;
     }
 
+    /* TABS - pill style */
     .tabs {
       display: flex;
-      background: var(--surface);
+      background: #0a0c10;
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
+      padding: 10px 18px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
-      padding: 14px 28px;
-      background: none;
-      border: none;
+      padding: 7px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
       color: var(--text-muted);
+      font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 0.95rem;
-      font-weight: 600;
+      letter-spacing: 2px;
+      font-weight: 400;
       cursor: pointer;
-      border-bottom: 3px solid transparent;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
-    .tab-btn:hover { color: var(--text); background: var(--surface2); }
-    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-btn:hover { color: var(--text); border-color: var(--accent); }
+    .tab-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
 
-    .tab-content { display: none; padding: 24px; }
+    .tab-content { display: none; padding: 28px; }
     .tab-content.active { display: block; }
 
-    /* Tab 1: Grid Setup */
+    /* HEADINGS */
+    h2 {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+
+    /* GRID TAB */
     .grid-container {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -95,7 +122,7 @@
       position: absolute;
       top: 0; right: 0; bottom: 0;
       width: 28px;
-      background: linear-gradient(to left, rgba(15, 25, 35, 0.85), transparent);
+      background: linear-gradient(to left, rgba(12, 14, 19, 0.85), transparent);
       pointer-events: none;
       opacity: 1;
       transition: opacity 0.2s;
@@ -116,21 +143,24 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 8px;
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
     }
 
-    .grid-header h2 { font-size: 1.2rem; }
+    .grid-header h2 { font-size: 1.8rem; }
 
     .grid-actions button {
-      padding: 8px 16px;
+      padding: 8px 20px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 9999px;
       background: var(--surface2);
       color: var(--text);
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 600;
       margin-left: 8px;
       transition: all 0.2s;
     }
@@ -138,9 +168,9 @@
     .grid-actions button:disabled { opacity: 0.35; cursor: default; }
     .grid-actions button:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
     .grid-actions button.save-btn:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .grid-actions button.save-btn:not(:disabled):hover { background: #e55a28; }
-    .grid-actions button.export-btn:not(:disabled) { background: #2e7d32; color: #fff; border-color: #2e7d32; }
-    .grid-actions button.export-btn:not(:disabled):hover { background: #1b5e20; }
+    .grid-actions button.save-btn:not(:disabled):hover { background: #d44418; }
+    .grid-actions button.export-btn:not(:disabled) { background: var(--green); color: #fff; border-color: var(--green); }
+    .grid-actions button.export-btn:not(:disabled):hover { background: #2e8254; }
 
     .grid-with-labels {
       display: flex;
@@ -152,9 +182,11 @@
       writing-mode: vertical-lr;
       transform: rotate(180deg);
       text-align: center;
-      font-weight: 600;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-weight: 400;
       color: var(--accent2);
       font-size: 0.85rem;
+      letter-spacing: 2px;
       padding-right: 8px;
       white-space: nowrap;
     }
@@ -166,9 +198,11 @@
 
     .x-axis-label {
       text-align: center;
-      font-weight: 600;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-weight: 400;
       color: var(--accent2);
       font-size: 0.85rem;
+      letter-spacing: 2px;
       margin-top: 6px;
     }
 
@@ -189,10 +223,12 @@
     table.pool-grid th {
       background: var(--surface2);
       color: var(--accent2);
-      font-weight: 700;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      font-weight: 400;
     }
 
-    /* Sticky first column — row labels stay visible while scrolling */
     table.pool-grid th:first-child {
       position: sticky;
       left: 0;
@@ -228,7 +264,7 @@
     table.pool-grid td.cell.locked { cursor: default; }
 
     table.pool-grid td.cell.highlighted {
-      background: rgba(255, 107, 53, 0.2);
+      background: rgba(240, 85, 35, 0.18);
       outline: 2px solid var(--accent);
       outline-offset: -2px;
     }
@@ -251,23 +287,28 @@
       padding: 2px;
     }
 
-    /* Tab 2: Results */
+    /* RESULTS TAB */
     .data-source-note {
       display: inline-block;
-      font-size: 0.75rem;
-      padding: 3px 10px;
-      border-radius: 4px;
+      font-size: 0.72rem;
+      padding: 3px 12px;
+      border-radius: 9999px;
       margin-left: 8px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
-    .data-source-note.live { background: #1b5e20; color: #a5d6a7; }
-    .data-source-note.fallback { background: #e65100; color: #ffcc80; }
+    .data-source-note.live { background: #1b4d30; color: #5dcc90; }
+    .data-source-note.fallback { background: #5a2100; color: #ff9966; }
 
-    .results-section { margin-bottom: 32px; }
+    .results-section { margin-bottom: 28px; }
     .results-section .round-header {
-      font-size: 1rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      font-weight: inherit;
       color: var(--accent2);
       margin-bottom: 12px;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -276,9 +317,8 @@
       user-select: none;
       -webkit-user-select: none;
       gap: 8px;
-      font-weight: inherit;
     }
-    .results-section .round-header:hover { opacity: 0.8; }
+    .results-section .round-header:hover { opacity: 0.82; }
     .round-toggle-icon {
       display: inline-flex;
       align-items: center;
@@ -289,7 +329,7 @@
       font-weight: 700;
       line-height: 1;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1);
       border-radius: 50%;
       color: #fff;
     }
@@ -311,17 +351,18 @@
 
     .results-table th {
       background: var(--surface2);
-      padding: 10px 12px;
+      padding: 10px 14px;
       text-align: left;
-      font-size: 0.8rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 400;
       white-space: nowrap;
     }
 
     .results-table td {
-      padding: 10px 12px;
+      padding: 11px 14px;
       border-bottom: 1px solid var(--border);
       font-size: 0.85rem;
     }
@@ -332,12 +373,13 @@
       display: inline-block;
       background: var(--surface2);
       color: var(--text-muted);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       padding: 1px 5px;
       border-radius: 3px;
       margin-right: 4px;
       min-width: 20px;
       text-align: center;
+      font-weight: 700;
     }
 
     .winner-team { color: var(--green); font-weight: 600; }
@@ -348,63 +390,85 @@
       background: var(--accent);
       color: #fff;
       font-weight: 700;
-      font-size: 0.8rem;
-      padding: 3px 8px;
-      border-radius: 4px;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 9999px;
     }
 
-    .payout-badge { color: var(--accent2); font-weight: 700; }
+    .payout-badge {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 1px;
+      color: var(--accent2);
+      font-weight: 400;
+    }
     .status-pre { color: var(--text-muted); font-style: italic; }
 
-    /* Tab 3: Leaderboard */
+    /* LEADERBOARD TAB */
     .leaderboard-table {
       width: 100%;
-      max-width: 700px;
+      max-width: 780px;
       border-collapse: collapse;
     }
 
     .leaderboard-table th {
       background: var(--surface2);
-      padding: 12px 16px;
+      padding: 12px 18px;
       text-align: left;
-      font-size: 0.8rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 400;
     }
 
     .leaderboard-table td {
-      padding: 12px 16px;
+      padding: 13px 18px;
       border-bottom: 1px solid var(--border);
       font-size: 0.95rem;
     }
 
     .leaderboard-table tr:hover td { background: rgba(255,255,255,0.03); }
 
-    .rank-cell { color: var(--accent2); font-weight: 700; width: 50px; }
+    .rank-cell {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      font-weight: 400;
+      width: 60px;
+      line-height: 1;
+    }
     .name-cell { font-weight: 600; }
     .wins-cell { color: var(--text-muted); text-align: center; }
-    .total-cell { color: var(--green); font-weight: 700; font-size: 1.05rem; text-align: right; }
+    .total-cell {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 1px;
+      color: var(--green);
+      font-weight: 400;
+      text-align: right;
+    }
 
     .leaderboard-table th.lb-sortable {
       cursor: pointer;
       user-select: none;
     }
-    .leaderboard-table th.lb-sortable:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+    .leaderboard-table th.lb-sortable:hover { background: rgba(255,255,255,0.06); color: var(--text); }
     .leaderboard-table th.lb-sort-active { color: #fff; }
 
     .lb-expand-btn {
-      padding: 7px 14px;
+      padding: 7px 18px;
       background: var(--surface2);
       border: 1px solid var(--border);
+      border-radius: 9999px;
       color: var(--text-muted);
-      border-radius: 4px;
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
+      letter-spacing: 0.5px;
       white-space: nowrap;
     }
-    .lb-expand-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+    .lb-expand-btn:hover { border-color: var(--accent); color: var(--text); }
 
     .lb-toggle-icon {
       display: inline-flex;
@@ -416,7 +480,7 @@
       font-weight: 700;
       line-height: 1;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1);
       border-radius: 50%;
       color: #fff;
       cursor: pointer;
@@ -427,44 +491,46 @@
     .lb-player-group:not(.collapsed) .lb-toggle-icon::before { content: '−'; }
     .lb-player-group.collapsed .lb-sub-row { display: none; }
     .lb-sub-row td {
-      padding: 6px 16px 6px 46px;
+      padding: 6px 18px 6px 48px;
       border-bottom: none;
-      background: rgba(255,255,255,0.03);
-      font-size: 0.88rem;
+      background: rgba(255,255,255,0.02);
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
     .lb-sub-row:last-child td { border-bottom: 1px solid var(--border); }
     .lb-sub-row .sub-payout { color: var(--green); font-weight: 600; }
 
-    /* Tab 4: My Numbers */
+    /* MY NUMBERS TAB */
     .mynumbers-table {
       width: 100%;
-      max-width: 700px;
+      max-width: 780px;
       border-collapse: collapse;
     }
 
     .mynumbers-table th {
       background: var(--surface2);
-      padding: 12px 16px;
+      padding: 12px 18px;
       text-align: left;
-      font-size: 0.8rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: 400;
     }
 
     .mynumbers-table td {
-      padding: 12px 16px;
+      padding: 12px 18px;
       border-bottom: 1px solid var(--border);
       font-size: 0.95rem;
     }
 
     .mynumbers-table tr:hover td { background: rgba(255,255,255,0.03); }
-
     .mynumbers-name { font-weight: 600; white-space: nowrap; }
     .mynumbers-pairs { color: var(--accent2); font-family: monospace; font-size: 0.92rem; }
+    .mynumbers-pair-win { color: var(--green); font-weight: 700; }
     .mynumbers-count { color: var(--text-muted); text-align: center; width: 60px; }
 
+    /* SHARED */
     .no-data {
       color: var(--text-muted);
       font-style: italic;
@@ -500,7 +566,7 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Tab 5: Stats */
+    /* STATS TAB */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -511,13 +577,17 @@
     }
     .stats-chart-wrap {
       background: var(--surface);
-      border-radius: 8px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 20px;
       border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
     }
     .stats-chart-wrap h3 {
-      font-size: 0.95rem;
-      margin-bottom: 12px;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      font-weight: 400;
+      margin-bottom: 14px;
       color: var(--text-muted);
     }
     .bar-chart {
@@ -547,10 +617,12 @@
       transition: height 0.3s;
     }
     .bar-label {
-      font-size: 0.8rem;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
       margin-top: 6px;
       color: var(--text);
-      font-weight: 600;
+      font-weight: 400;
     }
     .stats-note {
       margin-top: 16px;
@@ -567,7 +639,10 @@
       padding: 6px 8px;
       border-bottom: 2px solid var(--border);
       color: var(--text-muted);
-      font-weight: 600;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      font-weight: 400;
     }
     .diff-table td {
       padding: 5px 8px;
@@ -584,109 +659,46 @@
       text-align: center;
     }
 
-    /* ============================================================
-       MOBILE STYLES — optimized for ~375px screens
-       ============================================================ */
+    /* MOBILE */
     @media (max-width: 600px) {
-      header {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-        gap: 4px;
-      }
-
-      header h1 { font-size: 1.15rem; }
-      .prize-pool { font-size: 0.8rem; }
-
-      .tabs { display: flex; }
-
-      .tab-btn {
-        padding: 10px 8px;
-        font-size: 0.78rem;
-        flex: 1;
-        min-width: 0;
-        white-space: nowrap;
-      }
-
-      .tab-content { padding: 12px; }
-
-      /* Grid: wider cells to reduce name wrapping */
-      table.pool-grid th,
-      table.pool-grid td {
-        width: 72px;
-        height: 44px;
-        font-size: 0.72rem;
-      }
-
-      table.pool-grid th:first-child,
-      table.pool-grid td:first-child {
-        width: 60px;
-      }
-
-      table.pool-grid .axis-input {
-        width: 42px;
-        font-size: 0.78rem;
-      }
-
-      .cell-name {
-        font-size: 0.58rem;
-        padding: 2px;
-      }
-
+      header { padding: 14px 18px; flex-wrap: wrap; gap: 6px; }
+      header h1 { font-size: 1.8rem; }
+      .prize-pool { font-size: 1rem; letter-spacing: 2px; }
+      .tabs { padding: 8px 10px; gap: 5px; }
+      .tab-btn { padding: 6px 14px; font-size: 0.85rem; flex: 1; min-width: 0; text-align: center; white-space: nowrap; }
+      .tab-content { padding: 14px; }
+      table.pool-grid th, table.pool-grid td { width: 72px; height: 44px; font-size: 0.72rem; }
+      table.pool-grid th:first-child, table.pool-grid td:first-child { width: 60px; }
+      table.pool-grid .axis-input { width: 42px; font-size: 0.78rem; }
+      .cell-name { font-size: 0.58rem; padding: 2px; }
       .y-axis-label { font-size: 0.65rem; padding-right: 4px; }
       .x-axis-label { font-size: 0.72rem; }
-
       .grid-with-labels { justify-content: flex-start; }
-
       .scroll-hint { display: block; }
-
-      /* Right-edge fade shadow hints that the table is scrollable */
       .grid-scroll-outer::after { display: block; }
-
       .grid-header { margin-bottom: 8px; }
-      .grid-header h2 { font-size: 1rem; }
-      .grid-actions button { padding: 8px 12px; font-size: 0.8rem; margin-left: 4px; }
-
-      /* Results: tighter */
+      .grid-header h2 { font-size: 1.4rem; }
+      .grid-actions button { padding: 7px 14px; font-size: 0.78rem; margin-left: 4px; }
       .results-section { margin-bottom: 20px; }
-      .results-section .round-header { font-size: 0.9rem; margin-bottom: 8px; padding: 10px 0 8px; }
-
-      .results-table th {
-        padding: 8px 8px;
-        font-size: 0.72rem;
-      }
-
-      .results-table td {
-        padding: 8px 8px;
-        font-size: 0.78rem;
-      }
-
-      .seed-badge {
-        font-size: 0.62rem;
-        padding: 1px 4px;
-        min-width: 16px;
-      }
-
-      .coord-badge { font-size: 0.72rem; padding: 2px 6px; }
-
+      .results-section .round-header { font-size: 1.2rem; margin-bottom: 8px; padding: 10px 0 8px; }
+      .results-table th { padding: 8px 8px; font-size: 0.78rem; }
+      .results-table td { padding: 8px 8px; font-size: 0.78rem; }
+      .seed-badge { font-size: 0.62rem; padding: 1px 4px; min-width: 16px; }
+      .coord-badge { font-size: 0.72rem; padding: 2px 8px; }
       .updated-note { font-size: 0.7rem; }
-
-      /* Leaderboard: full width */
       .leaderboard-table { max-width: 100%; }
-      .leaderboard-table th { padding: 10px 12px; font-size: 0.75rem; }
+      .leaderboard-table th { padding: 10px 12px; font-size: 0.8rem; }
       .leaderboard-table td { padding: 10px 12px; font-size: 0.88rem; }
-      .total-cell { font-size: 0.95rem; }
+      .total-cell { font-size: 1.1rem; }
+      .rank-cell { font-size: 1.3rem; }
       .lb-sub-row td { padding: 5px 12px 5px 36px; font-size: 0.82rem; }
-
-      /* Stats: stack on mobile */
       .stats-grid { grid-template-columns: 1fr; gap: 16px; }
       .stats-grid.has-full-width .stats-chart-wrap:last-child { grid-column: auto; }
       .bar-chart { height: 140px; }
       #themeSelect { font-size: 0.75rem; padding: 3px 6px; }
     }
 
-    /* ============================================================
-       THEMES
-       ============================================================ */
+    /* THEMES */
     html[data-theme="classic-dark"] {
       --bg: #121212; --surface: #1e1e1e; --surface2: #2d2d2d;
       --accent: #bb86fc; --accent2: #cf6679;
@@ -753,10 +765,7 @@
     }
     #themeSelect:focus { outline: none; border-color: var(--accent); }
     #themeSelect option { background: #1e2a38; color: #e8e8e8; }
-    html[data-theme="light"] #themeSelect {
-      background: rgba(0,0,0,0.07);
-      border-color: rgba(0,0,0,0.2);
-    }
+    html[data-theme="light"] #themeSelect { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.2); }
     html[data-theme="light"] .results-table tr:hover td,
     html[data-theme="light"] .leaderboard-table tr:hover td,
     html[data-theme="light"] .mynumbers-table tr:hover td { background: rgba(0,0,0,0.04); }
