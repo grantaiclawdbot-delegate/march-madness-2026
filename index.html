@@ -21,6 +21,7 @@
       --border: #202840;
       --header-bg: linear-gradient(160deg, #1a2035 0%, #0c0e13 100%);
       --title-color: #00c853;
+      --th-bg: var(--surface2); --th-color: var(--text-muted);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -221,7 +222,7 @@
     }
 
     table.pool-grid th {
-      background: var(--surface2);
+      background: var(--th-bg);
       color: var(--accent2);
       font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 1rem;
@@ -233,7 +234,7 @@
       position: sticky;
       left: 0;
       z-index: 2;
-      background: var(--surface2);
+      background: var(--th-bg);
     }
 
     table.pool-grid .corner {
@@ -350,13 +351,13 @@
     }
 
     .results-table th {
-      background: var(--surface2);
+      background: var(--th-bg);
       padding: 10px 14px;
       text-align: left;
       font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 0.9rem;
       letter-spacing: 2px;
-      color: var(--text-muted);
+      color: var(--th-color);
       font-weight: 400;
       white-space: nowrap;
     }
@@ -412,13 +413,13 @@
     }
 
     .leaderboard-table th {
-      background: var(--surface2);
+      background: var(--th-bg);
       padding: 12px 18px;
       text-align: left;
       font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 0.9rem;
       letter-spacing: 2px;
-      color: var(--text-muted);
+      color: var(--th-color);
       font-weight: 400;
     }
 
@@ -508,13 +509,13 @@
     }
 
     .mynumbers-table th {
-      background: var(--surface2);
+      background: var(--th-bg);
       padding: 12px 18px;
       text-align: left;
       font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 0.9rem;
       letter-spacing: 2px;
-      color: var(--text-muted);
+      color: var(--th-color);
       font-weight: 400;
     }
 
@@ -637,8 +638,9 @@
     .diff-table th {
       text-align: left;
       padding: 6px 8px;
+      background: var(--th-bg);
       border-bottom: 2px solid var(--border);
-      color: var(--text-muted);
+      color: var(--th-color);
       font-family: 'Bebas Neue', Impact, sans-serif;
       font-size: 0.85rem;
       letter-spacing: 1.5px;
@@ -707,15 +709,27 @@
       --border: #1a1a3a;
       --header-bg: linear-gradient(135deg, #0f0f1a 0%, #1a0030 100%);
       --title-color: #00ffff;
+      --th-bg: #1a0033; --th-color: #00ffff;
+    }
+    html[data-theme="ocean"] {
+      --bg: #060d1a; --surface: #0a1628; --surface2: #0f2040;
+      --accent: #00b4d8; --accent2: #90e0ef;
+      --text: #caf0f8; --text-muted: #5a8fa8;
+      --green: #00f5a0; --red: #ff6b6b; --blue: #0096c7;
+      --border: #0e2a40;
+      --header-bg: linear-gradient(135deg, #0a1628 0%, #03045e 100%);
+      --title-color: #00b4d8;
+      --th-bg: #082038; --th-color: #90e0ef;
     }
     html[data-theme="arizona"] {
-      --bg: #0a0f1a; --surface: #0f1826; --surface2: #1a2640;
+      --bg: #0a0810; --surface: #140e18; --surface2: #201828;
       --accent: #CC0033; --accent2: #ff3366;
       --text: #e8ecf2; --text-muted: #7088a8;
       --green: #4caf50; --red: #ff4455; --blue: #4488cc;
-      --border: #1a2a44;
-      --header-bg: linear-gradient(160deg, #1a2640 0%, #0a0f1a 100%);
+      --border: #2a1830;
+      --header-bg: linear-gradient(160deg, #2a0018 0%, #0a0810 50%, #001828 100%);
       --title-color: #CC0033;
+      --th-bg: #5a0020; --th-color: #ffccdd;
     }
     html[data-theme="duke"] {
       --bg: #000818; --surface: #001030; --surface2: #001a4a;
@@ -723,8 +737,9 @@
       --text: #d8e0f0; --text-muted: #6080aa;
       --green: #4caf50; --red: #ef5350; --blue: #003087;
       --border: #0a1a40;
-      --header-bg: linear-gradient(160deg, #001a4a 0%, #000818 100%);
+      --header-bg: linear-gradient(160deg, #002060 0%, #000818 100%);
       --title-color: #4488dd;
+      --th-bg: #001a56; --th-color: #aaccff;
     }
     html[data-theme="illinois"] {
       --bg: #060c18; --surface: #0d1528; --surface2: #13203e;
@@ -732,8 +747,9 @@
       --text: #e0e4ec; --text-muted: #6878a0;
       --green: #4caf50; --red: #E84A27; --blue: #3388cc;
       --border: #152040;
-      --header-bg: linear-gradient(160deg, #13203e 0%, #060c18 100%);
+      --header-bg: linear-gradient(160deg, #13294B 0%, #060c18 50%, #3a1200 100%);
       --title-color: #E84A27;
+      --th-bg: #13294B; --th-color: #E84A27;
     }
     html[data-theme="iowa"] {
       --bg: #080808; --surface: #111111; --surface2: #1c1c1c;
@@ -741,8 +757,9 @@
       --text: #e8e6e0; --text-muted: #888880;
       --green: #4caf50; --red: #ef5350; --blue: #4488cc;
       --border: #282820;
-      --header-bg: linear-gradient(160deg, #1a1a10 0%, #080808 100%);
+      --header-bg: linear-gradient(160deg, #1a1800 0%, #080808 100%);
       --title-color: #FFCD00;
+      --th-bg: #1a1600; --th-color: #FFCD00;
     }
     html[data-theme="michigan"] {
       --bg: #00101e; --surface: #001528; --surface2: #001e3a;
@@ -750,8 +767,9 @@
       --text: #d8e4f0; --text-muted: #5880a0;
       --green: #4caf50; --red: #ef5350; --blue: #00274C;
       --border: #0a2040;
-      --header-bg: linear-gradient(160deg, #001e3a 0%, #00101e 100%);
+      --header-bg: linear-gradient(160deg, #00274C 0%, #00101e 100%);
       --title-color: #FFCB05;
+      --th-bg: #001838; --th-color: #FFCB05;
     }
     html[data-theme="purdue"] {
       --bg: #080806; --surface: #121210; --surface2: #1e1e18;
@@ -759,8 +777,9 @@
       --text: #e8e4dc; --text-muted: #908878;
       --green: #4caf50; --red: #ef5350; --blue: #4488cc;
       --border: #2a2820;
-      --header-bg: linear-gradient(160deg, #1a1810 0%, #080806 100%);
+      --header-bg: linear-gradient(160deg, #1e1a0e 0%, #080806 100%);
       --title-color: #CEB888;
+      --th-bg: #1a1608; --th-color: #CEB888;
     }
     html[data-theme="tennessee"] {
       --bg: #0c0a08; --surface: #161210; --surface2: #221c18;
@@ -768,8 +787,9 @@
       --text: #f0e8e0; --text-muted: #907868;
       --green: #4caf50; --red: #ef5350; --blue: #489FDF;
       --border: #2c2218;
-      --header-bg: linear-gradient(160deg, #221c18 0%, #0c0a08 100%);
+      --header-bg: linear-gradient(160deg, #3a2000 0%, #0c0a08 100%);
       --title-color: #FF8200;
+      --th-bg: #3a2000; --th-color: #ffc880;
     }
     html[data-theme="uconn"] {
       --bg: #000610; --surface: #000c1e; --surface2: #001430;
@@ -777,8 +797,9 @@
       --text: #d8dce8; --text-muted: #5870a0;
       --green: #4caf50; --red: #E4002B; --blue: #3366aa;
       --border: #0c1830;
-      --header-bg: linear-gradient(160deg, #001430 0%, #000610 100%);
+      --header-bg: linear-gradient(160deg, #001430 0%, #100008 50%, #000610 100%);
       --title-color: #E4002B;
+      --th-bg: #000e28; --th-color: #ff6680;
     }
 
     #themeSelect {
@@ -804,6 +825,7 @@
     <select id="themeSelect" onchange="setTheme(this.value)" title="Change theme">
       <option value="dark">Dark</option>
       <option value="neon">Neon</option>
+      <option value="ocean">Ocean</option>
       <option value="arizona">Arizona</option>
       <option value="duke">Duke</option>
       <option value="illinois">Illinois</option>
