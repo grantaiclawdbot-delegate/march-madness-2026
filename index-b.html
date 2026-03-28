@@ -772,7 +772,7 @@
     html[data-theme="light"] .round-toggle-icon,
     html[data-theme="light"] .lb-toggle-icon { background: rgba(0,0,0,0.15); color: #333; }
   </style>
-  <script>(function(){var t=localStorage.getItem('mm_theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <script>(function(){var V=1,F='ocean',fv=localStorage.getItem('mm_theme_force_v'),t;if(fv!==String(V)){t=F;localStorage.setItem('mm_theme',F);localStorage.setItem('mm_theme_force_v',String(V));}else{t=localStorage.getItem('mm_theme')||'dark';}document.documentElement.setAttribute('data-theme',t);})()</script>
 </head>
 <body>
 

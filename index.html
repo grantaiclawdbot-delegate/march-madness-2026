@@ -764,7 +764,7 @@
     html[data-theme="light"] .round-toggle-icon,
     html[data-theme="light"] .lb-toggle-icon { background: rgba(0,0,0,0.15); color: #333; }
   </style>
-  <script>(function(){var t=localStorage.getItem('mm_theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <script>(function(){var V=1,F='ocean',fv=localStorage.getItem('mm_theme_force_v'),t;if(fv!==String(V)){t=F;localStorage.setItem('mm_theme',F);localStorage.setItem('mm_theme_force_v',String(V));}else{t=localStorage.getItem('mm_theme')||'dark';}document.documentElement.setAttribute('data-theme',t);})()</script>
 </head>
 <body>
 
@@ -905,6 +905,10 @@
 // ============================================================
 // THEME
 // ============================================================
+// To force all users to a new theme once: bump V and set F in the
+// head <script> tag (the one-liner before </head>). They get forced
+// on next load, then keep their own selection after that.
+// Current forced push: V=1, F='ocean'
 const THEME_KEY = 'mm_theme';
 function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
