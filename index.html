@@ -1464,11 +1464,15 @@ function getWinningCoord(game) {
   const awaySeed = game.away.seed;
   const homeSeed = game.home.seed;
 
-  if (awaySeed === homeSeed) return null; // Same seed (First Four)
   if (!awaySeed || !homeSeed) return null;
 
   let worseSeedScore, betterSeedScore;
-  if (awaySeed > homeSeed) {
+  if (awaySeed === homeSeed) {
+    // Same seed — use NCAA API home/away designation
+    // Away = Y-axis (worse seed axis), Home = X-axis (better seed axis)
+    worseSeedScore = game.away.score;
+    betterSeedScore = game.home.score;
+  } else if (awaySeed > homeSeed) {
     worseSeedScore = game.away.score;
     betterSeedScore = game.home.score;
   } else {
@@ -1478,7 +1482,8 @@ function getWinningCoord(game) {
 
   return {
     y: worseSeedScore % 10,
-    x: betterSeedScore % 10
+    x: betterSeedScore % 10,
+    sameSeed: awaySeed === homeSeed
   };
 }
 
@@ -1558,31 +1563,41 @@ function renderResults() {
     const tbdGames = round.games.filter(g => g.gameState === 'tbd');
 
     if (liveGames.length > 0) {
+      let liveSameSeed = false;
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Status</th></tr>`;
       liveGames.forEach(game => {
+        const sameSeed = game.away.seed === game.home.seed;
+        if (sameSeed) liveSameSeed = true;
         html += `<tr>`;
         html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
-        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
+        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)}${sameSeed ? '<span style="color:var(--text-muted); font-size:0.7rem;"> (Away)</span>' : ''} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}${sameSeed ? '<span style="color:var(--text-muted); font-size:0.7rem;"> (Home)</span>' : ''}</td>`;
         html += `<td>${game.away.score ?? '-'} – ${game.home.score ?? '-'}</td>`;
         html += `<td style="color:var(--red); font-weight:600;">LIVE</td>`;
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
+      if (liveSameSeed) html += `<p style="color:var(--text-muted); font-size:0.75rem; font-style:italic; margin:6px 0 0 4px;">* Same-seed matchup — Away/Home designation derived from NCAA API</p>`;
+      html += `</div>`;
     }
 
     if (preGames.length > 0) {
+      let preSameSeed = false;
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Time</th><th>Network</th></tr>`;
       preGames.forEach(game => {
+        const sameSeed = game.away.seed === game.home.seed;
+        if (sameSeed) preSameSeed = true;
         html += `<tr>`;
         html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}</td>`;
-        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}</td>`;
+        html += `<td><span class="seed-badge">${game.away.seed}</span>${escHtml(game.away.team)}${sameSeed ? '<span style="color:var(--text-muted); font-size:0.7rem;"> (Away)</span>' : ''} vs <span class="seed-badge">${game.home.seed}</span>${escHtml(game.home.team)}${sameSeed ? '<span style="color:var(--text-muted); font-size:0.7rem;"> (Home)</span>' : ''}</td>`;
         html += `<td class="status-pre">${escHtml(game.startTime)}</td>`;
         html += `<td>${escHtml(game.network)}</td>`;
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
+      if (preSameSeed) html += `<p style="color:var(--text-muted); font-size:0.75rem; font-style:italic; margin:6px 0 0 4px;">* Same-seed matchup — Away/Home designation derived from NCAA API</p>`;
+      html += `</div>`;
     }
 
     if (tbdGames.length > 0) {
@@ -1592,6 +1607,7 @@ function renderResults() {
     }
 
     if (finalGames.length > 0) {
+      let hasSameSeedGame = false;
       html += `<div class="table-scroll-wrap"><table class="results-table">`;
       html += `<tr><th>Game</th><th>Matchup</th><th>Score</th><th>Square</th><th>Winner</th>${round.payout ? '<th>Payout</th>' : ''}</tr>`;
 
@@ -1600,13 +1616,17 @@ function renderResults() {
         const away = game.away;
         const home = game.home;
         const awayWon = away.score > home.score;
+        const sameSeed = away.seed === home.seed;
+        if (sameSeed) hasSameSeedGame = true;
 
         html += `<tr>`;
         html += `<td style="color:var(--text-muted); font-size:0.75rem;">${game.date}<br>${escHtml(game.startTime)}</td>`;
         html += `<td>`;
         html += `<span class="seed-badge">${away.seed}</span><span class="${awayWon ? 'winner-team' : 'loser-team'}">${escHtml(away.team)}</span>`;
+        if (sameSeed) html += `<span style="color:var(--text-muted); font-size:0.7rem;"> (Away)</span>`;
         html += ` vs `;
         html += `<span class="seed-badge">${home.seed}</span><span class="${!awayWon ? 'winner-team' : 'loser-team'}">${escHtml(home.team)}</span>`;
+        if (sameSeed) html += `<span style="color:var(--text-muted); font-size:0.7rem;"> (Home)</span>`;
         html += `</td>`;
         html += `<td><span class="${awayWon ? 'winner-team' : 'loser-team'}">${away.score}</span> – <span class="${!awayWon ? 'winner-team' : 'loser-team'}">${home.score}</span></td>`;
 
@@ -1621,7 +1641,11 @@ function renderResults() {
         }
         html += `</tr>`;
       });
-      html += `</table></div>`;
+      html += `</table>`;
+      if (hasSameSeedGame) {
+        html += `<p style="color:var(--text-muted); font-size:0.75rem; font-style:italic; margin:6px 0 0 4px;">* Same-seed matchup — Away/Home designation derived from NCAA API</p>`;
+      }
+      html += `</div>`;
     }
 
     html += `</div>`; // close round-body
