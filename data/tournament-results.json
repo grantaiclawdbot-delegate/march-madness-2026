@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-29T02:52:23Z",
+  "lastUpdated": "2026-03-29T02:57:23Z",
   "rounds": [
     {
       "round": 1,
@@ -1005,12 +1005,12 @@
           "away": {
             "team": "Purdue",
             "seed": 2,
-            "score": 53
+            "score": 57
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 66
+            "score": 68
           }
         },
         {
