@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-29T20:37:23Z",
+  "lastUpdated": "2026-03-29T20:42:23Z",
   "rounds": [
     {
       "round": 1,
@@ -1018,7 +1018,7 @@
           "date": "2026-03-29",
           "startTime": "1:15 PM CT",
           "network": "CBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "Tennessee",
             "seed": 6,
