@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-29T00:12:23Z",
+  "lastUpdated": "2026-03-29T00:17:23Z",
   "rounds": [
     {
       "round": 1,
@@ -988,12 +988,12 @@
           "away": {
             "team": "Iowa",
             "seed": 9,
-            "score": 52
+            "score": 55
           },
           "home": {
             "team": "Illinois",
             "seed": 3,
-            "score": 58
+            "score": 62
           }
         },
         {
