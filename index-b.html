@@ -2001,7 +2001,26 @@ function computeStatsData() {
   const totalWinnings = sortedPlayers.reduce((s, e) => s + e[1].total, 0);
   const totalExpected = ROUND_SCHEDULE.reduce((s, r) => s + r.expectedGames, 0);
 
-  return { winGrid, earnGrid, yDigits, xDigits, playerMap, sortedPlayers, chronGames, roundHeatmaps, awayWinDiffs, homeWinDiffs, awayWinRows, homeWinRows, finalCount, totalWinnings, totalExpected };
+  // Profit/loss per person: count squares from grid, compute cost vs winnings
+  const squareCounts = {};
+  for (let r = 0; r < 10; r++) {
+    for (let c = 0; c < 10; c++) {
+      const n = (gridData.names[r][c] || '').trim();
+      if (n && n !== '(empty)' && n !== '(axis not set)') squareCounts[n] = (squareCounts[n] || 0) + 1;
+    }
+  }
+  const allNames = new Set([...Object.keys(squareCounts), ...Object.keys(playerMap)]);
+  const profitData = [];
+  allNames.forEach(name => {
+    const squares = squareCounts[name] || 0;
+    const cost = squares * 100;
+    const earned = playerMap[name] ? playerMap[name].total : 0;
+    const profit = earned - cost;
+    profitData.push({ name, squares, cost, earned, profit });
+  });
+  profitData.sort((a, b) => b.profit - a.profit);
+
+  return { winGrid, earnGrid, yDigits, xDigits, playerMap, sortedPlayers, chronGames, roundHeatmaps, awayWinDiffs, homeWinDiffs, awayWinRows, homeWinRows, finalCount, totalWinnings, totalExpected, profitData };
 }
 
 function makeHeatmapHtml(grid, type, maxVal) {
@@ -2077,7 +2096,11 @@ function renderStats() {
   html += panelWrap('heatmaps', 'Heatmaps', null,
     `<div class="heatmap-pair"><div class="heatmap-wrap"><h4>Win Distribution</h4><div class="heatmap-sub">How many times each square has won.</div>${makeHeatmapHtml(d.winGrid, 'wins', winMax)}</div><div class="heatmap-wrap"><h4>Earnings</h4><div class="heatmap-sub">Total dollar value won per square.</div>${makeHeatmapHtml(d.earnGrid, 'earnings', earnMax)}</div></div>`);
 
-  // Panel 2: Player Payout Breakdown
+  // Panel 2: Profit / Loss Scatter
+  html += panelWrap('profitLoss', 'Profit / Loss', 'Each dot is a person. Investment = squares owned × $100. Profit = winnings − investment.',
+    `<div class="chart-canvas-wrap" style="height:360px"><canvas id="chartProfitScatter"></canvas></div>`);
+
+  // Panel 3: Player Payout Breakdown
   const barH = Math.max(200, d.sortedPlayers.length * 36 + 80);
   html += panelWrap('playerPayouts', 'Player Payout Breakdown', 'Total earnings per player, broken down by round.',
     `<div class="chart-canvas-wrap" style="height:${barH}px"><canvas id="chartPayoutBreakdown"></canvas></div>`);
@@ -2127,6 +2150,7 @@ function renderStats() {
 
   // Init Chart.js charts
   if (typeof Chart !== 'undefined') {
+    initProfitScatter(d);
     initPayoutBreakdown(d);
     initDigitBias(d);
     initConcentrationDonut(d);
@@ -2218,6 +2242,49 @@ function initConcentrationDonut(d) {
     options: { responsive: true, maintainAspectRatio: true, cutout: '55%',
       plugins: { legend: { display: false },
         tooltip: { callbacks: { label: ctx => `$${Number(ctx.parsed).toLocaleString()} - ${ctx.label}` } } } }
+  });
+}
+
+function initProfitScatter(d) {
+  const canvas = document.getElementById('chartProfitScatter');
+  if (!canvas || d.profitData.length === 0) return;
+  const points = d.profitData.map(p => ({ x: p.cost, y: p.profit, name: p.name, earned: p.earned, squares: p.squares }));
+  createChart('profitScatter', canvas, {
+    type: 'scatter',
+    data: { datasets: [{
+      data: points,
+      backgroundColor: points.map(p => p.y >= 0 ? 'rgba(34,197,94,0.7)' : 'rgba(239,68,68,0.7)'),
+      borderColor: points.map(p => p.y >= 0 ? '#16a34a' : '#dc2626'),
+      borderWidth: 1.5,
+      pointRadius: 7,
+      pointHoverRadius: 10
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          title: ctx => ctx[0].raw.name,
+          label: ctx => {
+            const p = ctx.raw;
+            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} · $${p.cost} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
+          }
+        }}
+      },
+      scales: {
+        x: { title: { display: true, text: 'Investment ($)', font: { family: 'Inter', size: 12, weight: '600' } },
+          ticks: { callback: v => '$' + v, font: { size: 11 } }, grid: { color: '#eaeaea' } },
+        y: { title: { display: true, text: 'Profit / Loss ($)', font: { family: 'Inter', size: 12, weight: '600' } },
+          ticks: { callback: v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString(), font: { size: 11 } }, grid: { color: '#eaeaea' } }
+      }
+    },
+    plugins: [{ id: 'zeroLine', afterDraw(chart) {
+      const { ctx: c, scales: { y }, chartArea } = chart;
+      const yPos = y.getPixelForValue(0);
+      if (yPos < chartArea.top || yPos > chartArea.bottom) return;
+      c.save(); c.strokeStyle = '#999'; c.lineWidth = 1.5; c.setLineDash([6, 3]);
+      c.beginPath(); c.moveTo(chartArea.left, yPos); c.lineTo(chartArea.right, yPos); c.stroke(); c.restore();
+    }}]
   });
 }
 
