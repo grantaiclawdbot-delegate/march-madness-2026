@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-04T22:31:22Z",
+  "lastUpdated": "2026-04-04T22:38:22Z",
   "rounds": [
     {
       "round": 1,
@@ -1080,12 +1080,12 @@
           "away": {
             "team": "Illinois",
             "seed": 3,
-            "score": 12
+            "score": 17
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": 18
+            "score": 21
           }
         }
       ]
