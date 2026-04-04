@@ -5,111 +5,194 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>March Madness 2026 — Squares Pool Tracker</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-      --bg: #0c0e13;
-      --surface: #12161e;
-      --surface2: #1c2232;
-      --accent: #f05523;
-      --accent2: #ffe70e;
-      --text: #eef1f6;
-      --text-muted: #7a8ba0;
-      --green: #3daa6e;
-      --red: #dc2e32;
-      --blue: #219fbd;
-      --border: #202840;
-      --header-bg: linear-gradient(160deg, #1a2035 0%, #0c0e13 100%);
-      --title-color: #00c853;
-      --th-bg: var(--surface2); --th-color: var(--text-muted);
+      --bg: #ffffff;
+      --surface: #fafafa;
+      --surface2: #f5f5f5;
+      --accent: #0070f3;
+      --accent2: #0051a8;
+      --text: #000000;
+      --text-muted: #666666;
+      --green: #17b169;
+      --red: #ee0000;
+      --blue: #7928ca;
+      --border: #eaeaea;
+      --header-bg: #ffffff;
+      --title-color: #000000;
+      --th-bg: #fafafa;
+      --th-color: #666666;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* HEADER */
-    header {
-      background: var(--header-bg);
-      padding: 22px 34px;
-      border-bottom: 3px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    header h1 {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 2.4rem;
-      font-weight: 400;
-      color: var(--title-color);
-      letter-spacing: 3px;
-      line-height: 1;
-    }
-
-    header h1 span {
-      color: var(--text);
-      font-weight: 400;
-      letter-spacing: 1px;
-    }
-
-    .prize-pool {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 3px;
-      color: var(--accent2);
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    /* TABS - pill style */
-    .tabs {
-      display: flex;
-      background: #0a0c10;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: fixed;
+      left: 0;
       top: 0;
-      z-index: 100;
-      padding: 10px 18px;
-      gap: 6px;
-      flex-wrap: wrap;
+      height: 100vh;
+      width: 240px;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-header h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .sidebar-header p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .tabs {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      gap: 2px;
+      border-bottom: none;
+      background: transparent;
+      position: static;
+      top: auto;
+      z-index: auto;
+      flex-wrap: nowrap;
     }
 
     .tab-btn {
-      padding: 7px 22px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
       color: var(--text-muted);
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 2px;
-      font-weight: 400;
+      font-family: inherit;
+      font-size: 0.875rem;
       cursor: pointer;
-      transition: all 0.2s;
+      text-align: left;
+      transition: color 0.15s, background 0.15s;
       white-space: nowrap;
+      letter-spacing: 0;
+      font-weight: 400;
     }
 
-    .tab-btn:hover { color: var(--text); border-color: var(--accent); }
-    .tab-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .tab-btn:hover { color: var(--text); background: var(--surface); }
+    .tab-btn.active { color: var(--accent); background: rgba(0, 112, 243, 0.08); font-weight: 500; }
 
-    .tab-content { display: none; padding: 28px; }
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-prize-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .sidebar-prize-value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .sidebar-prize-sub {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      margin-left: 240px;
+      min-height: 100vh;
+      padding: 32px;
+      max-width: calc(1200px + 64px);
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .page-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* HEADINGS */
-    h2 {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.8rem;
-      font-weight: 400;
-      letter-spacing: 2px;
+    /* ── STAT CARDS ── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
-    /* GRID TAB */
+    .stat-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .stat-card-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .stat-card-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── GRID TAB ── */
     .grid-container {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -123,7 +206,7 @@
       position: absolute;
       top: 0; right: 0; bottom: 0;
       width: 28px;
-      background: linear-gradient(to left, rgba(12, 14, 19, 0.85), transparent);
+      background: linear-gradient(to left, rgba(255, 255, 255, 0.9), transparent);
       pointer-events: none;
       opacity: 1;
       transition: opacity 0.2s;
@@ -147,31 +230,34 @@
       margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 8px;
-      border-left: 4px solid var(--accent);
-      padding-left: 14px;
     }
 
-    .grid-header h2 { font-size: 1.8rem; }
+    .grid-header h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
 
     .grid-actions button {
-      padding: 8px 20px;
+      padding: 6px 16px;
       border: 1px solid var(--border);
-      border-radius: 9999px;
-      background: var(--surface2);
+      border-radius: 6px;
+      background: #fff;
       color: var(--text);
       cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      font-family: inherit;
       margin-left: 8px;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
 
     .grid-actions button:disabled { opacity: 0.35; cursor: default; }
     .grid-actions button:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
     .grid-actions button.save-btn:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .grid-actions button.save-btn:not(:disabled):hover { background: #d44418; }
-    .grid-actions button.export-btn:not(:disabled) { background: var(--green); color: #fff; border-color: var(--green); }
-    .grid-actions button.export-btn:not(:disabled):hover { background: #2e8254; }
+    .grid-actions button.save-btn:not(:disabled):hover { background: var(--accent2); }
+    .grid-actions button.export-btn:not(:disabled) { background: var(--text); color: #fff; border-color: var(--text); }
+    .grid-actions button.export-btn:not(:disabled):hover { background: #333; }
 
     .grid-with-labels {
       display: flex;
@@ -183,11 +269,11 @@
       writing-mode: vertical-lr;
       transform: rotate(180deg);
       text-align: center;
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-weight: 400;
-      color: var(--accent2);
-      font-size: 0.85rem;
-      letter-spacing: 2px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       padding-right: 8px;
       white-space: nowrap;
     }
@@ -199,11 +285,11 @@
 
     .x-axis-label {
       text-align: center;
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-weight: 400;
-      color: var(--accent2);
-      font-size: 0.85rem;
-      letter-spacing: 2px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       margin-top: 6px;
     }
 
@@ -222,19 +308,17 @@
     }
 
     table.pool-grid th {
-      background: var(--th-bg);
-      color: var(--accent2);
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      font-weight: 400;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.875rem;
+      font-weight: 600;
     }
 
     table.pool-grid th:first-child {
       position: sticky;
       left: 0;
       z-index: 2;
-      background: var(--th-bg);
+      background: var(--surface);
     }
 
     table.pool-grid .corner {
@@ -244,18 +328,25 @@
 
     table.pool-grid .axis-input {
       width: 40px;
-      background: var(--surface);
+      background: #fff;
       border: 1px solid var(--border);
-      color: var(--accent2);
+      color: var(--text);
       text-align: center;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
       border-radius: 4px;
       padding: 2px;
     }
 
+    table.pool-grid .axis-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.15);
+    }
+
     table.pool-grid td.cell {
-      background: var(--surface);
+      background: #fff;
       cursor: pointer;
       transition: background 0.15s;
       position: relative;
@@ -265,7 +356,7 @@
     table.pool-grid td.cell.locked { cursor: default; }
 
     table.pool-grid td.cell.highlighted {
-      background: rgba(240, 85, 35, 0.18);
+      background: rgba(0, 112, 243, 0.06);
       outline: 2px solid var(--accent);
       outline-offset: -2px;
     }
@@ -280,34 +371,32 @@
     .cell-input {
       width: 100%;
       height: 100%;
-      background: var(--surface2);
+      background: #fff;
       border: 2px solid var(--accent);
       color: var(--text);
       text-align: center;
       font-size: 0.75rem;
+      font-family: inherit;
       padding: 2px;
     }
 
-    /* RESULTS TAB */
+    /* ── RESULTS TAB ── */
     .data-source-note {
       display: inline-block;
-      font-size: 0.72rem;
-      padding: 3px 12px;
+      font-size: 0.6875rem;
+      padding: 2px 10px;
       border-radius: 9999px;
       margin-left: 8px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-weight: 500;
     }
-    .data-source-note.live { background: #1b4d30; color: #5dcc90; }
-    .data-source-note.fallback { background: #5a2100; color: #ff9966; }
+    .data-source-note.live { background: rgba(23, 177, 105, 0.1); color: var(--green); }
+    .data-source-note.fallback { background: rgba(245, 166, 35, 0.1); color: #c07800; }
 
-    .results-section { margin-bottom: 28px; }
+    .results-section { margin-bottom: 24px; }
     .results-section .round-header {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      font-weight: inherit;
-      color: var(--accent2);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
       margin-bottom: 12px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
@@ -319,20 +408,20 @@
       -webkit-user-select: none;
       gap: 8px;
     }
-    .results-section .round-header:hover { opacity: 0.82; }
+    .results-section .round-header:hover { opacity: 0.7; }
     .round-toggle-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      font-size: 22px;
-      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+      font-weight: 600;
       line-height: 1;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-      color: #fff;
+      background: var(--surface2);
+      border-radius: 6px;
+      color: var(--text-muted);
     }
     .results-section.collapsed .round-toggle-icon::before { content: '+'; }
     .results-section:not(.collapsed) .round-toggle-icon::before { content: '−'; }
@@ -342,45 +431,51 @@
     .table-scroll-wrap {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
     }
 
     .results-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 8px;
+      font-size: 0.8125rem;
     }
 
     .results-table th {
-      background: var(--th-bg);
+      background: var(--surface);
       padding: 10px 14px;
       text-align: left;
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      color: var(--th-color);
-      font-weight: 400;
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
       white-space: nowrap;
+      border-bottom: 1px solid var(--border);
     }
 
     .results-table td {
-      padding: 11px 14px;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--border);
-      font-size: 0.85rem;
+      font-size: 0.8125rem;
     }
 
-    .results-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .results-table tr:last-child td { border-bottom: none; }
+    .results-table tr:hover td { background: var(--surface); }
 
     .seed-badge {
       display: inline-block;
       background: var(--surface2);
       color: var(--text-muted);
-      font-size: 0.68rem;
-      padding: 1px 5px;
-      border-radius: 3px;
+      font-size: 0.6875rem;
+      padding: 1px 6px;
+      border-radius: 4px;
       margin-right: 4px;
       min-width: 20px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
     }
 
     .winner-team { color: var(--green); font-weight: 600; }
@@ -390,22 +485,22 @@
       display: inline-block;
       background: var(--accent);
       color: #fff;
-      font-weight: 700;
-      font-size: 0.78rem;
-      padding: 3px 10px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 2px 10px;
       border-radius: 9999px;
+      font-variant-numeric: tabular-nums;
     }
 
     .payout-badge {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.05rem;
-      letter-spacing: 1px;
-      color: var(--accent2);
-      font-weight: 400;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--green);
+      font-variant-numeric: tabular-nums;
     }
     .status-pre { color: var(--text-muted); font-style: italic; }
 
-    /* LEADERBOARD TAB */
+    /* ── LEADERBOARD TAB ── */
     .leaderboard-table {
       width: 100%;
       max-width: 780px;
@@ -413,77 +508,77 @@
     }
 
     .leaderboard-table th {
-      background: var(--th-bg);
-      padding: 12px 18px;
+      background: var(--surface);
+      padding: 10px 18px;
       text-align: left;
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      color: var(--th-color);
-      font-weight: 400;
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
     }
 
     .leaderboard-table td {
-      padding: 13px 18px;
+      padding: 12px 18px;
       border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
+      font-size: 0.875rem;
     }
 
-    .leaderboard-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .leaderboard-table tr:hover td { background: var(--surface); }
 
     .rank-cell {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.125rem;
       color: var(--accent);
-      font-weight: 400;
-      width: 60px;
-      line-height: 1;
+      font-weight: 600;
+      width: 48px;
+      font-variant-numeric: tabular-nums;
     }
-    .name-cell { font-weight: 600; }
-    .wins-cell { color: var(--text-muted); text-align: center; }
+    .name-cell { font-weight: 500; }
+    .wins-cell { color: var(--text-muted); text-align: center; font-variant-numeric: tabular-nums; }
     .total-cell {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.35rem;
-      letter-spacing: 1px;
+      font-size: 1rem;
+      font-weight: 600;
       color: var(--green);
-      font-weight: 400;
       text-align: right;
+      font-variant-numeric: tabular-nums;
     }
 
     .leaderboard-table th.lb-sortable {
       cursor: pointer;
       user-select: none;
     }
-    .leaderboard-table th.lb-sortable:hover { background: rgba(255,255,255,0.06); color: var(--text); }
-    .leaderboard-table th.lb-sort-active { color: #fff; }
+    .leaderboard-table th.lb-sortable:hover { background: var(--surface2); color: var(--text); }
+    .leaderboard-table th.lb-sort-active { color: var(--text); }
 
     .lb-expand-btn {
-      padding: 7px 18px;
-      background: var(--surface2);
+      padding: 6px 14px;
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: 9999px;
+      border-radius: 6px;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      font-family: inherit;
       white-space: nowrap;
+      transition: all 0.15s;
     }
-    .lb-expand-btn:hover { border-color: var(--accent); color: var(--text); }
+    .lb-expand-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     .lb-toggle-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 22px;
-      height: 22px;
-      font-size: 18px;
-      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      font-weight: 600;
       line-height: 1;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-      color: #fff;
+      background: var(--surface2);
+      border-radius: 4px;
+      color: var(--text-muted);
       cursor: pointer;
       margin-right: 8px;
       vertical-align: middle;
@@ -494,14 +589,14 @@
     .lb-sub-row td {
       padding: 6px 18px 6px 48px;
       border-bottom: none;
-      background: rgba(255,255,255,0.02);
-      font-size: 0.85rem;
+      background: var(--surface);
+      font-size: 0.8125rem;
       color: var(--text-muted);
     }
     .lb-sub-row:last-child td { border-bottom: 1px solid var(--border); }
     .lb-sub-row .sub-payout { color: var(--green); font-weight: 600; }
 
-    /* MY NUMBERS TAB */
+    /* ── MY NUMBERS TAB ── */
     .mynumbers-table {
       width: 100%;
       max-width: 780px;
@@ -509,29 +604,30 @@
     }
 
     .mynumbers-table th {
-      background: var(--th-bg);
-      padding: 12px 18px;
+      background: var(--surface);
+      padding: 10px 18px;
       text-align: left;
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      color: var(--th-color);
-      font-weight: 400;
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
     }
 
     .mynumbers-table td {
-      padding: 12px 18px;
+      padding: 10px 18px;
       border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
+      font-size: 0.875rem;
     }
 
-    .mynumbers-table tr:hover td { background: rgba(255,255,255,0.03); }
-    .mynumbers-name { font-weight: 600; white-space: nowrap; }
-    .mynumbers-pairs { color: var(--accent2); font-family: monospace; font-size: 0.92rem; }
-    .mynumbers-pair-win { color: var(--green); font-weight: 700; }
-    .mynumbers-count { color: var(--text-muted); text-align: center; width: 60px; }
+    .mynumbers-table tr:hover td { background: var(--surface); }
+    .mynumbers-name { font-weight: 500; white-space: nowrap; }
+    .mynumbers-pairs { color: var(--text-muted); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8125rem; }
+    .mynumbers-pair-win { color: var(--green); font-weight: 600; }
+    .mynumbers-count { color: var(--text-muted); text-align: center; width: 60px; font-variant-numeric: tabular-nums; }
 
-    /* SHARED */
+    /* ── SHARED ── */
     .no-data {
       color: var(--text-muted);
       font-style: italic;
@@ -540,10 +636,8 @@
     }
 
     .updated-note {
-      text-align: right;
       color: var(--text-muted);
       font-size: 0.75rem;
-      margin-bottom: 16px;
     }
 
     .loading {
@@ -555,39 +649,38 @@
     .loading::after {
       content: '';
       display: inline-block;
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       border: 2px solid var(--border);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-left: 10px;
+      margin-left: 8px;
       vertical-align: middle;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* STATS TAB */
+    /* ── STATS TAB ── */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 16px;
     }
     .stats-grid.has-full-width .stats-chart-wrap:last-child {
       grid-column: 1 / -1;
     }
     .stats-chart-wrap {
-      background: var(--surface);
-      border-radius: 10px;
+      background: #fff;
+      border-radius: 8px;
       padding: 20px;
       border: 1px solid var(--border);
-      border-top: 3px solid var(--accent);
     }
     .stats-chart-wrap h3 {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 1.05rem;
-      letter-spacing: 2px;
-      font-weight: 400;
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 500;
       margin-bottom: 14px;
       color: var(--text-muted);
     }
@@ -607,9 +700,10 @@
       justify-content: flex-end;
     }
     .bar-count {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       color: var(--text-muted);
       margin-bottom: 4px;
+      font-variant-numeric: tabular-nums;
     }
     .bar-fill {
       width: 100%;
@@ -618,33 +712,32 @@
       transition: height 0.3s;
     }
     .bar-label {
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
+      font-size: 0.8125rem;
+      font-weight: 500;
       margin-top: 6px;
       color: var(--text);
-      font-weight: 400;
+      font-variant-numeric: tabular-nums;
     }
     .stats-note {
       margin-top: 16px;
-      font-size: 0.82rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
     .diff-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.82rem;
+      font-size: 0.8125rem;
     }
     .diff-table th {
       text-align: left;
       padding: 6px 8px;
-      background: var(--th-bg);
-      border-bottom: 2px solid var(--border);
-      color: var(--th-color);
-      font-family: 'Bebas Neue', Impact, sans-serif;
-      font-size: 0.85rem;
-      letter-spacing: 1.5px;
-      font-weight: 400;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 500;
     }
     .diff-table td {
       padding: 5px 8px;
@@ -661,332 +754,258 @@
       text-align: center;
     }
 
-    /* MOBILE */
-    @media (max-width: 600px) {
-      header { padding: 14px 18px; flex-wrap: wrap; gap: 6px; }
-      header h1 { font-size: 1.8rem; }
-      .prize-pool { font-size: 1rem; letter-spacing: 2px; }
-      .tabs { padding: 8px 10px; gap: 5px; }
-      .tab-btn { padding: 6px 8px; font-size: 0.8rem; letter-spacing: 0.5px; flex: 1; min-width: 0; text-align: center; white-space: nowrap; }
-      .tab-content { padding: 14px; }
+    .section-heading {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .merge-notes {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .merge-notes div { margin-top: 2px; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-header {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-header h1 { font-size: 0.9rem; }
+      .sidebar-header p { margin-top: 0; }
+
+      .tabs {
+        flex-direction: row;
+        padding: 8px 12px;
+        gap: 4px;
+        overflow-x: auto;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+      }
+
+      .sidebar-footer { display: none; }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px;
+      }
+
+      .page-header h2 { font-size: 1.25rem; }
+
+      .stat-cards { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .stat-card { padding: 14px; }
+      .stat-card-value { font-size: 1.125rem; }
+
       table.pool-grid th, table.pool-grid td { width: 72px; height: 44px; font-size: 0.72rem; }
       table.pool-grid th:first-child, table.pool-grid td:first-child { width: 60px; }
       table.pool-grid .axis-input { width: 42px; font-size: 0.78rem; }
       .cell-name { font-size: 0.58rem; padding: 2px; }
-      .y-axis-label { font-size: 0.65rem; padding-right: 4px; }
-      .x-axis-label { font-size: 0.72rem; }
+      .y-axis-label { font-size: 0.6rem; padding-right: 4px; }
+      .x-axis-label { font-size: 0.65rem; }
       .grid-with-labels { justify-content: flex-start; }
       .scroll-hint { display: block; }
       .grid-scroll-outer::after { display: block; }
       .grid-header { margin-bottom: 8px; }
-      .grid-header h2 { font-size: 1.4rem; }
-      .grid-actions button { padding: 7px 14px; font-size: 0.78rem; margin-left: 4px; }
-      .results-section { margin-bottom: 20px; }
-      .results-section .round-header { font-size: 1.2rem; margin-bottom: 8px; padding: 10px 0 8px; }
-      .results-table th { padding: 8px 8px; font-size: 0.78rem; }
-      .results-table td { padding: 8px 8px; font-size: 0.78rem; }
-      .seed-badge { font-size: 0.62rem; padding: 1px 4px; min-width: 16px; }
-      .coord-badge { font-size: 0.72rem; padding: 2px 8px; }
-      .updated-note { font-size: 0.7rem; }
+      .grid-header h2 { font-size: 1rem; }
+      .grid-actions button { padding: 5px 10px; font-size: 0.75rem; margin-left: 4px; }
+
+      .results-section { margin-bottom: 16px; }
+      .results-table th { padding: 8px; font-size: 0.625rem; }
+      .results-table td { padding: 8px; font-size: 0.75rem; }
+      .seed-badge { font-size: 0.6rem; padding: 1px 4px; min-width: 16px; }
+      .coord-badge { font-size: 0.7rem; padding: 2px 8px; }
+
       .leaderboard-table { max-width: 100%; }
-      .leaderboard-table th { padding: 10px 12px; font-size: 0.8rem; }
-      .leaderboard-table td { padding: 10px 12px; font-size: 0.88rem; }
-      .total-cell { font-size: 1.1rem; }
-      .rank-cell { font-size: 1.3rem; }
-      .lb-sub-row td { padding: 5px 12px 5px 36px; font-size: 0.82rem; }
-      .stats-grid { grid-template-columns: 1fr; gap: 16px; }
+      .leaderboard-table th { padding: 8px 12px; }
+      .leaderboard-table td { padding: 8px 12px; font-size: 0.8125rem; }
+      .total-cell { font-size: 0.875rem; }
+      .rank-cell { font-size: 1rem; }
+      .lb-sub-row td { padding: 5px 12px 5px 36px; font-size: 0.75rem; }
+
+      .stats-grid { grid-template-columns: 1fr; gap: 12px; }
       .stats-grid.has-full-width .stats-chart-wrap:last-child { grid-column: auto; }
       .bar-chart { height: 140px; }
-      #themeSelect { font-size: 0.75rem; padding: 3px 6px; }
-    }
 
-    /* THEMES */
-    html[data-theme="jens-gators"] {
-      --bg: #000818; --surface: #001030; --surface2: #001848;
-      --accent: #FA4616; --accent2: #F2A900;
-      --text: #d8e0f8; --text-muted: #6080b8;
-      --green: #22884C; --red: #D32737; --blue: #0021A5;
-      --border: #0a1a48;
-      --header-bg: linear-gradient(160deg, #0021A5 0%, #000818 50%, #3a1000 100%);
-      --title-color: #FA4616;
-      --th-bg: #001260; --th-color: #FA4616;
+      .section-heading { font-size: 1rem; }
     }
-    html[data-theme="neon"] {
-      --bg: #0a0a0f; --surface: #0f0f1a; --surface2: #16162a;
-      --accent: #ff0080; --accent2: #00ffff;
-      --text: #f0f0ff; --text-muted: #7070a0;
-      --green: #39ff14; --red: #ff3333; --blue: #3399ff;
-      --border: #1a1a3a;
-      --header-bg: linear-gradient(135deg, #0f0f1a 0%, #1a0030 100%);
-      --title-color: #00ffff;
-      --th-bg: #1a0033; --th-color: #00ffff;
-    }
-    html[data-theme="ocean"] {
-      --bg: #060d1a; --surface: #0a1628; --surface2: #0f2040;
-      --accent: #00b4d8; --accent2: #90e0ef;
-      --text: #caf0f8; --text-muted: #5a8fa8;
-      --green: #00f5a0; --red: #ff6b6b; --blue: #0096c7;
-      --border: #0e2a40;
-      --header-bg: linear-gradient(135deg, #0a1628 0%, #03045e 100%);
-      --title-color: #00b4d8;
-      --th-bg: #082038; --th-color: #90e0ef;
-    }
-    html[data-theme="arizona"] {
-      --bg: #0a0810; --surface: #140e18; --surface2: #201828;
-      --accent: #CC0033; --accent2: #ff3366;
-      --text: #e8ecf2; --text-muted: #7088a8;
-      --green: #4caf50; --red: #ff4455; --blue: #4488cc;
-      --border: #2a1830;
-      --header-bg: linear-gradient(160deg, #2a0018 0%, #0a0810 50%, #001828 100%);
-      --title-color: #CC0033;
-      --th-bg: #5a0020; --th-color: #ffccdd;
-    }
-    html[data-theme="duke"] {
-      --bg: #000818; --surface: #001030; --surface2: #001a4a;
-      --accent: #003087; --accent2: #4488dd;
-      --text: #d8e0f0; --text-muted: #6080aa;
-      --green: #4caf50; --red: #ef5350; --blue: #003087;
-      --border: #0a1a40;
-      --header-bg: linear-gradient(160deg, #002060 0%, #000818 100%);
-      --title-color: #4488dd;
-      --th-bg: #001a56; --th-color: #aaccff;
-    }
-    html[data-theme="illinois"] {
-      --bg: #060c18; --surface: #0d1528; --surface2: #13203e;
-      --accent: #E84A27; --accent2: #ff7755;
-      --text: #e0e4ec; --text-muted: #6878a0;
-      --green: #4caf50; --red: #E84A27; --blue: #3388cc;
-      --border: #152040;
-      --header-bg: linear-gradient(160deg, #13294B 0%, #060c18 50%, #3a1200 100%);
-      --title-color: #E84A27;
-      --th-bg: #13294B; --th-color: #E84A27;
-    }
-    html[data-theme="iowa"] {
-      --bg: #080808; --surface: #111111; --surface2: #1c1c1c;
-      --accent: #FFCD00; --accent2: #ffe066;
-      --text: #e8e6e0; --text-muted: #888880;
-      --green: #4caf50; --red: #ef5350; --blue: #4488cc;
-      --border: #282820;
-      --header-bg: linear-gradient(160deg, #1a1800 0%, #080808 100%);
-      --title-color: #FFCD00;
-      --th-bg: #1a1600; --th-color: #FFCD00;
-    }
-    html[data-theme="michigan"] {
-      --bg: #00101e; --surface: #001528; --surface2: #001e3a;
-      --accent: #FFCB05; --accent2: #ffe066;
-      --text: #d8e4f0; --text-muted: #5880a0;
-      --green: #4caf50; --red: #ef5350; --blue: #00274C;
-      --border: #0a2040;
-      --header-bg: linear-gradient(160deg, #00274C 0%, #00101e 100%);
-      --title-color: #FFCB05;
-      --th-bg: #001838; --th-color: #FFCB05;
-    }
-    html[data-theme="purdue"] {
-      --bg: #080806; --surface: #121210; --surface2: #1e1e18;
-      --accent: #CEB888; --accent2: #C28E0E;
-      --text: #e8e4dc; --text-muted: #908878;
-      --green: #4caf50; --red: #ef5350; --blue: #4488cc;
-      --border: #2a2820;
-      --header-bg: linear-gradient(160deg, #1e1a0e 0%, #080806 100%);
-      --title-color: #CEB888;
-      --th-bg: #1a1608; --th-color: #CEB888;
-    }
-    html[data-theme="tennessee"] {
-      --bg: #0c0a08; --surface: #161210; --surface2: #221c18;
-      --accent: #FF8200; --accent2: #489FDF;
-      --text: #f0e8e0; --text-muted: #907868;
-      --green: #4caf50; --red: #ef5350; --blue: #489FDF;
-      --border: #2c2218;
-      --header-bg: linear-gradient(160deg, #3a2000 0%, #0c0a08 100%);
-      --title-color: #FF8200;
-      --th-bg: #3a2000; --th-color: #ffc880;
-    }
-    html[data-theme="uconn"] {
-      --bg: #000610; --surface: #000c1e; --surface2: #001430;
-      --accent: #E4002B; --accent2: #ff4466;
-      --text: #d8dce8; --text-muted: #5870a0;
-      --green: #4caf50; --red: #E4002B; --blue: #3366aa;
-      --border: #0c1830;
-      --header-bg: linear-gradient(160deg, #001430 0%, #100008 50%, #000610 100%);
-      --title-color: #E4002B;
-      --th-bg: #000e28; --th-color: #ff6680;
-    }
-
-    #themeSelect {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: var(--text);
-      padding: 5px 8px;
-      border-radius: 5px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-    #themeSelect:focus { outline: none; border-color: var(--accent); }
-    #themeSelect option { background: #1e2a38; color: #e8e8e8; }
   </style>
-  <script>(function(){var V=3,F='jens-gators',fv=localStorage.getItem('mm_theme_force_v'),t;if(fv!==String(V)){t=F;localStorage.setItem('mm_theme',F);localStorage.setItem('mm_theme_force_v',String(V));}else{t=localStorage.getItem('mm_theme')||'dark';}document.documentElement.setAttribute('data-theme',t);})()</script>
 </head>
 <body>
 
-<header>
-  <h1>March Madness 2026 <span>— Squares Pool</span></h1>
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-    <div class="prize-pool">Prize Pool: $10,000</div>
-    <select id="themeSelect" onchange="setTheme(this.value)" title="Change theme">
-      <option value="jens-gators">Jen's Gators</option>
-      <option value="dark">Dark</option>
-      <option value="neon">Neon</option>
-      <option value="ocean">Ocean</option>
-      <option value="arizona">Arizona</option>
-      <option value="duke">Duke</option>
-      <option value="illinois">Illinois</option>
-      <option value="iowa">Iowa</option>
-      <option value="michigan">Michigan</option>
-      <option value="purdue">Purdue</option>
-      <option value="tennessee">Tennessee</option>
-      <option value="uconn">UConn</option>
-    </select>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>March Madness 2026</h1>
+    <p>Squares Pool</p>
   </div>
-</header>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="grid">Grid</button>
+    <button class="tab-btn" data-tab="mynumbers">Numbers</button>
+    <button class="tab-btn" data-tab="results">Results</button>
+    <button class="tab-btn" data-tab="leaderboard">Wins</button>
+    <button class="tab-btn" data-tab="stats">Stats</button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-prize-label">Prize Pool</div>
+    <div class="sidebar-prize-value">$10,000</div>
+    <div class="sidebar-prize-sub">63 games &middot; $50 – $2,000</div>
+  </div>
+</aside>
 
-<nav class="tabs">
-  <button class="tab-btn active" data-tab="grid">Grid</button>
-  <button class="tab-btn" data-tab="mynumbers">Numbers</button>
-  <button class="tab-btn" data-tab="results">Results</button>
-  <button class="tab-btn" data-tab="leaderboard">Wins</button>
-  <button class="tab-btn" data-tab="stats">Stats</button>
-</nav>
+<main class="main-content">
+  <div class="page-header">
+    <h2 id="pageTitle">Pool Grid</h2>
+    <div class="updated-note" id="updatedNote"></div>
+  </div>
 
-<!-- TAB 1: Grid Setup -->
-<div id="tab-grid" class="tab-content active">
-  <div class="grid-header">
-    <h2>Pool Grid</h2>
-    <div class="grid-actions">
-      <button id="btnClear" onclick="clearGrid()" disabled>Clear All</button>
-      <button id="btnExport" onclick="exportGrid()" class="export-btn" disabled>Export JSON</button>
-      <button id="btnSave" class="save-btn" onclick="saveGrid()" disabled>Save</button>
+  <div class="stat-cards" id="statCards"></div>
+
+  <!-- TAB 1: Grid Setup -->
+  <div id="tab-grid" class="tab-content active">
+    <div class="grid-header">
+      <div></div>
+      <div class="grid-actions">
+        <button id="btnClear" onclick="clearGrid()" disabled>Clear All</button>
+        <button id="btnExport" onclick="exportGrid()" class="export-btn" disabled>Export JSON</button>
+        <button id="btnSave" class="save-btn" onclick="saveGrid()" disabled>Save</button>
+      </div>
     </div>
-  </div>
-  <div class="scroll-hint">← Scroll to see full grid →</div>
-  <div class="grid-scroll-outer">
-    <div class="grid-container">
-      <div class="grid-with-labels">
-        <div class="y-axis-label">Worse Seed (Away)</div>
-        <div class="grid-and-x-label">
-          <table class="pool-grid" id="poolGrid"></table>
-          <div class="x-axis-label">Better Seed (Home)</div>
+    <div class="scroll-hint">&larr; Scroll to see full grid &rarr;</div>
+    <div class="grid-scroll-outer">
+      <div class="grid-container">
+        <div class="grid-with-labels">
+          <div class="y-axis-label">Worse Seed (Away)</div>
+          <div class="grid-and-x-label">
+            <table class="pool-grid" id="poolGrid"></table>
+            <div class="x-axis-label">Better Seed (Home)</div>
+          </div>
         </div>
       </div>
     </div>
+    <div class="merge-notes">
+      <div><b>Notes:</b></div>
+      <div>1. Merged "Grant" and "Grant P".</div>
+      <div>2. Merged "the Cooks" and "The Cooks".</div>
+      <div>3. Merged "Ben M" and "BCM".</div>
+    </div>
+    <div style="margin-top:24px;">
+      <h3 class="section-heading" style="color:var(--text-muted);font-size:0.8125rem;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;">Original Grid (Source of Truth)</h3>
+      <img src="squares%20config.png" alt="Original pool grid configuration" style="max-width:100%;border-radius:8px;border:1px solid var(--border);margin-top:8px;">
+    </div>
   </div>
-  <div style="margin-top:16px;font-style:italic;color:var(--text-muted);font-size:0.82rem;">
-    <div><b>Notes:</b></div>
-    <div>1. Merged "Grant" and "Grant P".</div>
-    <div>2. Merged "the Cooks" and "The Cooks".</div>
-    <div>3. Merged "Ben M" and "BCM".</div>
-  </div>
-  <div style="margin-top:24px;">
-    <h3 style="color:var(--text-muted);margin-bottom:8px;font-size:0.95rem;">Original Grid (Source of Truth)</h3>
-    <img src="squares%20config.png" alt="Original pool grid configuration" style="max-width:100%;border-radius:8px;border:1px solid var(--border);">
-  </div>
-</div>
 
-<!-- TAB 2: My Numbers -->
-<div id="tab-mynumbers" class="tab-content">
-  <h2 style="margin-bottom: 16px;">Numbers</h2>
-  <div id="mynumbersContainer"><div class="loading">Loading</div></div>
-  <div style="margin-top:16px;font-style:italic;color:var(--text-muted);font-size:0.82rem;">
-    <div><b>Notes:</b></div>
-    <div>1. Merged "Grant" and "Grant P".</div>
-    <div>2. Merged "the Cooks" and "The Cooks".</div>
-    <div>3. Merged "Ben M" and "BCM".</div>
+  <!-- TAB 2: My Numbers -->
+  <div id="tab-mynumbers" class="tab-content">
+    <div id="mynumbersContainer"><div class="loading">Loading</div></div>
+    <div class="merge-notes">
+      <div><b>Notes:</b></div>
+      <div>1. Merged "Grant" and "Grant P".</div>
+      <div>2. Merged "the Cooks" and "The Cooks".</div>
+      <div>3. Merged "Ben M" and "BCM".</div>
+    </div>
   </div>
-</div>
 
-<!-- TAB 3: Results -->
-<div id="tab-results" class="tab-content">
-  <div class="updated-note" id="updatedNote"></div>
-  <div id="resultsContainer"><div class="loading">Loading results</div></div>
-</div>
+  <!-- TAB 3: Results -->
+  <div id="tab-results" class="tab-content">
+    <div id="resultsContainer"><div class="loading">Loading results</div></div>
+  </div>
 
-<!-- TAB 4: Leaderboard -->
-<div id="tab-leaderboard" class="tab-content">
-  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
-    <h2>Wins</h2>
-    <button class="lb-expand-btn" id="lbExpandAllBtn" onclick="toggleExpandAllLb()">Expand All</button>
+  <!-- TAB 4: Leaderboard -->
+  <div id="tab-leaderboard" class="tab-content">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+      <div></div>
+      <button class="lb-expand-btn" id="lbExpandAllBtn" onclick="toggleExpandAllLb()">Expand All</button>
+    </div>
+    <div id="leaderboardContainer"><div class="loading">Loading</div></div>
+    <div class="merge-notes">
+      <div><b>Notes:</b></div>
+      <div>1. Merged "Grant" and "Grant P".</div>
+      <div>2. Merged "the Cooks" and "The Cooks".</div>
+      <div>3. Merged "Ben M" and "BCM".</div>
+    </div>
   </div>
-  <div id="leaderboardContainer"><div class="loading">Loading</div></div>
-  <div style="margin-top:16px;font-style:italic;color:var(--text-muted);font-size:0.82rem;">
-    <div><b>Notes:</b></div>
-    <div>1. Merged "Grant" and "Grant P".</div>
-    <div>2. Merged "the Cooks" and "The Cooks".</div>
-    <div>3. Merged "Ben M" and "BCM".</div>
-  </div>
-</div>
 
-<!-- TAB 5: Stats -->
-<div id="tab-stats" class="tab-content">
-  <h2 style="margin-bottom: 16px;">Score Differential — Last Digit</h2>
-  <div class="stats-grid">
-    <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffAway"></div>
+  <!-- TAB 5: Stats -->
+  <div id="tab-stats" class="tab-content">
+    <h3 class="section-heading">Score Differential — Last Digit</h3>
+    <div class="stats-grid">
+      <div class="stats-chart-wrap">
+        <h3>Worse Seed (Away) Team Wins — Differential</h3>
+        <div class="bar-chart" id="chartDiffAway"></div>
+      </div>
+      <div class="stats-chart-wrap">
+        <h3>Better Seed (Home) Team Wins — Differential</h3>
+        <div class="bar-chart" id="chartDiffHome"></div>
+      </div>
     </div>
-    <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Team Wins — Differential</h3>
-      <div class="bar-chart" id="chartDiffHome"></div>
+    <div class="stats-note" id="statsDiffNote"></div>
+    <div class="stats-grid" style="margin-top: 16px;">
+      <div class="stats-chart-wrap">
+        <h3>Worse Seed (Away) Wins — Detail</h3>
+        <div id="tableDiffAway"></div>
+      </div>
+      <div class="stats-chart-wrap">
+        <h3>Better Seed (Home) Wins — Detail</h3>
+        <div id="tableDiffHome"></div>
+      </div>
     </div>
+    <h3 class="section-heading" style="margin-top: 24px;">Score Digit Frequency</h3>
+    <div class="stats-grid has-full-width">
+      <div class="stats-chart-wrap">
+        <h3>Away Team — Last Digit</h3>
+        <div class="bar-chart" id="chartAway"></div>
+      </div>
+      <div class="stats-chart-wrap">
+        <h3>Home Team — Last Digit</h3>
+        <div class="bar-chart" id="chartHome"></div>
+      </div>
+      <div class="stats-chart-wrap">
+        <h3>Combined — Last Digit</h3>
+        <div class="bar-chart" id="chartCombined"></div>
+      </div>
+    </div>
+    <div class="stats-note" id="statsNote"></div>
   </div>
-  <div class="stats-note" id="statsDiffNote"></div>
-  <div class="stats-grid" style="margin-top: 24px;">
-    <div class="stats-chart-wrap">
-      <h3>Worse Seed (Away) Wins — Detail</h3>
-      <div id="tableDiffAway"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Better Seed (Home) Wins — Detail</h3>
-      <div id="tableDiffHome"></div>
-    </div>
-  </div>
-  <h2 style="margin-top: 32px; margin-bottom: 16px;">Score Digit Frequency</h2>
-  <div class="stats-grid has-full-width">
-    <div class="stats-chart-wrap">
-      <h3>Away Team — Last Digit</h3>
-      <div class="bar-chart" id="chartAway"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Home Team — Last Digit</h3>
-      <div class="bar-chart" id="chartHome"></div>
-    </div>
-    <div class="stats-chart-wrap">
-      <h3>Combined — Last Digit</h3>
-      <div class="bar-chart" id="chartCombined"></div>
-    </div>
-  </div>
-  <div class="stats-note" id="statsNote"></div>
-</div>
+
+</main>
 
 <script>
 // ============================================================
-// THEME
+// PAGE TITLE
 // ============================================================
-// To force all users to a new theme once: bump V and set F in the
-// head <script> tag (the one-liner before </head>). They get forced
-// on next load, then keep their own selection after that.
-// Current forced push: V=2, F='dark'
-const THEME_KEY = 'mm_theme';
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(THEME_KEY, theme);
-  const sel = document.getElementById('themeSelect');
-  if (sel) sel.value = theme;
-}
-(function() {
-  const saved = localStorage.getItem(THEME_KEY) || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-  const sel = document.getElementById('themeSelect');
-  if (sel) sel.value = saved;
-})();
+const TAB_TITLES = {
+  grid: 'Pool Grid',
+  mynumbers: 'Numbers',
+  results: 'Results',
+  leaderboard: 'Wins',
+  stats: 'Stats'
+};
 
 // ============================================================
 // CONFIG
@@ -1048,6 +1067,8 @@ function activateTab(tabId) {
   if (btn) btn.classList.add('active');
   const content = document.getElementById('tab-' + tabId);
   if (content) content.classList.add('active');
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) titleEl.textContent = TAB_TITLES[tabId] || tabId;
 }
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1234,7 +1255,6 @@ async function fetchScoreboardForDate(dateStr) {
 function etToCt(timeStr) {
   if (!timeStr || typeof timeStr !== 'string') return timeStr;
   if (/CT$/i.test(timeStr)) return timeStr; // Already converted
-  // Match "H:MM AM/PM" with optional ET/EDT/EST suffix (API may omit the suffix)
   const m = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)(?:\s*E[SD]?T)?$/i);
   if (!m) return timeStr;
   let hours = parseInt(m[1], 10);
@@ -1250,9 +1270,6 @@ function etToCt(timeStr) {
 }
 
 function parseApiGames(apiData, dateStr) {
-  // The NCAA API returns a games array. Each entry may be structured as:
-  //   { game: { ... }, teams: [ ... ] }
-  // or as a flat object. We handle both.
   const raw = apiData.games || [];
   const games = [];
 
@@ -1267,7 +1284,6 @@ function parseApiGames(apiData, dateStr) {
         continue;
       }
 
-      // Only include tournament games (both teams have seeds)
       if (!teamsArr || teamsArr.length < 2) continue;
 
       const team0seed = teamsArr[0].seed;
@@ -1285,7 +1301,6 @@ function parseApiGames(apiData, dateStr) {
       };
 
       const state = (gameObj.gameState || 'pre').toLowerCase().trim();
-      // Normalize game states: "final" variants
       const isFinal = state.includes('final');
 
       games.push({
@@ -1352,7 +1367,6 @@ async function fetchLiveResults() {
       }
     }
 
-    // Pad with TBD games if we have fewer than expected
     if (games.length < roundInfo.expectedGames) {
       const tbdCount = roundInfo.expectedGames - games.length;
       games.push(...makeTbdGames(tbdCount, roundInfo));
@@ -1379,8 +1393,6 @@ async function fetchLiveResults() {
 const FALLBACK_RESULTS = {"lastUpdated":"2026-03-30T10:40:13Z","rounds":[{"round":1,"name":"Round of 64","payout":50,"games":[{"gameID":"6534597","date":"2026-03-19","startTime":"11:15 AM CT","network":"CBS","gameState":"final","away":{"team":"TCU","seed":9,"score":66},"home":{"team":"Ohio St.","seed":8,"score":64}},{"gameID":"6534607","date":"2026-03-19","startTime":"11:40 AM CT","network":"truTV","gameState":"final","away":{"team":"Troy","seed":13,"score":47},"home":{"team":"Nebraska","seed":4,"score":76}},{"gameID":"6534600","date":"2026-03-19","startTime":"12:30 PM CT","network":"TNT","gameState":"final","away":{"team":"South Fla.","seed":11,"score":79},"home":{"team":"Louisville","seed":6,"score":83}},{"gameID":"6534614","date":"2026-03-19","startTime":"12:50 PM CT","network":"TBS","gameState":"final","away":{"team":"High Point","seed":12,"score":83},"home":{"team":"Wisconsin","seed":5,"score":82}},{"gameID":"6534596","date":"2026-03-19","startTime":"2:00 PM CT","network":"CBS","gameState":"final","away":{"team":"Siena","seed":16,"score":65},"home":{"team":"Duke","seed":1,"score":71}},{"gameID":"6534606","date":"2026-03-19","startTime":"2:15 PM CT","network":"truTV","gameState":"final","away":{"team":"McNeese","seed":12,"score":68},"home":{"team":"Vanderbilt","seed":5,"score":78}},{"gameID":"6534601","date":"2026-03-19","startTime":"3:27 PM CT","network":"TNT","gameState":"final","away":{"team":"North Dakota St.","seed":14,"score":67},"home":{"team":"Michigan St.","seed":3,"score":92}},{"gameID":"6534615","date":"2026-03-19","startTime":"3:27 PM CT","network":"TBS","gameState":"final","away":{"team":"Hawaii","seed":13,"score":78},"home":{"team":"Arkansas","seed":4,"score":97}},{"gameID":"6534608","date":"2026-03-19","startTime":"5:50 PM CT","network":"TNT","gameState":"final","away":{"team":"VCU","seed":11,"score":82},"home":{"team":"North Carolina","seed":6,"score":78}},{"gameID":"6534620","date":"2026-03-19","startTime":"6:30 PM CT","network":"CBS","gameState":"final","away":{"team":"Howard","seed":16,"score":80},"home":{"team":"Michigan","seed":1,"score":101}},{"gameID":"6534610","date":"2026-03-19","startTime":"6:35 PM CT","network":"truTV","gameState":"final","away":{"team":"Texas A&M","seed":10,"score":63},"home":{"team":"Saint Mary's (CA)","seed":7,"score":50}},{"gameID":"6534616","date":"2026-03-19","startTime":"6:35 PM CT","network":"TBS","gameState":"final","away":{"team":"Texas","seed":11,"score":79},"home":{"team":"BYU","seed":6,"score":71}},{"gameID":"6534609","date":"2026-03-19","startTime":"8:55 PM CT","network":"TNT","gameState":"final","away":{"team":"Penn","seed":14,"score":70},"home":{"team":"Illinois","seed":3,"score":105}},{"gameID":"6534621","date":"2026-03-19","startTime":"9:10 PM CT","network":"CBS","gameState":"final","away":{"team":"Saint Louis","seed":9,"score":102},"home":{"team":"Georgia","seed":8,"score":77}},{"gameID":"6534611","date":"2026-03-19","startTime":"9:15 PM CT","network":"truTV","gameState":"final","away":{"team":"Idaho","seed":15,"score":47},"home":{"team":"Houston","seed":2,"score":78}},{"gameID":"6534617","date":"2026-03-19","startTime":"9:24 PM CT","network":"TBS","gameState":"final","away":{"team":"Kennesaw St.","seed":14,"score":64},"home":{"team":"Gonzaga","seed":3,"score":73}},{"gameID":"6534626","date":"2026-03-20","startTime":"11:15 AM CT","network":"CBS","gameState":"final","away":{"team":"Santa Clara","seed":10,"score":84},"home":{"team":"Kentucky","seed":7,"score":89}},{"gameID":"6534622","date":"2026-03-20","startTime":"11:40 AM CT","network":"truTV","gameState":"final","away":{"team":"Akron","seed":12,"score":71},"home":{"team":"Texas Tech","seed":5,"score":91}},{"gameID":"6534612","date":"2026-03-20","startTime":"12:35 PM CT","network":"TNT","gameState":"final","away":{"team":"LIU","seed":16,"score":58},"home":{"team":"Arizona","seed":1,"score":92}},{"gameID":"6534625","date":"2026-03-20","startTime":"12:50 PM CT","network":"TBS","gameState":"final","away":{"team":"Wright St.","seed":14,"score":73},"home":{"team":"Virginia","seed":3,"score":82}},{"gameID":"6534627","date":"2026-03-20","startTime":"2:07 PM CT","network":"CBS","gameState":"final","away":{"team":"Tennessee St.","seed":15,"score":74},"home":{"team":"Iowa St.","seed":2,"score":108}},{"gameID":"6534623","date":"2026-03-20","startTime":"2:21 PM CT","network":"truTV","gameState":"final","away":{"team":"Hofstra","seed":13,"score":70},"home":{"team":"Alabama","seed":4,"score":90}},{"gameID":"6534613","date":"2026-03-20","startTime":"3:14 PM CT","network":"TNT","gameState":"final","away":{"team":"Utah St.","seed":9,"score":86},"home":{"team":"Villanova","seed":8,"score":76}},{"gameID":"6534624","date":"2026-03-20","startTime":"3:32 PM CT","network":"TBS","gameState":"final","away":{"team":"Miami (OH)","seed":11,"score":56},"home":{"team":"Tennessee","seed":6,"score":78}},{"gameID":"6534605","date":"2026-03-20","startTime":"5:50 PM CT","network":"TNT","gameState":"final","away":{"team":"Iowa","seed":9,"score":67},"home":{"team":"Clemson","seed":8,"score":61}},{"gameID":"6534598","date":"2026-03-20","startTime":"6:25 PM CT","network":"CBS","gameState":"final","away":{"team":"UNI","seed":12,"score":53},"home":{"team":"St. John's (NY)","seed":5,"score":79}},{"gameID":"6534602","date":"2026-03-20","startTime":"6:31 PM CT","network":"TBS","gameState":"final","away":{"team":"UCF","seed":10,"score":71},"home":{"team":"UCLA","seed":7,"score":75}},{"gameID":"6534619","date":"2026-03-20","startTime":"6:35 PM CT","network":"truTV","gameState":"final","away":{"team":"Queens (NC)","seed":15,"score":71},"home":{"team":"Purdue","seed":2,"score":104}},{"gameID":"6534604","date":"2026-03-20","startTime":"8:43 PM CT","network":"TNT","gameState":"final","away":{"team":"Prairie View","seed":16,"score":55},"home":{"team":"Florida","seed":1,"score":114}},{"gameID":"6534599","date":"2026-03-20","startTime":"9:07 PM CT","network":"CBS","gameState":"final","away":{"team":"California Baptist","seed":13,"score":60},"home":{"team":"Kansas","seed":4,"score":68}},{"gameID":"6534603","date":"2026-03-20","startTime":"9:31 PM CT","network":"TBS","gameState":"final","away":{"team":"Furman","seed":15,"score":71},"home":{"team":"UConn","seed":2,"score":82}},{"gameID":"6534618","date":"2026-03-20","startTime":"9:07 PM CT","network":"truTV","gameState":"final","away":{"team":"Missouri","seed":10,"score":66},"home":{"team":"Miami (FL)","seed":7,"score":80}}]},{"round":2,"name":"Round of 32","payout":100,"games":[{"gameID":"6534640","date":"2026-03-21","startTime":"11:10 AM CT","network":"CBS","gameState":"final","away":{"team":"Saint Louis","seed":9,"score":72},"home":{"team":"Michigan","seed":1,"score":95}},{"gameID":"6534630","date":"2026-03-21","startTime":"1:48 PM CT","network":"CBS","gameState":"final","away":{"team":"Louisville","seed":6,"score":69},"home":{"team":"Michigan St.","seed":3,"score":77}},{"gameID":"6534628","date":"2026-03-21","startTime":"4:25 PM CT","network":"CBS","gameState":"final","away":{"team":"TCU","seed":9,"score":58},"home":{"team":"Duke","seed":1,"score":81}},{"gameID":"6534635","date":"2026-03-21","startTime":"5:10 PM CT","network":"TNT","gameState":"final","away":{"team":"Texas A&M","seed":10,"score":57},"home":{"team":"Houston","seed":2,"score":88}},{"gameID":"6534638","date":"2026-03-21","startTime":"6:10 PM CT","network":"TBS","gameState":"final","away":{"team":"Texas","seed":11,"score":74},"home":{"team":"Gonzaga","seed":3,"score":68}},{"gameID":"6534634","date":"2026-03-21","startTime":"7:15 PM CT","network":"CBS","gameState":"final","away":{"team":"VCU","seed":11,"score":55},"home":{"team":"Illinois","seed":3,"score":76}},{"gameID":"6534633","date":"2026-03-21","startTime":"8:02 PM CT","network":"TNT","gameState":"final","away":{"team":"Vanderbilt","seed":5,"score":72},"home":{"team":"Nebraska","seed":4,"score":74}},{"gameID":"6534637","date":"2026-03-21","startTime":"8:45 PM CT","network":"TBS","gameState":"final","away":{"team":"High Point","seed":12,"score":88},"home":{"team":"Arkansas","seed":4,"score":94}},{"gameID":"6534636","date":"2026-03-22","startTime":"7:11 PM CT","network":"truTV","gameState":"final","away":{"team":"Utah St.","seed":9,"score":66},"home":{"team":"Arizona","seed":1,"score":78}},{"gameID":"6534641","date":"2026-03-22","startTime":"9:08 PM CT","network":"TBS","gameState":"final","away":{"team":"Texas Tech","seed":5,"score":65},"home":{"team":"Alabama","seed":4,"score":90}},{"gameID":"6534642","date":"2026-03-22","startTime":"5:10 PM CT","network":"TNT","gameState":"final","away":{"team":"Tennessee","seed":6,"score":79},"home":{"team":"Virginia","seed":3,"score":72}},{"gameID":"6534643","date":"2026-03-22","startTime":"1:49 PM CT","network":"CBS","gameState":"final","away":{"team":"Kentucky","seed":7,"score":63},"home":{"team":"Iowa St.","seed":2,"score":82}},{"gameID":"6534639","date":"2026-03-22","startTime":"11:10 AM CT","network":"CBS","gameState":"final","away":{"team":"Miami (FL)","seed":7,"score":69},"home":{"team":"Purdue","seed":2,"score":79}},{"gameID":"6534629","date":"2026-03-22","startTime":"4:25 PM CT","network":"CBS","gameState":"final","away":{"team":"St. John's (NY)","seed":5,"score":67},"home":{"team":"Kansas","seed":4,"score":65}},{"gameID":"6534632","date":"2026-03-22","startTime":"6:10 PM CT","network":"TBS","gameState":"final","away":{"team":"Iowa","seed":9,"score":73},"home":{"team":"Florida","seed":1,"score":72}},{"gameID":"6534631","date":"2026-03-22","startTime":"8:10 PM CT","network":"TNT","gameState":"final","away":{"team":"UCLA","seed":7,"score":57},"home":{"team":"UConn","seed":2,"score":73}}]},{"round":3,"name":"Sweet 16","payout":200,"games":[{"gameID":"6534644","date":"2026-03-27","startTime":"6:10 PM CT","network":"CBS","gameState":"final","away":{"team":"St. John's (NY)","seed":5,"score":75},"home":{"team":"Duke","seed":1,"score":80}},{"gameID":"6534651","date":"2026-03-27","startTime":"9:36 PM CT","network":"TBS","gameState":"final","away":{"team":"Tennessee","seed":6,"score":76},"home":{"team":"Iowa St.","seed":2,"score":62}},{"gameID":"6534645","date":"2026-03-27","startTime":"8:59 PM CT","network":"CBS","gameState":"final","away":{"team":"Michigan St.","seed":3,"score":63},"home":{"team":"UConn","seed":2,"score":67}},{"gameID":"6534646","date":"2026-03-26","startTime":"6:30 PM CT","network":"TBS","gameState":"final","away":{"team":"Iowa","seed":9,"score":77},"home":{"team":"Nebraska","seed":4,"score":71}},{"gameID":"6534647","date":"2026-03-26","startTime":"9:05 PM CT","network":"TBS","gameState":"final","away":{"team":"Illinois","seed":3,"score":65},"home":{"team":"Houston","seed":2,"score":55}},{"gameID":"6534648","date":"2026-03-26","startTime":"9:06 PM CT","network":"CBS","gameState":"final","away":{"team":"Arkansas","seed":4,"score":88},"home":{"team":"Arizona","seed":1,"score":109}},{"gameID":"6534649","date":"2026-03-26","startTime":"6:10 PM CT","network":"CBS","gameState":"final","away":{"team":"Texas","seed":11,"score":77},"home":{"team":"Purdue","seed":2,"score":79}},{"gameID":"6534650","date":"2026-03-27","startTime":"6:50 PM CT","network":"TBS","gameState":"final","away":{"team":"Alabama","seed":4,"score":77},"home":{"team":"Michigan","seed":1,"score":90}}]},{"round":4,"name":"Elite Eight","payout":400,"games":[{"gameID":"6534653","date":"2026-03-28","startTime":"5:09 PM CT","network":"TBS","gameState":"final","away":{"team":"Iowa","seed":9,"score":59},"home":{"team":"Illinois","seed":3,"score":71}},{"gameID":"6534654","date":"2026-03-28","startTime":"7:59 PM CT","network":"TBS","gameState":"final","away":{"team":"Purdue","seed":2,"score":64},"home":{"team":"Arizona","seed":1,"score":79}},{"gameID":"6534655","date":"2026-03-29","startTime":"1:15 PM CT","network":"CBS","gameState":"final","away":{"team":"Tennessee","seed":6,"score":62},"home":{"team":"Michigan","seed":1,"score":95}},{"gameID":"6534652","date":"2026-03-29","startTime":"4:05 PM CT","network":"CBS","gameState":"final","away":{"team":"UConn","seed":2,"score":73},"home":{"team":"Duke","seed":1,"score":72}}]},{"round":5,"name":"Final Four","payout":800,"games":[{"gameID":"6534657","date":"2026-04-04","startTime":"7:54 PM CT","network":"TBS","gameState":"pre","away":{"team":"Michigan","seed":1,"score":null},"home":{"team":"Arizona","seed":1,"score":null}},{"gameID":"6534656","date":"2026-04-04","startTime":"5:09 PM CT","network":"TBS","gameState":"pre","away":{"team":"Illinois","seed":3,"score":null},"home":{"team":"UConn","seed":2,"score":null}}]},{"round":6,"name":"Championship","payout":2000,"games":[]}]};
 
 async function fetchFallbackResults() {
-  // Try fetching the JSON file first (works on HTTP), fall back to embedded data
-  // Cache-busting param ensures browser always fetches the latest version after a push
   try {
     const resp = await fetch('data/tournament-results.json?t=' + Date.now());
     if (resp.ok) {
@@ -1390,10 +1402,8 @@ async function fetchFallbackResults() {
     }
   } catch (e) { /* fall through */ }
 
-  // Use embedded data (works on file:// protocol)
   const data = JSON.parse(JSON.stringify(FALLBACK_RESULTS));
   data.source = 'embedded';
-  // Pad any rounds with fewer games than expected
   for (const roundInfo of ROUND_SCHEDULE) {
     let round = data.rounds.find(r => r.round === roundInfo.round);
     if (!round) {
@@ -1408,13 +1418,10 @@ async function fetchFallbackResults() {
   return data;
 }
 
-// Normalize any data source: remove non-payout rounds, ensure all 6 rounds exist, pad TBD
 function normalizeResults(data) {
-  // Remove any rounds not in ROUND_SCHEDULE (e.g. First Four)
   const validRounds = new Set(ROUND_SCHEDULE.map(r => r.round));
   data.rounds = data.rounds.filter(r => validRounds.has(r.round));
 
-  // Ensure all 6 rounds exist and pad with TBD games
   for (const roundInfo of ROUND_SCHEDULE) {
     let round = data.rounds.find(r => r.round === roundInfo.round);
     if (!round) {
@@ -1431,7 +1438,6 @@ function normalizeResults(data) {
 }
 
 async function loadResults() {
-  // Try live API first, fall back to static JSON
   try {
     tournamentData = await fetchLiveResults();
     dataSource = 'live';
@@ -1448,7 +1454,6 @@ async function loadResults() {
     }
   }
 
-  // Always normalize regardless of source
   if (tournamentData) {
     tournamentData = normalizeResults(tournamentData);
   }
@@ -1468,8 +1473,6 @@ function getWinningCoord(game) {
 
   let worseSeedScore, betterSeedScore;
   if (awaySeed === homeSeed) {
-    // Same seed — use NCAA API home/away designation
-    // Away = Y-axis (worse seed axis), Home = X-axis (better seed axis)
     worseSeedScore = game.away.score;
     betterSeedScore = game.home.score;
   } else if (awaySeed > homeSeed) {
@@ -1508,10 +1511,10 @@ function renderResults() {
   const note = document.getElementById('updatedNote');
 
   const sourceLabel = dataSource === 'live'
-    ? '<span class="data-source-note live">LIVE from NCAA API</span>'
+    ? '<span class="data-source-note live">LIVE</span>'
     : (tournamentData && tournamentData.source === 'embedded')
-      ? '<span class="data-source-note fallback">Embedded snapshot (offline)</span>'
-      : '<span class="data-source-note fallback">Static fallback data</span>';
+      ? '<span class="data-source-note fallback">Offline snapshot</span>'
+      : '<span class="data-source-note fallback">Static data</span>';
   const rawTs = tournamentData.lastUpdated;
   const tsDate = new Date(rawTs);
   const displayTs = (!isNaN(tsDate) && /^\d{4}-\d{2}-\d{2}T/.test(rawTs))
@@ -1533,15 +1536,14 @@ function renderResults() {
     if (!aComplete && bComplete) return -1;
     return a.round - b.round;
   });
-  // Find the lowest incomplete round that has at least one final game (= "in progress")
   const inProgressRound = sortedRounds.find(r => !isRoundComplete(r) && r.games.length > 0);
   sortedRounds.forEach(round => {
     html += `<div class="results-section collapsed" data-round="${round.round}">`;
     const complete = isRoundComplete(round);
     const roundTitle = complete
-      ? `${round.name} - Complete -- $${round.payout} per game`
-      : `${round.name}${round.payout ? ' — $' + round.payout + ' per game' : ' — No payout'}`;
-    const headerColor = complete ? 'color: #2e7d32;' : (inProgressRound && round.round === inProgressRound.round) ? 'color: dodgerblue; font-weight: bold;' : '';
+      ? `${round.name} — Complete — $${round.payout}/game`
+      : `${round.name}${round.payout ? ' — $' + round.payout + '/game' : ''}`;
+    const headerColor = complete ? 'color: var(--green);' : (inProgressRound && round.round === inProgressRound.round) ? 'color: var(--accent); font-weight: 600;' : '';
     html += `<h3 class="round-header" style="${headerColor}"><span class="round-toggle-icon"></span><span>${roundTitle}</span></h3>`;
     html += `<div class="round-body">`;
 
@@ -1654,8 +1656,6 @@ function renderResults() {
 
   container.innerHTML = html;
 
-  // Restore expanded/collapsed states from localStorage, then wire up toggles.
-  // Live sections (rounds with in-progress games) are auto-expanded on first encounter.
   const sectionStates = (() => {
     try { return JSON.parse(localStorage.getItem('mm_results_sections')) || {}; } catch { return {}; }
   })();
@@ -1671,7 +1671,6 @@ function renderResults() {
     );
 
     if (hasLive && !seenLiveRounds[round]) {
-      // Newly live round — auto-expand and record so user's future collapses are respected
       section.classList.remove('collapsed');
       seenLiveRounds[round] = true;
       localStorage.setItem('mm_results_live_rounds', JSON.stringify(seenLiveRounds));
@@ -1680,11 +1679,8 @@ function renderResults() {
     } else if (sectionStates[round] === true) {
       section.classList.remove('collapsed');
     }
-
   });
 
-  // Single delegated click handler — more reliable across all desktop browsers
-  // than attaching individual listeners to h3 elements with display:flex.
   container.addEventListener('click', (e) => {
     const header = e.target.closest('.round-header');
     if (!header) return;
@@ -1742,7 +1738,6 @@ function renderLeaderboard() {
       totals[sq.name].byRound[round.name].count++;
     });
   });
-
   const sorted = Object.entries(totals).sort((a, b) => {
     let cmp;
     if (lbSort.col === 'name') {
@@ -1784,7 +1779,6 @@ function renderLeaderboard() {
     html += `<td class="total-cell">$${data.total.toLocaleString()}</td>`;
     html += `</tr>`;
 
-    // Sub-rows: one per round, in round order
     const roundNames = ROUND_ORDER.filter(r => data.byRound[r]);
     roundNames.forEach(roundName => {
       const rd = data.byRound[roundName];
@@ -1799,14 +1793,13 @@ function renderLeaderboard() {
 
   const grandWins = sorted.reduce((s, e) => s + e[1].wins, 0);
   const grandTotal = sorted.reduce((s, e) => s + e[1].total, 0);
-  html += `<tfoot><tr style="font-weight:bold;border-top:2px solid var(--accent);">`;
+  html += `<tfoot><tr style="font-weight:600;border-top:2px solid var(--border);">`;
   html += `<td></td><td>Total</td><td class="wins-cell">${grandWins}</td><td class="total-cell">$${grandTotal.toLocaleString()}</td>`;
   html += `</tr></tfoot>`;
 
   html += `</table>`;
   container.innerHTML = html;
 
-  // Update Expand All / Collapse All button label
   updateLbExpandBtn();
 }
 
@@ -1858,7 +1851,6 @@ function renderMyNumbers() {
     return;
   }
 
-  // Build map: name -> array of "Y/X" number pair strings
   const byName = {};
   for (let y = 0; y < 10; y++) {
     for (let x = 0; x < 10; x++) {
@@ -1869,21 +1861,6 @@ function renderMyNumbers() {
       if (!byName[name]) byName[name] = [];
       byName[name].push(`${yNum}/${xNum}`);
     }
-  }
-
-  // Build map of winning Y/X pairs -> win count from completed games
-  const winningPairs = {};
-  if (tournamentData) {
-    tournamentData.rounds.forEach(round => {
-      if (round.payout === 0) return;
-      round.games.forEach(game => {
-        const coord = getWinningCoord(game);
-        if (coord) {
-          const key = `${coord.y}/${coord.x}`;
-          winningPairs[key] = (winningPairs[key] || 0) + 1;
-        }
-      });
-    });
   }
 
   const sorted = Object.entries(byName).sort((a, b) =>
@@ -1907,10 +1884,7 @@ function renderMyNumbers() {
     });
     html += `<tr>`;
     html += `<td class="mynumbers-name">${escHtml(name)}</td>`;
-    html += `<td class="mynumbers-pairs">${pairs.map(p => {
-      const count = winningPairs[p];
-      return count ? `<span class="mynumbers-pair-win">${escHtml(p)} (${count})</span>` : escHtml(p);
-    }).join(', ')}</td>`;
+    html += `<td class="mynumbers-pairs">${pairs.map(p => escHtml(p)).join(', ')}</td>`;
     html += `<td class="mynumbers-count">${pairs.length}</td>`;
     html += `</tr>`;
   });
@@ -1931,9 +1905,6 @@ function escAttr(str) {
   return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
-// ============================================================
-// INIT
-// ============================================================
 // ============================================================
 // TAB 5: STATS
 // ============================================================
@@ -1993,7 +1964,6 @@ function renderStats() {
   document.getElementById('statsNote').textContent =
     `Based on ${gameCount} completed game${gameCount !== 1 ? 's' : ''} (${gameCount * 2} total scores)`;
 
-  // Differential of last digits — away wins vs home wins
   const awayWinDiffs = new Array(10).fill(0);
   const homeWinDiffs = new Array(10).fill(0);
   const awayWinRows = [];
@@ -2028,12 +1998,63 @@ function renderStats() {
   renderDiffTable('tableDiffHome', homeWinRows);
 }
 
+// ============================================================
+// STAT CARDS
+// ============================================================
+function renderStatCards() {
+  const el = document.getElementById('statCards');
+  if (!el || !tournamentData || !gridData) return;
+
+  let finalGames = 0, totalAwarded = 0;
+  const winners = new Set();
+
+  for (const round of tournamentData.rounds) {
+    for (const game of round.games) {
+      if (game.gameState === 'final') {
+        finalGames++;
+        const coord = getWinningCoord(game);
+        if (coord) {
+          const sq = lookupGridSquare(coord.y, coord.x);
+          if (sq.name && sq.name !== '(axis not set)' && sq.name !== '(empty)') {
+            totalAwarded += round.payout;
+            winners.add(sq.name);
+          }
+        }
+      }
+    }
+  }
+
+  el.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card-label">Prize Pool</div>
+      <div class="stat-card-value">$10,000</div>
+      <div class="stat-card-sub">63 games total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Games Complete</div>
+      <div class="stat-card-value">${finalGames}</div>
+      <div class="stat-card-sub">of 63</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Awarded</div>
+      <div class="stat-card-value">$${totalAwarded.toLocaleString()}</div>
+      <div class="stat-card-sub">of $10,000</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Winners</div>
+      <div class="stat-card-value">${winners.size}</div>
+      <div class="stat-card-sub">unique</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// INIT
+// ============================================================
 async function init() {
-  // Load grid (from localStorage or grid-config.json)
   gridData = await loadGrid();
   renderGrid();
 
-  // Hide right-edge shadow when scrolled fully right
   const gridContainer = document.querySelector('.grid-container');
   const scrollOuter = document.querySelector('.grid-scroll-outer');
   gridContainer.addEventListener('scroll', () => {
@@ -2041,12 +2062,12 @@ async function init() {
     scrollOuter.classList.toggle('at-end', atEnd);
   });
 
-  // Load results (live API first, then static fallback)
   await loadResults();
   renderResults();
   renderLeaderboard();
   renderMyNumbers();
   renderStats();
+  renderStatCards();
 }
 
 init();
