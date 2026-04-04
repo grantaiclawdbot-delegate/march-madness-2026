@@ -2267,7 +2267,7 @@ function initProfitScatter(d) {
           title: ctx => ctx[0].raw.name,
           label: ctx => {
             const p = ctx.raw;
-            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} · $${p.cost} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
+            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} · $${p.x.toLocaleString()} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
           }
         }}
       },
