@@ -110,25 +110,23 @@
       border-top: 1px solid var(--border);
     }
 
-    .sidebar-prize-label {
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .sidebar-prize-value {
-      font-size: 1.25rem;
+    .sidebar-stats-value {
+      font-size: 1.125rem;
       font-weight: 600;
       color: var(--text);
-      margin-top: 2px;
     }
 
-    .sidebar-prize-sub {
+    .sidebar-stats-sub {
       font-size: 0.6875rem;
       color: var(--text-muted);
       margin-top: 2px;
+    }
+
+    .mobile-stats-bar {
+      display: none;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
     }
 
     /* ── MAIN CONTENT ── */
@@ -157,40 +155,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* ── STAT CARDS ── */
-    .stat-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-    }
-
-    .stat-card-label {
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .stat-card-value {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-top: 4px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .stat-card-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    /* stat cards removed — stats now in sidebar footer + mobile bar */
 
     /* ── GRID TAB ── */
     .grid-container {
@@ -861,6 +826,7 @@
       }
 
       .sidebar-footer { display: none; }
+      .mobile-stats-bar { display: block; }
 
       .main-content {
         margin-left: 0;
@@ -869,9 +835,6 @@
 
       .page-header h2 { font-size: 1.25rem; }
 
-      .stat-cards { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .stat-card { padding: 14px; }
-      .stat-card-value { font-size: 1.125rem; }
 
       table.pool-grid th, table.pool-grid td { width: 72px; height: 44px; font-size: 0.72rem; }
       table.pool-grid th:first-child, table.pool-grid td:first-child { width: 60px; }
@@ -927,10 +890,9 @@
     <button class="tab-btn" data-tab="leaderboard">Wins</button>
     <button class="tab-btn" data-tab="stats">Stats</button>
   </nav>
-  <div class="sidebar-footer">
-    <div class="sidebar-prize-label">Prize Pool</div>
-    <div class="sidebar-prize-value">$10,000</div>
-    <div class="sidebar-prize-sub">63 games &middot; $50 – $2,000</div>
+  <div class="sidebar-footer" id="sidebarStats">
+    <div class="sidebar-stats-value">$10,000</div>
+    <div class="sidebar-stats-sub">63 games &middot; $50 – $2,000</div>
   </div>
 </aside>
 
@@ -940,7 +902,7 @@
     <div class="updated-note" id="updatedNote"></div>
   </div>
 
-  <div class="stat-cards" id="statCards"></div>
+  <div class="mobile-stats-bar" id="mobileStatsBar"></div>
 
   <!-- TAB 1: Grid Setup -->
   <div id="tab-grid" class="tab-content active">
@@ -2263,8 +2225,7 @@ function initConcentrationDonut(d) {
 // STAT CARDS
 // ============================================================
 function renderStatCards() {
-  const el = document.getElementById('statCards');
-  if (!el || !tournamentData || !gridData) return;
+  if (!tournamentData || !gridData) return;
 
   let finalGames = 0, totalAwarded = 0;
   const winners = new Set();
@@ -2285,28 +2246,15 @@ function renderStatCards() {
     }
   }
 
-  el.innerHTML = `
-    <div class="stat-card">
-      <div class="stat-card-label">Prize Pool</div>
-      <div class="stat-card-value">$10,000</div>
-      <div class="stat-card-sub">63 games total</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-label">Games Complete</div>
-      <div class="stat-card-value">${finalGames}</div>
-      <div class="stat-card-sub">of 63</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-label">Awarded</div>
-      <div class="stat-card-value">$${totalAwarded.toLocaleString()}</div>
-      <div class="stat-card-sub">of $10,000</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-label">Winners</div>
-      <div class="stat-card-value">${winners.size}</div>
-      <div class="stat-card-sub">unique</div>
-    </div>
-  `;
+  const sidebar = document.getElementById('sidebarStats');
+  if (sidebar) {
+    sidebar.innerHTML = `<div class="sidebar-stats-value">$${totalAwarded.toLocaleString()} <span style="font-size:0.75rem;font-weight:400;color:var(--text-muted)">of $10,000</span></div><div class="sidebar-stats-sub">${finalGames}/63 games &middot; ${winners.size} winners</div>`;
+  }
+
+  const mobile = document.getElementById('mobileStatsBar');
+  if (mobile) {
+    mobile.textContent = `$${totalAwarded.toLocaleString()} / $10,000 · ${finalGames} of 63 games · ${winners.size} winners`;
+  }
 }
 
 // ============================================================
