@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>March Madness 2026 — Squares Pool Tracker</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap');
 
     :root {
       --bg: #ffffff;
@@ -53,6 +53,21 @@
     .sidebar-header {
       padding: 20px 20px 16px;
       border-bottom: 1px solid var(--border);
+    }
+
+    .logo-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-transform: lowercase;
+      line-height: 1;
+    }
+
+    .logo-bracket {
+      color: #e8622c;
+      font-weight: 700;
     }
 
     .sidebar-header h1 {
@@ -806,6 +821,7 @@
         border-bottom: 1px solid var(--border);
       }
 
+      .logo-text { font-size: 1.1rem; }
       .sidebar-header h1 { font-size: 0.9rem; }
       .sidebar-header p { margin-top: 0; }
 
@@ -882,6 +898,7 @@
 
 <aside class="sidebar">
   <div class="sidebar-header">
+    <span class="logo-text"><span class="logo-bracket">[</span>squarebrackets<span class="logo-bracket">]</span></span>
     <h1>March Madness 2026</h1>
     <p>Squares Pool</p>
   </div>
