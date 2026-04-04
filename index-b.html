@@ -2036,22 +2036,10 @@ function computeStatsData() {
   // Sort players by total desc
   const sortedPlayers = Object.entries(playerMap).sort((a, b) => b[1].total - a[1].total);
 
-  // Cumulative race data — sort games chronologically
-  chronGames.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
-  const running = {};
-  const allWinners = new Set();
-  const raceData = [];
-  chronGames.forEach((g, i) => {
-    if (g.name) { running[g.name] = (running[g.name] || 0) + g.payout; allWinners.add(g.name); }
-    const pt = { gameIndex: i + 1 };
-    allWinners.forEach(n => { pt[n] = running[n] || 0; });
-    raceData.push(pt);
-  });
-
   const totalWinnings = sortedPlayers.reduce((s, e) => s + e[1].total, 0);
   const totalExpected = ROUND_SCHEDULE.reduce((s, r) => s + r.expectedGames, 0);
 
-  return { winGrid, earnGrid, yDigits, xDigits, playerMap, sortedPlayers, chronGames, raceData, roundHeatmaps, awayWinDiffs, homeWinDiffs, awayWinRows, homeWinRows, finalCount, totalWinnings, totalExpected };
+  return { winGrid, earnGrid, yDigits, xDigits, playerMap, sortedPlayers, chronGames, roundHeatmaps, awayWinDiffs, homeWinDiffs, awayWinRows, homeWinRows, finalCount, totalWinnings, totalExpected };
 }
 
 function makeHeatmapHtml(grid, type, maxVal) {
@@ -2127,11 +2115,7 @@ function renderStats() {
   html += panelWrap('heatmaps', 'Heatmaps', null,
     `<div class="heatmap-pair"><div class="heatmap-wrap"><h4>Win Distribution</h4><div class="heatmap-sub">How many times each square has won.</div>${makeHeatmapHtml(d.winGrid, 'wins', winMax)}</div><div class="heatmap-wrap"><h4>Earnings</h4><div class="heatmap-sub">Total dollar value won per square.</div>${makeHeatmapHtml(d.earnGrid, 'earnings', earnMax)}</div></div>`);
 
-  // Panel 2: Cumulative Earnings Race
-  html += panelWrap('cumulativeRace', 'Cumulative Earnings Race', 'Running total of winnings for top 10 earners as games complete.',
-    '<div class="chart-canvas-wrap"><canvas id="chartEarningsRace"></canvas></div>');
-
-  // Panel 3: Player Payout Breakdown
+  // Panel 2: Player Payout Breakdown
   const barH = Math.max(200, d.sortedPlayers.length * 36 + 80);
   html += panelWrap('playerPayouts', 'Player Payout Breakdown', 'Total earnings per player, broken down by round.',
     `<div class="chart-canvas-wrap" style="height:${barH}px"><canvas id="chartPayoutBreakdown"></canvas></div>`);
@@ -2181,7 +2165,6 @@ function renderStats() {
 
   // Init Chart.js charts
   if (typeof Chart !== 'undefined') {
-    initEarningsRace(d);
     initPayoutBreakdown(d);
     initDigitBias(d);
     initConcentrationDonut(d);
@@ -2206,26 +2189,6 @@ function toggleStatsExpand(expand) {
   const s = getStatsCollapsed();
   panels.forEach(p => { const id = p.dataset.panel; if (expand) { p.classList.remove('collapsed'); s[id] = false; } else { p.classList.add('collapsed'); s[id] = true; } });
   setStatsCollapsed(s);
-}
-
-function initEarningsRace(d) {
-  const canvas = document.getElementById('chartEarningsRace');
-  if (!canvas || d.raceData.length === 0) return;
-  const top10 = d.sortedPlayers.slice(0, 10).map(e => e[0]);
-  const datasets = top10.map((name, i) => ({
-    label: name, data: d.raceData.map(pt => pt[name] || 0),
-    borderColor: PLAYER_COLORS[i % PLAYER_COLORS.length], backgroundColor: 'transparent',
-    borderWidth: 2, pointRadius: 0, tension: 0.3
-  }));
-  createChart('earningsRace', canvas, {
-    type: 'line',
-    data: { labels: d.raceData.map(pt => pt.gameIndex), datasets },
-    options: { responsive: true, maintainAspectRatio: true, interaction: { mode: 'index', intersect: false },
-      plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 10 } },
-        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}` } } },
-      scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 } }, grid: { color: '#eaeaea' } },
-        x: { title: { display: true, text: 'Games Completed', font: { size: 11 } }, ticks: { font: { size: 10 } }, grid: { display: false } } } }
-  });
 }
 
 function initPayoutBreakdown(d) {
