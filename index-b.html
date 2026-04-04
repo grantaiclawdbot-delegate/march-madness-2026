@@ -624,7 +624,7 @@
     .mynumbers-table tr:hover td { background: var(--surface); }
     .mynumbers-name { font-weight: 500; white-space: nowrap; }
     .mynumbers-pairs { color: var(--text-muted); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8125rem; }
-    .mynumbers-pair-win { color: var(--green); font-weight: 600; }
+    .mynumbers-pair-win { color: var(--green); font-weight: 600; background: rgba(23, 177, 105, 0.1); padding: 2px 6px; border-radius: 4px; }
     .mynumbers-count { color: var(--text-muted); text-align: center; width: 60px; font-variant-numeric: tabular-nums; }
 
     /* ── SHARED ── */
@@ -1872,6 +1872,20 @@ function renderMyNumbers() {
     return;
   }
 
+  // Build win count map: "y/x" => number of times that coordinate won
+  const winCounts = {};
+  if (tournamentData) {
+    for (const round of tournamentData.rounds) {
+      for (const game of round.games) {
+        const coord = getWinningCoord(game);
+        if (coord) {
+          const key = `${coord.y}/${coord.x}`;
+          winCounts[key] = (winCounts[key] || 0) + 1;
+        }
+      }
+    }
+  }
+
   let html = `<table class="mynumbers-table">`;
   html += `<tr><th>Name</th><th>Squares (Y/X)</th><th style="text-align:center">#</th></tr>`;
   sorted.forEach(([name, pairs]) => {
@@ -1884,7 +1898,11 @@ function renderMyNumbers() {
     });
     html += `<tr>`;
     html += `<td class="mynumbers-name">${escHtml(name)}</td>`;
-    html += `<td class="mynumbers-pairs">${pairs.map(p => escHtml(p)).join(', ')}</td>`;
+    html += `<td class="mynumbers-pairs">${pairs.map(p => {
+      const wins = winCounts[p];
+      if (wins) return `<span class="mynumbers-pair-win">${escHtml(p)} (${wins})</span>`;
+      return escHtml(p);
+    }).join(', ')}</td>`;
     html += `<td class="mynumbers-count">${pairs.length}</td>`;
     html += `</tr>`;
   });
