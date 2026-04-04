@@ -755,6 +755,7 @@
     .heatmap-grid th { background: var(--surface); color: var(--text-muted); font-weight: 600; font-size: 0.6875rem; }
     .heatmap-grid td { font-weight: 600; font-size: 0.625rem; }
     .heatmap-grid .corner { background: var(--surface); }
+    .heatmap-tooltip { position: fixed; background: #222; color: #fff; font-size: 0.75rem; padding: 6px 10px; border-radius: 6px; pointer-events: none; z-index: 9999; white-space: nowrap; opacity: 0; transition: opacity 0.15s; font-family: Inter, sans-serif; }
 
     /* Chart containers */
     .chart-canvas-wrap { position: relative; width: 100%; }
@@ -2168,6 +2169,26 @@ function renderStats() {
     s[panel.dataset.panel] = panel.classList.contains('collapsed');
     setStatsCollapsed(s);
   });
+
+  // Touch-friendly tooltips for heatmap cells
+  let hmTip = document.getElementById('heatmapTooltip');
+  if (!hmTip) { hmTip = document.createElement('div'); hmTip.id = 'heatmapTooltip'; hmTip.className = 'heatmap-tooltip'; document.body.appendChild(hmTip); }
+  let hmTimer = null;
+  container.querySelectorAll('.heatmap-grid td[title], .mini-heatmap td[title]').forEach(td => {
+    td.addEventListener('click', e => {
+      e.stopPropagation();
+      const tip = td.getAttribute('title');
+      if (!tip) return;
+      hmTip.textContent = tip;
+      const rect = td.getBoundingClientRect();
+      hmTip.style.left = Math.min(rect.left + rect.width / 2, window.innerWidth - 160) + 'px';
+      hmTip.style.top = (rect.top - 32) + 'px';
+      hmTip.style.opacity = '1';
+      clearTimeout(hmTimer);
+      hmTimer = setTimeout(() => { hmTip.style.opacity = '0'; }, 2000);
+    });
+  });
+  document.addEventListener('click', () => { hmTip.style.opacity = '0'; }, { once: false });
 }
 
 function toggleStatsExpand(expand) {
