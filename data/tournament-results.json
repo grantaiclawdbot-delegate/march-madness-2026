@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-30T10:40:13Z",
+  "lastUpdated": "2026-04-04T22:12:23Z",
   "rounds": [
     {
       "round": 1,
@@ -1076,16 +1076,16 @@
           "date": "2026-04-04",
           "startTime": "5:09 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Illinois",
             "seed": 3,
-            "score": null
+            "score": 0
           },
           "home": {
             "team": "UConn",
             "seed": 2,
-            "score": null
+            "score": 0
           }
         }
       ]
