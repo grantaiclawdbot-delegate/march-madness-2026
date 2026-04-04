@@ -2248,28 +2248,44 @@ function initConcentrationDonut(d) {
 function initProfitScatter(d) {
   const canvas = document.getElementById('chartProfitScatter');
   if (!canvas || d.profitData.length === 0) return;
-  const points = d.profitData.map(p => ({ x: p.cost, y: p.profit, name: p.name, earned: p.earned, squares: p.squares }));
+  // Group people at same (cost, profit) into single points
+  const groups = {};
+  d.profitData.forEach(p => {
+    const key = `${p.cost},${p.profit}`;
+    if (!groups[key]) groups[key] = { x: p.cost, y: p.profit, names: [], earned: p.earned, squares: p.squares };
+    groups[key].names.push(p.name);
+  });
+  const points = Object.values(groups);
+  const maxCount = Math.max(...points.map(p => p.names.length));
   createChart('profitScatter', canvas, {
-    type: 'scatter',
+    type: 'bubble',
     data: { datasets: [{
-      data: points,
+      data: points.map(p => ({ x: p.x, y: p.y, r: p.names.length === 1 ? 7 : 7 + Math.sqrt(p.names.length) * 4, names: p.names, earned: p.earned, squares: p.squares })),
       backgroundColor: points.map(p => p.y >= 0 ? 'rgba(34,197,94,0.7)' : 'rgba(239,68,68,0.7)'),
       borderColor: points.map(p => p.y >= 0 ? '#16a34a' : '#dc2626'),
       borderWidth: 1.5,
-      pointRadius: 7,
-      pointHoverRadius: 10
+      hoverRadius: 2
     }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: { callbacks: {
-          title: ctx => ctx[0].raw.name,
+          title: ctx => {
+            const p = ctx[0].raw;
+            if (p.names.length === 1) return p.names[0];
+            return `${p.names.length} people`;
+          },
+          beforeBody: ctx => {
+            const p = ctx[0].raw;
+            if (p.names.length <= 1) return [];
+            return [p.names.join(', ')];
+          },
           label: ctx => {
             const p = ctx.raw;
-            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} · $${p.x.toLocaleString()} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
+            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} each · $${p.x.toLocaleString()} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
           }
-        }}
+        }, bodyFont: { size: 11 }, titleFont: { size: 13, weight: '600' } }
       },
       scales: {
         x: { min: 0, title: { display: true, text: 'Investment ($)', font: { family: 'Inter', size: 12, weight: '600' } },
@@ -2284,6 +2300,16 @@ function initProfitScatter(d) {
       if (yPos < chartArea.top || yPos > chartArea.bottom) return;
       c.save(); c.strokeStyle = '#999'; c.lineWidth = 1.5; c.setLineDash([6, 3]);
       c.beginPath(); c.moveTo(chartArea.left, yPos); c.lineTo(chartArea.right, yPos); c.stroke(); c.restore();
+    }}, { id: 'countLabels', afterDraw(chart) {
+      const { ctx: c } = chart;
+      c.save(); c.font = '600 10px Inter'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      chart.data.datasets[0].data.forEach((p, i) => {
+        if (p.names.length < 2) return;
+        const meta = chart.getDatasetMeta(0).data[i];
+        c.fillStyle = '#fff';
+        c.fillText(p.names.length, meta.x, meta.y);
+      });
+      c.restore();
     }}]
   });
 }
