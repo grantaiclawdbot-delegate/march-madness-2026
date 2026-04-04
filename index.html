@@ -761,6 +761,56 @@
       margin-bottom: 16px;
     }
 
+    /* ── STATS COLLAPSIBLE PANELS ── */
+    .stats-panel { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; background: #fff; }
+    .stats-panel-header {
+      display: flex; align-items: center; gap: 8px; padding: 14px 20px;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      font-size: 0.875rem; font-weight: 600; color: var(--text);
+    }
+    .stats-panel-header:hover { background: var(--surface); border-radius: 8px; }
+    .stats-panel-arrow { display: inline-block; transition: transform 0.2s; font-size: 0.65rem; color: var(--text-muted); }
+    .stats-panel.collapsed .stats-panel-arrow { transform: rotate(-90deg); }
+    .stats-panel.collapsed .stats-panel-body { display: none; }
+    .stats-panel-body { padding: 0 20px 20px; }
+    .stats-panel-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px; }
+    .stats-expand-controls { display: flex; gap: 8px; margin-bottom: 16px; justify-content: flex-end; }
+    .stats-expand-btn {
+      padding: 4px 12px; background: #fff; border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 500; font-family: inherit;
+    }
+    .stats-expand-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Heatmaps */
+    .heatmap-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .heatmap-wrap h4 { font-size: 0.8125rem; font-weight: 600; margin-bottom: 2px; }
+    .heatmap-wrap .heatmap-sub { font-size: 0.6875rem; color: var(--text-muted); margin-bottom: 10px; }
+    .heatmap-grid { border-collapse: collapse; font-size: 0.625rem; margin: 0 auto; }
+    .heatmap-grid th, .heatmap-grid td { width: 36px; height: 28px; text-align: center; border: 1px solid var(--border); padding: 0; }
+    .heatmap-grid th { background: var(--surface); color: var(--text-muted); font-weight: 600; font-size: 0.6875rem; }
+    .heatmap-grid td { font-weight: 600; font-size: 0.625rem; }
+    .heatmap-grid .corner { background: var(--surface); }
+
+    /* Chart containers */
+    .chart-canvas-wrap { position: relative; width: 100%; }
+    .chart-side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .chart-side-by-side h4 { font-size: 0.8125rem; font-weight: 600; margin-bottom: 8px; }
+
+    /* Concentration */
+    .concentration-layout { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+    .concentration-cards { display: flex; gap: 16px; flex: 1; min-width: 280px; }
+    .concentration-card { text-align: center; padding: 16px 20px; border: 1px solid var(--border); border-radius: 8px; flex: 1; }
+    .concentration-card-value { font-size: 1.5rem; font-weight: 600; }
+    .concentration-card-label { font-size: 0.6875rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Round mini heatmaps */
+    .round-heatmaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .round-heatmap-title { font-size: 0.75rem; font-weight: 600; text-align: center; margin-bottom: 4px; }
+    .mini-heatmap { border-collapse: collapse; font-size: 0.55rem; margin: 0 auto; }
+    .mini-heatmap th, .mini-heatmap td { width: 20px; height: 18px; text-align: center; border: 1px solid var(--border); padding: 0; }
+    .mini-heatmap th { background: var(--surface); color: var(--text-muted); font-weight: 600; font-size: 0.55rem; }
+    .mini-heatmap td { font-weight: 600; font-size: 0.5rem; }
+
     .merge-notes {
       margin-top: 16px;
       font-size: 0.75rem;
@@ -852,6 +902,12 @@
       .stats-grid { grid-template-columns: 1fr; gap: 12px; }
       .stats-grid.has-full-width .stats-chart-wrap:last-child { grid-column: auto; }
       .bar-chart { height: 140px; }
+      .heatmap-pair { grid-template-columns: 1fr; }
+      .chart-side-by-side { grid-template-columns: 1fr; }
+      .concentration-layout { flex-direction: column; }
+      .concentration-cards { flex-direction: column; }
+      .round-heatmaps { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .stats-panel-body { padding: 0 12px 12px; }
 
       .section-heading { font-size: 1rem; }
     }
@@ -953,48 +1009,12 @@
 
   <!-- TAB 5: Stats -->
   <div id="tab-stats" class="tab-content">
-    <h3 class="section-heading">Score Differential — Last Digit</h3>
-    <div class="stats-grid">
-      <div class="stats-chart-wrap">
-        <h3>Worse Seed (Away) Team Wins — Differential</h3>
-        <div class="bar-chart" id="chartDiffAway"></div>
-      </div>
-      <div class="stats-chart-wrap">
-        <h3>Better Seed (Home) Team Wins — Differential</h3>
-        <div class="bar-chart" id="chartDiffHome"></div>
-      </div>
-    </div>
-    <div class="stats-note" id="statsDiffNote"></div>
-    <div class="stats-grid" style="margin-top: 16px;">
-      <div class="stats-chart-wrap">
-        <h3>Worse Seed (Away) Wins — Detail</h3>
-        <div id="tableDiffAway"></div>
-      </div>
-      <div class="stats-chart-wrap">
-        <h3>Better Seed (Home) Wins — Detail</h3>
-        <div id="tableDiffHome"></div>
-      </div>
-    </div>
-    <h3 class="section-heading" style="margin-top: 24px;">Score Digit Frequency</h3>
-    <div class="stats-grid has-full-width">
-      <div class="stats-chart-wrap">
-        <h3>Away Team — Last Digit</h3>
-        <div class="bar-chart" id="chartAway"></div>
-      </div>
-      <div class="stats-chart-wrap">
-        <h3>Home Team — Last Digit</h3>
-        <div class="bar-chart" id="chartHome"></div>
-      </div>
-      <div class="stats-chart-wrap">
-        <h3>Combined — Last Digit</h3>
-        <div class="bar-chart" id="chartCombined"></div>
-      </div>
-    </div>
-    <div class="stats-note" id="statsNote"></div>
+    <div id="statsContainer"><div class="loading">Loading</div></div>
   </div>
 
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 // ============================================================
 // PAGE TITLE
@@ -1926,94 +1946,354 @@ function escAttr(str) {
 // ============================================================
 // TAB 5: STATS
 // ============================================================
+const STATS_COLLAPSE_KEY = 'mm_stats_collapsed';
+let chartInstances = {};
+const PLAYER_COLORS = ['#6366f1','#ec4899','#f97316','#22c55e','#06b6d4','#eab308','#8b5cf6','#ef4444','#14b8a6','#f43f5e','#a855f7','#3b82f6','#84cc16','#e879f9','#fb923c','#2dd4bf','#facc15','#818cf8','#f472b6','#34d399'];
+const DIGIT_COLORS = ['#6366f1','#8b5cf6','#a855f7','#ec4899','#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6'];
+const ROUND_COLORS = ['#6366f1','#8b5cf6','#ec4899','#f97316','#22c55e','#06b6d4','#eab308','#3b82f6'];
+
+function getStatsCollapsed() { try { return JSON.parse(localStorage.getItem(STATS_COLLAPSE_KEY)) || {}; } catch { return {}; } }
+function setStatsCollapsed(obj) { try { localStorage.setItem(STATS_COLLAPSE_KEY, JSON.stringify(obj)); } catch {} }
+function destroyChart(k) { if (chartInstances[k]) { chartInstances[k].destroy(); delete chartInstances[k]; } }
+function destroyAllCharts() { Object.keys(chartInstances).forEach(destroyChart); }
+function createChart(k, canvas, cfg) { destroyChart(k); chartInstances[k] = new Chart(canvas, cfg); return chartInstances[k]; }
+
 function renderBarChart(containerId, counts, color) {
   const el = document.getElementById(containerId);
+  if (!el) return;
   const max = Math.max(...counts, 1);
   let html = '';
   for (let d = 0; d < 10; d++) {
     const pct = (counts[d] / max) * 100;
-    html += `<div class="bar-col">
-      <span class="bar-count">${counts[d]}</span>
-      <div class="bar-fill" style="height:${pct}%;background:${color};"></div>
-      <span class="bar-label">${d}</span>
-    </div>`;
+    html += `<div class="bar-col"><span class="bar-count">${counts[d]}</span><div class="bar-fill" style="height:${pct}%;background:${color};"></div><span class="bar-label">${d}</span></div>`;
   }
   el.innerHTML = html;
 }
 
 function renderDiffTable(containerId, rows) {
   const el = document.getElementById(containerId);
+  if (!el) return;
   let html = '<table class="diff-table"><thead><tr><th>Matchup</th><th>Score</th><th>Margin</th><th>DD</th></tr></thead><tbody>';
-  for (const r of rows) {
-    html += `<tr><td>${escHtml(r.label)}</td><td>${r.score}</td><td>${r.margin}</td><td>${r.diff}</td></tr>`;
-  }
+  for (const r of rows) html += `<tr><td>${escHtml(r.label)}</td><td>${r.score}</td><td>${r.margin}</td><td>${r.diff}</td></tr>`;
   html += '</tbody></table>';
   el.innerHTML = html;
 }
 
-function renderStats() {
-  if (!tournamentData) return;
-
-  const awayCounts = new Array(10).fill(0);
-  const homeCounts = new Array(10).fill(0);
-  const combinedCounts = new Array(10).fill(0);
-  let gameCount = 0;
-
-  for (const round of tournamentData.rounds) {
-    for (const game of round.games) {
-      if (game.gameState !== 'final') continue;
-      if (game.away.score === null || game.home.score === null) continue;
-
-      const awayDigit = game.away.score % 10;
-      const homeDigit = game.home.score % 10;
-
-      awayCounts[awayDigit]++;
-      homeCounts[homeDigit]++;
-      combinedCounts[awayDigit]++;
-      combinedCounts[homeDigit]++;
-      gameCount++;
-    }
-  }
-
-  renderBarChart('chartAway', awayCounts, 'var(--accent)');
-  renderBarChart('chartHome', homeCounts, 'var(--blue)');
-  renderBarChart('chartCombined', combinedCounts, 'var(--green)');
-
-  document.getElementById('statsNote').textContent =
-    `Based on ${gameCount} completed game${gameCount !== 1 ? 's' : ''} (${gameCount * 2} total scores)`;
-
-  const awayWinDiffs = new Array(10).fill(0);
-  const homeWinDiffs = new Array(10).fill(0);
-  const awayWinRows = [];
-  const homeWinRows = [];
+function computeStatsData() {
+  if (!tournamentData || !gridData) return null;
+  const winGrid = Array.from({length:10}, () => new Array(10).fill(0));
+  const earnGrid = Array.from({length:10}, () => new Array(10).fill(0));
+  const yDigits = new Array(10).fill(0);
+  const xDigits = new Array(10).fill(0);
+  const playerMap = {};
+  const chronGames = [];
+  const roundHeatmaps = {};
+  const awayWinDiffs = new Array(10).fill(0), homeWinDiffs = new Array(10).fill(0);
+  const awayWinRows = [], homeWinRows = [];
+  let finalCount = 0;
 
   for (const round of tournamentData.rounds) {
     for (const game of round.games) {
       if (game.gameState !== 'final') continue;
       if (game.away.score === null || game.home.score === null) continue;
+      finalCount++;
+      const coord = getWinningCoord(game);
+      if (!coord) continue;
+      const sq = lookupGridSquare(coord.y, coord.x);
+      const gY = sq.gridY, gX = sq.gridX;
+      const name = (sq.name && sq.name !== '(axis not set)' && sq.name !== '(empty)') ? sq.name : null;
 
+      if (gY >= 0 && gX >= 0) {
+        winGrid[gY][gX]++;
+        earnGrid[gY][gX] += round.payout;
+        yDigits[gY]++;
+        xDigits[gX]++;
+        if (!roundHeatmaps[round.name]) roundHeatmaps[round.name] = { roundNumber: round.round, heatmap: Array.from({length:10}, () => new Array(10).fill(0)) };
+        roundHeatmaps[round.name].heatmap[gY][gX]++;
+      }
+
+      chronGames.push({ date: game.date, time: game.startTime || '', roundName: round.name, roundNumber: round.round, away: game.away, home: game.home, payout: round.payout, name, gY, gX });
+
+      if (name) {
+        if (!playerMap[name]) playerMap[name] = { total: 0, byRound: {} };
+        playerMap[name].total += round.payout;
+        playerMap[name].byRound[round.name] = (playerMap[name].byRound[round.name] || 0) + round.payout;
+      }
+
+      // Differentials
       if (game.away.score > game.home.score) {
-        const margin = game.away.score - game.home.score;
-        const diff = margin % 10;
-        awayWinDiffs[diff]++;
-        awayWinRows.push({ label: `${game.away.team} (${game.away.seed}) - ${game.home.team} (${game.home.seed})`, score: `${game.away.score}-${game.home.score}`, margin, diff });
+        const m = game.away.score - game.home.score, dd = m % 10;
+        awayWinDiffs[dd]++;
+        awayWinRows.push({ label: `${game.away.team} (${game.away.seed}) - ${game.home.team} (${game.home.seed})`, score: `${game.away.score}-${game.home.score}`, margin: m, diff: dd });
       } else if (game.home.score > game.away.score) {
-        const margin = game.home.score - game.away.score;
-        const diff = margin % 10;
-        homeWinDiffs[diff]++;
-        homeWinRows.push({ label: `${game.home.team} (${game.home.seed}) - ${game.away.team} (${game.away.seed})`, score: `${game.home.score}-${game.away.score}`, margin, diff });
+        const m = game.home.score - game.away.score, dd = m % 10;
+        homeWinDiffs[dd]++;
+        homeWinRows.push({ label: `${game.home.team} (${game.home.seed}) - ${game.away.team} (${game.away.seed})`, score: `${game.home.score}-${game.away.score}`, margin: m, diff: dd });
       }
     }
   }
 
-  renderBarChart('chartDiffAway', awayWinDiffs, 'var(--accent)');
-  renderBarChart('chartDiffHome', homeWinDiffs, 'var(--blue)');
+  // Sort players by total desc
+  const sortedPlayers = Object.entries(playerMap).sort((a, b) => b[1].total - a[1].total);
 
-  document.getElementById('statsDiffNote').textContent =
-    `Away team wins: ${awayWinRows.length} | Home team wins: ${homeWinRows.length} | DD = (winner score − loser score) % 10`;
+  // Cumulative race data — sort games chronologically
+  chronGames.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  const running = {};
+  const allWinners = new Set();
+  const raceData = [];
+  chronGames.forEach((g, i) => {
+    if (g.name) { running[g.name] = (running[g.name] || 0) + g.payout; allWinners.add(g.name); }
+    const pt = { gameIndex: i + 1 };
+    allWinners.forEach(n => { pt[n] = running[n] || 0; });
+    raceData.push(pt);
+  });
 
-  renderDiffTable('tableDiffAway', awayWinRows);
-  renderDiffTable('tableDiffHome', homeWinRows);
+  const totalWinnings = sortedPlayers.reduce((s, e) => s + e[1].total, 0);
+  const totalExpected = ROUND_SCHEDULE.reduce((s, r) => s + r.expectedGames, 0);
+
+  return { winGrid, earnGrid, yDigits, xDigits, playerMap, sortedPlayers, chronGames, raceData, roundHeatmaps, awayWinDiffs, homeWinDiffs, awayWinRows, homeWinRows, finalCount, totalWinnings, totalExpected };
+}
+
+function makeHeatmapHtml(grid, type, maxVal) {
+  const isPurple = type === 'wins';
+  let html = '<table class="heatmap-grid"><tr><th class="corner"></th>';
+  for (let c = 0; c < 10; c++) html += `<th>${gridData.xAxis[c] || c}</th>`;
+  html += '</tr>';
+  for (let r = 0; r < 10; r++) {
+    html += `<tr><th>${gridData.yAxis[r] || r}</th>`;
+    for (let c = 0; c < 10; c++) {
+      const v = grid[r][c];
+      const owner = gridData.names[r][c] || 'Empty';
+      const yD = gridData.yAxis[r] || r, xD = gridData.xAxis[c] || c;
+      let bg = '', color = 'var(--text)', fw = '400';
+      if (v > 0 && maxVal > 0) {
+        const intensity = v / maxVal;
+        const alpha = 0.15 + intensity * 0.75;
+        bg = isPurple ? `rgba(99,102,241,${alpha})` : `rgba(34,197,94,${alpha})`;
+        color = intensity > 0.5 ? '#fff' : 'var(--text)';
+        fw = '600';
+      }
+      const text = v > 0 ? (isPurple ? v : '$' + v.toLocaleString()) : '';
+      const tip = isPurple ? `(${yD},${xD}) ${owner} - ${v} win${v !== 1 ? 's' : ''}` : `(${yD},${xD}) ${owner} - $${v.toLocaleString()}`;
+      html += `<td style="background:${bg};color:${color};font-weight:${fw}" title="${escAttr(tip)}">${text}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+function makeMiniHeatmapHtml(heatmap) {
+  const maxVal = Math.max(...heatmap.flat(), 1);
+  let html = '<table class="mini-heatmap"><tr><th></th>';
+  for (let c = 0; c < 10; c++) html += `<th>${gridData.xAxis[c] || c}</th>`;
+  html += '</tr>';
+  for (let r = 0; r < 10; r++) {
+    html += `<tr><th>${gridData.yAxis[r] || r}</th>`;
+    for (let c = 0; c < 10; c++) {
+      const v = heatmap[r][c];
+      const owner = gridData.names[r][c] || 'Empty';
+      const yD = gridData.yAxis[r] || r, xD = gridData.xAxis[c] || c;
+      let bg = '', color = 'var(--text-muted)';
+      if (v > 0) {
+        const alpha = 0.15 + (v / maxVal) * 0.75;
+        bg = `rgba(99,102,241,${alpha})`;
+        color = (v / maxVal) > 0.5 ? '#fff' : 'var(--text)';
+      }
+      html += `<td style="background:${bg};color:${color}" title="${escAttr(`(${yD},${xD}) ${owner} - ${v} win${v!==1?'s':''}`)}">${v || ''}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+function panelWrap(id, title, subtitle, bodyHtml) {
+  return `<div class="stats-panel" data-panel="${id}"><div class="stats-panel-header"><span class="stats-panel-arrow">▼</span><span>${escHtml(title)}</span></div><div class="stats-panel-body">${subtitle ? `<div class="stats-panel-subtitle">${subtitle}</div>` : ''}${bodyHtml}</div></div>`;
+}
+
+function renderStats() {
+  const container = document.getElementById('statsContainer');
+  if (!tournamentData || !gridData) { container.innerHTML = '<div class="no-data">No data available.</div>'; return; }
+
+  destroyAllCharts();
+  const d = computeStatsData();
+  if (!d || d.finalCount === 0) { container.innerHTML = '<div class="no-data">No completed games yet.</div>'; return; }
+
+  let html = '<div class="stats-expand-controls"><button class="stats-expand-btn" onclick="toggleStatsExpand(true)">Expand All</button><button class="stats-expand-btn" onclick="toggleStatsExpand(false)">Collapse All</button></div>';
+
+  // Panel 1: Heatmaps
+  const winMax = Math.max(...d.winGrid.flat(), 1), earnMax = Math.max(...d.earnGrid.flat(), 1);
+  html += panelWrap('heatmaps', 'Heatmaps', null,
+    `<div class="heatmap-pair"><div class="heatmap-wrap"><h4>Win Distribution</h4><div class="heatmap-sub">How many times each square has won.</div>${makeHeatmapHtml(d.winGrid, 'wins', winMax)}</div><div class="heatmap-wrap"><h4>Earnings</h4><div class="heatmap-sub">Total dollar value won per square.</div>${makeHeatmapHtml(d.earnGrid, 'earnings', earnMax)}</div></div>`);
+
+  // Panel 2: Cumulative Earnings Race
+  html += panelWrap('cumulativeRace', 'Cumulative Earnings Race', 'Running total of winnings for top 10 earners as games complete.',
+    '<div class="chart-canvas-wrap"><canvas id="chartEarningsRace"></canvas></div>');
+
+  // Panel 3: Player Payout Breakdown
+  const barH = Math.max(200, d.sortedPlayers.length * 36 + 80);
+  html += panelWrap('playerPayouts', 'Player Payout Breakdown', 'Total earnings per player, broken down by round.',
+    `<div class="chart-canvas-wrap" style="height:${barH}px"><canvas id="chartPayoutBreakdown"></canvas></div>`);
+
+  // Panel 4: Digit Bias
+  html += panelWrap('digitBias', 'Digit Bias', 'How often each grid position has won vs the expected 10% baseline.',
+    '<div class="chart-side-by-side"><div><h4>Y-Axis (Worse Seed) Digit</h4><div class="chart-canvas-wrap"><canvas id="chartYDigit"></canvas></div></div><div><h4>X-Axis (Better Seed) Digit</h4><div class="chart-canvas-wrap"><canvas id="chartXDigit"></canvas></div></div></div>');
+
+  // Panel 5: Payout Concentration
+  let concBody = '<div class="concentration-layout"><div class="concentration-cards">';
+  if (d.sortedPlayers.length > 0) {
+    const top1 = d.sortedPlayers[0], top3 = d.sortedPlayers.slice(0, 3);
+    const top1Pct = Math.round(top1[1].total / d.totalWinnings * 100);
+    const top3Total = top3.reduce((s, e) => s + e[1].total, 0);
+    const top3Pct = Math.round(top3Total / d.totalWinnings * 100);
+    const top3Names = top3.map(e => e[0]).join(', ');
+    concBody += `<div class="concentration-card"><div class="concentration-card-value">${top1Pct}%</div><div class="concentration-card-label">Top player (${escHtml(top1[0])})</div></div>`;
+    concBody += `<div class="concentration-card"><div class="concentration-card-value">${top3Pct}%</div><div class="concentration-card-label">Top ${Math.min(3, d.sortedPlayers.length)} (${escHtml(top3Names)})</div></div>`;
+    concBody += `<div class="concentration-card"><div class="concentration-card-value">$${d.totalWinnings.toLocaleString()}</div><div class="concentration-card-label">Total won</div></div>`;
+  }
+  concBody += '</div><div style="width:220px;height:220px;flex-shrink:0"><canvas id="chartConcentration"></canvas></div></div>';
+  html += panelWrap('concentration', 'Payout Concentration', null, concBody);
+
+  // Panel 6: Round Winners
+  const roundNames = ROUND_SCHEDULE.map(r => r.name).filter(n => d.roundHeatmaps[n]);
+  let rwBody = '<div class="round-heatmaps">';
+  roundNames.forEach(name => {
+    rwBody += `<div><div class="round-heatmap-title">${escHtml(name)}</div>${makeMiniHeatmapHtml(d.roundHeatmaps[name].heatmap)}</div>`;
+  });
+  rwBody += '</div>';
+  html += panelWrap('roundWinners', 'Round Winners', 'Winning squares by round — one mini grid per round.', rwBody);
+
+  // Panel 7: Score Differential (existing content in collapsible)
+  let diffBody = '<div class="stats-grid"><div class="stats-chart-wrap"><h3>Worse Seed (Away) Team Wins — Differential</h3><div class="bar-chart" id="chartDiffAway"></div></div><div class="stats-chart-wrap"><h3>Better Seed (Home) Team Wins — Differential</h3><div class="bar-chart" id="chartDiffHome"></div></div></div>';
+  diffBody += '<div class="stats-note" id="statsDiffNote"></div>';
+  diffBody += '<div class="stats-grid" style="margin-top:16px"><div class="stats-chart-wrap"><h3>Worse Seed (Away) Wins — Detail</h3><div id="tableDiffAway"></div></div><div class="stats-chart-wrap"><h3>Better Seed (Home) Wins — Detail</h3><div id="tableDiffHome"></div></div></div>';
+  html += panelWrap('differential', 'Score Differential', 'Digit differential of final scores — away wins vs home wins.', diffBody);
+
+  container.innerHTML = html;
+
+  // Populate differential (existing bar charts + tables)
+  renderBarChart('chartDiffAway', d.awayWinDiffs, '#0070f3');
+  renderBarChart('chartDiffHome', d.homeWinDiffs, '#7928ca');
+  document.getElementById('statsDiffNote').textContent = `Away wins: ${d.awayWinRows.length} | Home wins: ${d.homeWinRows.length} | DD = (winner score − loser score) % 10`;
+  renderDiffTable('tableDiffAway', d.awayWinRows);
+  renderDiffTable('tableDiffHome', d.homeWinRows);
+
+  // Init Chart.js charts
+  if (typeof Chart !== 'undefined') {
+    initEarningsRace(d);
+    initPayoutBreakdown(d);
+    initDigitBias(d);
+    initConcentrationDonut(d);
+  }
+
+  // Restore collapse state & wire up clicks
+  const states = getStatsCollapsed();
+  container.querySelectorAll('.stats-panel').forEach(p => { if (states[p.dataset.panel]) p.classList.add('collapsed'); });
+  container.addEventListener('click', e => {
+    const hdr = e.target.closest('.stats-panel-header');
+    if (!hdr) return;
+    const panel = hdr.closest('.stats-panel');
+    panel.classList.toggle('collapsed');
+    const s = getStatsCollapsed();
+    s[panel.dataset.panel] = panel.classList.contains('collapsed');
+    setStatsCollapsed(s);
+  });
+}
+
+function toggleStatsExpand(expand) {
+  const panels = document.querySelectorAll('.stats-panel');
+  const s = getStatsCollapsed();
+  panels.forEach(p => { const id = p.dataset.panel; if (expand) { p.classList.remove('collapsed'); s[id] = false; } else { p.classList.add('collapsed'); s[id] = true; } });
+  setStatsCollapsed(s);
+}
+
+function initEarningsRace(d) {
+  const canvas = document.getElementById('chartEarningsRace');
+  if (!canvas || d.raceData.length === 0) return;
+  const top10 = d.sortedPlayers.slice(0, 10).map(e => e[0]);
+  const datasets = top10.map((name, i) => ({
+    label: name, data: d.raceData.map(pt => pt[name] || 0),
+    borderColor: PLAYER_COLORS[i % PLAYER_COLORS.length], backgroundColor: 'transparent',
+    borderWidth: 2, pointRadius: 0, tension: 0.3
+  }));
+  createChart('earningsRace', canvas, {
+    type: 'line',
+    data: { labels: d.raceData.map(pt => pt.gameIndex), datasets },
+    options: { responsive: true, maintainAspectRatio: true, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}` } } },
+      scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 } }, grid: { color: '#eaeaea' } },
+        x: { title: { display: true, text: 'Games Completed', font: { size: 11 } }, ticks: { font: { size: 10 } }, grid: { display: false } } } }
+  });
+}
+
+function initPayoutBreakdown(d) {
+  const canvas = document.getElementById('chartPayoutBreakdown');
+  if (!canvas || d.sortedPlayers.length === 0) return;
+  const roundNames = ROUND_SCHEDULE.map(r => r.name);
+  const labels = d.sortedPlayers.map(e => e[0]);
+  const datasets = roundNames.map((rn, i) => ({
+    label: rn, data: d.sortedPlayers.map(([, v]) => v.byRound[rn] || 0),
+    backgroundColor: ROUND_COLORS[i % ROUND_COLORS.length]
+  }));
+  createChart('payoutBreakdown', canvas, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.x.toLocaleString()}` } } },
+      scales: { x: { stacked: true, ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 } }, grid: { color: '#eaeaea' } },
+        y: { stacked: true, ticks: { font: { size: 11 } }, grid: { display: false } } } }
+  });
+}
+
+function initDigitBias(d) {
+  const maxCount = Math.max(...d.yDigits, ...d.xDigits, 1);
+  const totalY = d.yDigits.reduce((a, b) => a + b, 0);
+  const totalX = d.xDigits.reduce((a, b) => a + b, 0);
+  const labels = Array.from({length: 10}, (_, i) => gridData.yAxis[i] || String(i));
+  const labelsX = Array.from({length: 10}, (_, i) => gridData.xAxis[i] || String(i));
+
+  [['chartYDigit', d.yDigits, labels, totalY], ['chartXDigit', d.xDigits, labelsX, totalX]].forEach(([id, counts, lbls, total]) => {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+    const baseline = total / 10;
+    createChart(id, canvas, {
+      type: 'bar',
+      data: { labels: lbls, datasets: [{ data: counts, backgroundColor: counts.map((_, i) => DIGIT_COLORS[i]), borderRadius: 3 }] },
+      options: { responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: ctx => { const c = ctx.parsed.y, pct = total > 0 ? Math.round(c / total * 100) : 0; return `${c} win${c !== 1 ? 's' : ''} (${pct}%)`; } } } },
+        scales: { y: { beginAtZero: true, max: maxCount + 1, ticks: { stepSize: 1, font: { size: 11 } }, grid: { color: '#eaeaea' } },
+          x: { ticks: { font: { size: 12, weight: '600' } }, grid: { display: false } } } },
+      plugins: [{ id: 'baseline', afterDraw(chart) {
+        if (baseline <= 0) return;
+        const { ctx: c, scales: { y } } = chart;
+        const yPos = y.getPixelForValue(baseline);
+        c.save(); c.strokeStyle = '#999'; c.lineWidth = 1.5; c.setLineDash([6, 3]);
+        c.beginPath(); c.moveTo(chart.chartArea.left, yPos); c.lineTo(chart.chartArea.right, yPos); c.stroke();
+        c.fillStyle = '#999'; c.font = '10px Inter'; c.textAlign = 'right';
+        c.fillText('10% expected', chart.chartArea.right, yPos - 4);
+        c.restore();
+      }}]
+    });
+  });
+}
+
+function initConcentrationDonut(d) {
+  const canvas = document.getElementById('chartConcentration');
+  if (!canvas || d.sortedPlayers.length === 0) return;
+  createChart('concentration', canvas, {
+    type: 'doughnut',
+    data: {
+      labels: d.sortedPlayers.map(e => e[0]),
+      datasets: [{ data: d.sortedPlayers.map(e => e[1].total), backgroundColor: d.sortedPlayers.map((_, i) => PLAYER_COLORS[i % PLAYER_COLORS.length]) }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, cutout: '55%',
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `$${Number(ctx.parsed).toLocaleString()} - ${ctx.label}` } } } }
+  });
 }
 
 // ============================================================
