@@ -2142,7 +2142,8 @@ function renderStats() {
   upsetBody += '</div></div>';
   if (playersWithUpsets.length > 0) {
     const upsetBarH = Math.max(200, playersWithUpsets.length * 36 + 80);
-    upsetBody += `<div class="chart-canvas-wrap" style="height:${upsetBarH}px;margin-top:16px"><canvas id="chartUpsetImpact"></canvas></div>`;
+    upsetBody += `<div class="stats-note" style="margin-top:12px">Only showing players with at least one upset win.</div>`;
+    upsetBody += `<div class="chart-canvas-wrap" style="height:${upsetBarH}px;margin-top:8px"><canvas id="chartUpsetImpact"></canvas></div>`;
   }
   html += panelWrap('upsetImpact', 'Upset Impact', 'How upsets (worse seed winning) shifted payouts vs favorites winning.', upsetBody);
 
