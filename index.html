@@ -2127,16 +2127,7 @@ function renderStats() {
   html += panelWrap('heatmaps', 'Heatmaps', null,
     `<div class="heatmap-pair"><div class="heatmap-wrap"><h4>Win Distribution</h4><div class="heatmap-sub">How many times each square has won.</div>${makeHeatmapHtml(d.winGrid, 'wins', winMax)}</div><div class="heatmap-wrap"><h4>Earnings</h4><div class="heatmap-sub">Total dollar value won per square.</div>${makeHeatmapHtml(d.earnGrid, 'earnings', earnMax)}</div></div>`);
 
-  // Panel 2: Profit / Loss Scatter
-  html += panelWrap('profitLoss', 'Profit / Loss', 'Each dot is a person. Investment = squares owned × $100. Profit = winnings − investment.',
-    `<div class="chart-canvas-wrap" style="height:360px"><canvas id="chartProfitScatter"></canvas></div>`);
-
-  // Panel 3: Player Payout Breakdown
-  const barH = Math.max(200, d.sortedPlayers.length * 36 + 80);
-  html += panelWrap('playerPayouts', 'Player Payout Breakdown', 'Total earnings per player, broken down by round.',
-    `<div class="chart-canvas-wrap" style="height:${barH}px"><canvas id="chartPayoutBreakdown"></canvas></div>`);
-
-  // Panel 4: Upset Impact
+  // Panel 2: Upset Impact
   const upsetGames = d.chronGames.filter(g => g.isUpset);
   const chalkGames = d.chronGames.filter(g => !g.isUpset);
   const upsetTotal = upsetGames.reduce((s, g) => s + g.payout, 0);
@@ -2154,6 +2145,15 @@ function renderStats() {
     upsetBody += `<div class="chart-canvas-wrap" style="height:${upsetBarH}px;margin-top:16px"><canvas id="chartUpsetImpact"></canvas></div>`;
   }
   html += panelWrap('upsetImpact', 'Upset Impact', 'How upsets (worse seed winning) shifted payouts vs favorites winning.', upsetBody);
+
+  // Panel 3: Profit / Loss Scatter
+  html += panelWrap('profitLoss', 'Profit / Loss', 'Each dot is a person. Investment = squares owned × $100. Profit = winnings − investment.',
+    `<div class="chart-canvas-wrap" style="height:360px"><canvas id="chartProfitScatter"></canvas></div>`);
+
+  // Panel 4: Player Payout Breakdown
+  const barH = Math.max(200, d.sortedPlayers.length * 36 + 80);
+  html += panelWrap('playerPayouts', 'Player Payout Breakdown', 'Total earnings per player, broken down by round.',
+    `<div class="chart-canvas-wrap" style="height:${barH}px"><canvas id="chartPayoutBreakdown"></canvas></div>`);
 
   // Panel 5: Digit Bias
   html += panelWrap('digitBias', 'Digit Bias', 'How often each grid position has won vs the expected 10% baseline.',
