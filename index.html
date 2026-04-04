@@ -2283,7 +2283,7 @@ function initProfitScatter(d) {
           },
           label: ctx => {
             const p = ctx.raw;
-            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} each · $${p.x.toLocaleString()} invested`, `$${p.earned.toLocaleString()} won · ${p.y >= 0 ? '+' : ''}$${p.y.toLocaleString()} profit`];
+            return [`${p.squares} square${p.squares !== 1 ? 's' : ''} each · $${p.x.toLocaleString()} invested`, `$${p.earned.toLocaleString()} won · $${Math.abs(p.y).toLocaleString()} ${p.y >= 0 ? 'profit' : 'loss'}`];
           }
         }, bodyFont: { size: 11 }, titleFont: { size: 13, weight: '600' } }
       },
