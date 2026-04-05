@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-05T03:34:22Z",
+  "lastUpdated": "2026-04-05T11:26:19Z",
   "rounds": [
     {
       "round": 1,
@@ -1094,7 +1094,25 @@
       "round": 6,
       "name": "Championship",
       "payout": 2000,
-      "games": []
+      "games": [
+        {
+          "gameID": "6534658",
+          "date": "2026-04-06",
+          "startTime": "7:50 PM CT",
+          "network": "TBS",
+          "gameState": "pre",
+          "away": {
+            "team": "UConn",
+            "seed": 2,
+            "score": null
+          },
+          "home": {
+            "team": "Michigan",
+            "seed": 1,
+            "score": null
+          }
+        }
+      ]
     }
   ]
 }
