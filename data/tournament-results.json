@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-05T02:52:22Z",
+  "lastUpdated": "2026-04-05T02:54:22Z",
   "rounds": [
     {
       "round": 1,
@@ -1063,12 +1063,12 @@
           "away": {
             "team": "Michigan",
             "seed": 1,
-            "score": 59
+            "score": 66
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": 39
+            "score": 44
           }
         },
         {
