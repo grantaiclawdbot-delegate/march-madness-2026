@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-05T00:30:22Z",
+  "lastUpdated": "2026-04-05T01:20:22Z",
   "rounds": [
     {
       "round": 1,
@@ -1059,16 +1059,16 @@
           "date": "2026-04-04",
           "startTime": "8:19 PM CT",
           "network": "TBS",
-          "gameState": "pre",
+          "gameState": "live",
           "away": {
             "team": "Michigan",
             "seed": 1,
-            "score": null
+            "score": 2
           },
           "home": {
             "team": "Arizona",
             "seed": 1,
-            "score": null
+            "score": 0
           }
         },
         {
