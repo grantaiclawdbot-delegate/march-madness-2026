@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-07T03:17:22Z",
+  "lastUpdated": "2026-04-07T03:22:22Z",
   "rounds": [
     {
       "round": 1,
@@ -1100,7 +1100,7 @@
           "date": "2026-04-06",
           "startTime": "7:50 PM CT",
           "network": "TBS",
-          "gameState": "live",
+          "gameState": "final",
           "away": {
             "team": "UConn",
             "seed": 2,
@@ -1109,7 +1109,7 @@
           "home": {
             "team": "Michigan",
             "seed": 1,
-            "score": 67
+            "score": 69
           }
         }
       ]
